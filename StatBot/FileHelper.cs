@@ -1,4 +1,5 @@
 ﻿using Discord.WebSocket;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -28,7 +29,7 @@ namespace StatBot
         }
 
         /// <summary>
-        /// Gets the log file settings.
+        /// Gets the log file settings. If it doesn't exist in the log file list yet, add it and write that the session is started.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns>The log file settings.</returns>
@@ -43,10 +44,16 @@ namespace StatBot
                 {
                     Channel = channel,
                     Guild = guild,
-                    FileName = channel.Name + ".txt",
+                    FileName = channel.Name + ".log",
                     Folder = "\\" + guild.Id + "\\"
                 };
                 logFiles.Add(logFile);
+                string file = Directory.GetCurrentDirectory() + logFile.Folder + logFile.FileName;
+                using (StreamWriter text = File.AppendText(file))
+                {
+                    text.WriteLine("");
+                    text.WriteLine($"Session Start: at {DateTime.Now.ToString("MMM d HH:mm:ss yyyy")}");
+                }
             }
 
             return logFile;

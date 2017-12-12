@@ -15,6 +15,7 @@ namespace StatBot
         /// The Discord client
         /// </summary>
         DiscordSocketClient _client;
+        MessageHandler messageHandler;
 
         /// <summary>
         /// Defines the entry point of the application.
@@ -37,8 +38,11 @@ namespace StatBot
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
+            messageHandler = new MessageHandler(_client);
+
             // Block this task until the program is closed.
             await Task.Delay(-1);
+
         }
 
         /// <summary>
@@ -47,26 +51,44 @@ namespace StatBot
         /// <param name="message">The message.</param>
         private async Task MessageReceived(SocketMessage message)
         {
-            Console.WriteLine($"{message.Channel} - {DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")} : <{message.Author.Username}#{message.Author.Discriminator}> {message.Content}");
             var file = FileHelper.CheckAndGetFilePath(message);
             if (!message.Author.IsBot)
             {
                 using (StreamWriter text = File.AppendText(file))
                 {
-                    if (message.Embeds != null && 
+                    string textMessage = string.Empty;
+                    if (message.Embeds != null &&
                         message.Embeds.Count != 0)
                     {
-                        text.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")} : <{message.Author.Username}#{message.Author.Discriminator}> {message.Content} - {message.Embeds.FirstOrDefault().Url}");
+                        if (string.IsNullOrEmpty(message.Content) ||
+                            message.Content == message.Embeds.FirstOrDefault().Url)
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
+                        }
+                        else
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {message.Content} - {message.Embeds.FirstOrDefault().Url}";
+                        }
                     }
                     else if (message.Attachments != null &&
                         message.Attachments.Count != 0)
                     {
-                        text.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")} : <{message.Author.Username}#{message.Author.Discriminator}> {message.Content} - {message.Attachments.FirstOrDefault().Url}");
+                        if (string.IsNullOrEmpty(message.Content) ||
+                            message.Content == message.Attachments.FirstOrDefault().Url)
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
+                        }
+                        else
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {message.Content} - {message.Attachments.FirstOrDefault().Url}";
+                        }
                     }
                     else
                     {
-                        text.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")} : <{message.Author.Username}#{message.Author.Discriminator}> {message.Content}");
+                        textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {messageHandler.CleanMessage(message.Content)}";
                     }
+                    text.WriteLine(textMessage);
+                    Console.WriteLine($"#{message.Channel} - {textMessage}");
                 }
             }
         }

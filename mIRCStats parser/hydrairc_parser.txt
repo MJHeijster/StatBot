@@ -1,0 +1,126 @@
+[mIRCStats parser configuration file]
+
+// File information (these lines are shown in mIRCStats)
+
+[File Description]
+HydraIRC
+
+[Author]
+Rick
+
+// Allowed variables are:
+//
+// Single-word variables: 
+//    %nick%, %nick2%, %addr%, %channelname%, %monthname%, %ampm%, %anyword%
+//
+// Numeric variables:
+//    %hour%, %minute%, %second%,
+//    %day%, %month%, %year%, %anynum%
+//
+// Multi-word variables (only one allowed per line): 
+//    %text%, %mode%, %anytext%
+
+// Main rules: 
+// - Variables have to be delimited by some non-variable characters like [%hour%:%minute%]
+//   (unless they are fixed length ones like %2hour% (2-digit numeric hour).
+// - You can only use one multi-word variable per line.
+// - Don't use the same variable multiple times on any line.
+// - Use "Test Parser" option to verify your new parsing rules ("Log parser"-settings page).
+// - Check mIRCStats help for more info ("Setting options/Log parser")
+
+
+
+// ----------------Parser configuration rules start here-------------------------------
+
+// timestamp parsing rules:
+
+[timestamp]
+[%2hour%:%2minute%:%2second%]
+[%2day%-%2month%-%year% %2hour%:%2minute%:%2second%]
+[%year%-%2month%-%2day% %2hour%:%2minute%:%2second%]
+
+
+
+// Parsing patterns in order of probability:
+
+[Normal line]
+<%nick%> %text%
+
+[Action]
+* %nick% %text%
+
+[Mode change]
+*** %nick% sets channel %channelname% mode %mode% %text%
+
+
+[Join]
+*** %nick% (%addr%) joined
+
+[Part]
+*** %nick% (%addr%) left (%text%)
+
+[Quit]
+*** %nick% quit (%text%)
+
+[Session Start]
+Session Start: %anyword% %monthname% %day% %hour%:%minute%:%second% %year%
+Session Start: %anyword% %monthname%  %day% %hour%:%minute%:%second% %year%
+
+
+[Skip]
+// skip close message at 00:00:00 (Daily logs) to prevent empty day appearing in the stats
+Session Close: %anyword% %anyword% %day% 00:00:00 %anynum%
+Session Close: %anyword% %anyword%  %day% 00:00:00 %anynum%
+
+[Session Close]
+Session Close: %anyword% %monthname% %day% %hour%:%minute%:%second% %year%
+Session Close: %anyword% %monthname%  %day% %hour%:%minute%:%second% %year%
+
+
+[Session Time]
+Session Time: %anyword% %monthname% %day% %hour%:%minute%:%second% %year%
+Session Time: %anyword% %monthname%  %day% %hour%:%minute%:%second% %year%
+
+[Own normal line]
+> %text%
+
+[Channelname]
+*** Now talking in %channelname%
+
+[Rename]
+*** %nick% changed nick to %nick2%
+
+[Topic change]
+*** %nick% changed topic to %text%
+
+
+[Kick]
+*** %nick% was kicked from %channelname% by %nick2% (%text%)
+
+
+[Skip]
+// skip these unused lines
+* %nick% sets mode %anyword%
+*** Topic is %text%
+* Disconnected
+
+
+
+// If you use %monthname% in your parser configuration
+// you need to define 12 month strings that are converted
+// into a month number here
+
+[Month names]
+Jan
+Feb
+Mar
+Apr
+May
+Jun
+Jul
+Aug
+Sep
+Oct
+Nov
+Dec
+

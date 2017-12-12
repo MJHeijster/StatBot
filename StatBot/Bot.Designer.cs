@@ -8,8 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StatBot
-{
+namespace StatBot {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -26,7 +25,7 @@ namespace StatBot
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MzU0NzUzNDk5MjEwMzE3ODI0.DRCJRg.abtbXsDwb8RPxGadL9p0KkX8ESk")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Token {
             get {
                 return ((string)(this["Token"]));
