@@ -141,7 +141,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Bot.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Bot.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>

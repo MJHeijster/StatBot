@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StatBot
 {
-    internal class MessageHandler
+    public class MessageHandler
     {
         //example: <:phew:19095755581184>
         private readonly VerbalExpressions emojiExpression = new VerbalExpressions().StartOfLine().Anything().Then("<:").Anything().Then(":").Anything();
@@ -18,12 +18,12 @@ namespace StatBot
         private readonly VerbalExpressions channelExpression = new VerbalExpressions().StartOfLine().Anything().Then("<#").Anything().Then(">").Anything();
         internal DiscordSocketClient _client;
 
-        internal MessageHandler(DiscordSocketClient client)
+        public MessageHandler(DiscordSocketClient client)
         {
             _client = client;
         }
 
-        internal string CleanMessage(string message)
+        public string CleanMessage(string message)
         {
             StringBuilder returnMessage = new StringBuilder();
             if (emojiExpression.IsMatch(message) ||
@@ -39,17 +39,36 @@ namespace StatBot
                     }
                     else if (userMentionExpression.IsMatch(messagePart))
                     {
+                        string[] messagePartPart = messagePart.Split('>');
                         ulong userId = 0;
-                        ulong.TryParse(messagePart.Substring(1, messagePart.Length - 2), out userId);
-
+                        int minusLength = 3;
+                        string substr = string.Empty;
+                        if (messagePartPart.Length >= 2 &&
+                            !string.IsNullOrEmpty(messagePartPart[1]))
+                        {
+                            minusLength++;
+                        }
+                        else
+                        {
+                            substr = messagePartPart[0].Substring(2, messagePart.Length - minusLength);
+                            ulong.TryParse(substr, out userId);
+                        }
+                        
                         if (userId == 0)
                         {
-                            ulong.TryParse(messagePart.Substring(2, messagePart.Length - 3), out userId);
+                            minusLength++;
+                            substr = messagePartPart[0].Substring(3, messagePart.Length - minusLength);
+                            ulong.TryParse(substr, out userId);
                         }
                         if (userId > 0)
                         {
-                            var user = _client.GetUser(userId);
+                            SocketUser user = ResolveUser(userId);
                             returnMessage.Append($"@{user.Username}#{user.Discriminator} ");
+                            if(messagePartPart.Length >= 2 &&
+                            !string.IsNullOrEmpty(messagePartPart[1]))
+                            {
+                                returnMessage.Append(messagePartPart[1]);
+                            }
                         }
                         else
                         {
@@ -58,17 +77,35 @@ namespace StatBot
                     }
                     else if (channelExpression.IsMatch(messagePart))
                     {
-                        ulong channelID = 0;
-                        ulong.TryParse(messagePart.Substring(1, messagePart.Length - 2), out channelID);
-
-                        if (channelID == 0)
+                        string[] channelPartPart = messagePart.Split('>');
+                        ulong channelId = 0;
+                        int minusLength = 3;
+                        string substr = string.Empty;
+                        if (channelPartPart.Length >= 2 &&
+                            !string.IsNullOrEmpty(channelPartPart[1]))
                         {
-                            ulong.TryParse(messagePart.Substring(2, messagePart.Length - 3), out channelID);
+                            minusLength++;
                         }
-                        if (channelID > 0)
+                        else
                         {
-                            var channel = _client.GetChannel(channelID);
+                            substr = channelPartPart[0].Substring(2, messagePart.Length - minusLength);
+                            ulong.TryParse(substr, out channelId);
+                        }
+
+                        if (channelId == 0)
+                        {
+                            substr = channelPartPart[0].Substring(2, messagePart.Length - minusLength);
+                            ulong.TryParse(substr, out channelId);
+                        }
+                        if (channelId > 0)
+                        {
+                            var channel = _client.GetChannel(channelId);
                             returnMessage.Append($"#{channel} ");
+                            if (channelPartPart.Length >= 2 &&
+                            !string.IsNullOrEmpty(channelPartPart[1]))
+                            {
+                                returnMessage.Append(channelPartPart[1]);
+                            }
                         }
                         else
                         {
@@ -82,6 +119,23 @@ namespace StatBot
                 }
             }
             return returnMessage.Length > 0 ? returnMessage.ToString() : message;
+        }
+
+        private SocketUser ResolveUser(ulong userId)
+        {
+            var user = _client.GetUser(userId);
+            //Search in the guild if it cannot be found.
+            if (user == null)
+            {
+                List<SocketGuildUser> users = new List<SocketGuildUser>();
+                foreach (SocketGuild guild in _client.Guilds)
+                {
+                    users.AddRange(guild.Users);
+                }
+
+                user = users.Where(x => x.Id == userId).FirstOrDefault();
+            }
+            return user;
         }
     }
 }
