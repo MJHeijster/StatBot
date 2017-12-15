@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace StatBot
@@ -25,6 +26,7 @@ namespace StatBot
 
         public string CleanMessage(string message)
         {
+            message = Regex.Replace(message, @"\r\n?|\n", " ");
             StringBuilder returnMessage = new StringBuilder();
             if (emojiExpression.IsMatch(message) ||
                 userMentionExpression.IsMatch(message) ||
