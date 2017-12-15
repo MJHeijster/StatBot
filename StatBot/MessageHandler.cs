@@ -37,7 +37,12 @@ namespace StatBot
                 {
                     if (emojiExpression.IsMatch(messagePart))
                     {
-                        returnMessage.Append($":{messagePart.Split(':')[1]}: ");
+                        string[] splitString = messagePart.Split('>');
+                        returnMessage.Append($":{splitString[0].Split(':')[1]}: ");
+                        if (splitString.Length > 1)
+                        {
+                            returnMessage.Append(splitString[1]);
+                        }                        
                     }
                     else if (userMentionExpression.IsMatch(messagePart))
                     {
