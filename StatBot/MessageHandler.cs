@@ -140,7 +140,7 @@ namespace StatBot
                     users.AddRange(guild.Users);
                 }
 
-                user = users.Where(x => x.Id == userId).FirstOrDefault();
+                user = users.FirstOrDefault(x => x.Id == userId);
             }
             return user;
         }
