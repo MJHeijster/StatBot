@@ -17,3 +17,7 @@ Example batch script for combining multiple logs:
 > - START /WAIT C:\Discord\StatBot\mircstats\mircstats.exe -cfg general.cfg -log "C:\Discord\StatBot\277418737798479872\general\*.log" -html Html\general.html
 
 Font used for the icon: Archicoco
+
+
+# Note
+Want to help? Contact me on Discord MoonRaven#0328 or create a pull request.
