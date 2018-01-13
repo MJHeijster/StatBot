@@ -1,9 +1,24 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LoggerBot" GeneratedClassName="Bot">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="StatBot" GeneratedClassName="Bot">
   <Profiles />
   <Settings>
+    <Setting Name="CommandPrefix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">!</Value>
+    </Setting>
+    <Setting Name="CommandExclude" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">excludefromstats</Value>
+    </Setting>
+    <Setting Name="MircStatsPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Discord\StatBot\mircstats</Value>
+    </Setting>
+    <Setting Name="MircStatsNicksFile" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">nicks.txt</Value>
+    </Setting>
     <Setting Name="Token" Type="System.String" Scope="Application">
-      <Value Profile="(Default)"></Value>
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ExclusionSection" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">[common]</Value>
     </Setting>
   </Settings>
 </SettingsFile>

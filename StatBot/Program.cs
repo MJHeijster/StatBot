@@ -85,7 +85,7 @@ namespace StatBot
                     }
                     else
                     {
-                        textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {messageHandler.CleanMessage(message.Content)}";
+                        textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {messageHandler.HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}")}";
                     }
                     text.WriteLine(textMessage);
                     Console.WriteLine($"#{message.Channel} - {textMessage}");
