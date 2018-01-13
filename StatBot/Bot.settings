@@ -17,7 +17,10 @@
     <Setting Name="Token" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ExclusionSection" Type="System.String" Scope="Application">
+    <Setting Name="CommandInclude" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">includeinstats</Value>
+    </Setting>
+    <Setting Name="NickSection" Type="System.String" Scope="Application">
       <Value Profile="(Default)">[common]</Value>
     </Setting>
   </Settings>

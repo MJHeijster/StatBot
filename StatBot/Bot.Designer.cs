@@ -70,10 +70,19 @@ namespace StatBot {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("[common]")]
-        public string ExclusionSection {
+        [global::System.Configuration.DefaultSettingValueAttribute("includeinstats")]
+        public string CommandInclude {
             get {
-                return ((string)(this["ExclusionSection"]));
+                return ((string)(this["CommandInclude"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[common]")]
+        public string NickSection {
+            get {
+                return ((string)(this["NickSection"]));
             }
         }
     }
