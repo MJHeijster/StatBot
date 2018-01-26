@@ -20,4 +20,4 @@ Font used for the icon: Archicoco
 
 
 # Note
-Want to help? Contact me on Discord MoonRaven#0328 or create a pull request.
+Want to help? Contact me on Discord MoonRaven#0001 or create a pull request.
