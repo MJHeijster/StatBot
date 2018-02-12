@@ -1,4 +1,4 @@
-# StatBot
+# StatBot [<img src="https://moonraven.visualstudio.com/_apis/public/build/definitions/5557531f-8a79-4c7b-bde1-75757f001741/4/badge"/>]
 A Discord Bot which logs in the HydraIRC complient log format so that mIRCStats will work. Slightly modified parser can be found in the mIRCStats parser folder. Download: [Releases](https://github.com/MJHeijster/StatBot/releases)
 
 # Setup
