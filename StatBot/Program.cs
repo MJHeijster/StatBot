@@ -16,6 +16,8 @@ namespace StatBot
         /// </summary>
         DiscordSocketClient _client;
         MessageHandler messageHandler;
+        private static bool logToDebugChannel = !string.IsNullOrEmpty(Bot.Default.DebugChannelId);
+        private static ulong channelId = 0;
 
         /// <summary>
         /// Defines the entry point of the application.
@@ -39,7 +41,7 @@ namespace StatBot
             await _client.StartAsync();
 
             messageHandler = new MessageHandler(_client);
-            Console.WriteLine("Ready to log.");
+            LogMessage("Ready to log.");
 
             // Block this task until the program is closed.
             await Task.Delay(-1);
@@ -58,6 +60,7 @@ namespace StatBot
                 await _client.StartAsync();
                 System.Threading.Thread.Sleep(50000);
             }
+            LogMessage("Reconnected.");
         }
 
         /// <summary>
@@ -107,6 +110,34 @@ namespace StatBot
                 }
             }
             return null;
+        }
+
+        private void LogMessage(string message)
+        {
+            Console.WriteLine(message);
+            if (logToDebugChannel)
+            {
+                if (channelId == 0)
+                {
+                    ulong.TryParse(Bot.Default.DebugChannelId, out channelId);
+                }
+                //Make sure the client is connected before trying to send the message.
+                 for(int i = 0; i < 25; i++)
+                {
+                    if (_client.ConnectionState == ConnectionState.Connected)
+                    {
+                        try { 
+                            ((ISocketMessageChannel)_client.GetChannel(channelId)).SendMessageAsync(message);
+                        }
+                        catch
+                        {
+                            Console.WriteLine("It looks like the DebugChannelId is invalid.");
+                        }
+                        break;
+                    }
+                    System.Threading.Thread.Sleep(5000);
+                }
+            }
         }
     }
 }

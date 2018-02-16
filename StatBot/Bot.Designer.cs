@@ -94,5 +94,14 @@ namespace StatBot {
                 return ((string)(this["LoggingFileName"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DebugChannelId {
+            get {
+                return ((string)(this["DebugChannelId"]));
+            }
+        }
     }
 }
