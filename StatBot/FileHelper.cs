@@ -11,6 +11,7 @@ namespace StatBot
         /// The log files
         /// </summary>
         static List<LogFile> logFiles = new List<LogFile>();
+        static bool loggingFileType = Bot.Default.LoggingFileName == "channelname";
 
         /// <summary>
         /// Checks and gets file path.
@@ -40,11 +41,20 @@ namespace StatBot
             LogFile logFile = logFiles.Find(x => x.Channel == channel && x.Guild == guild);
             if (logFile == null)
             {
+                string fileName = string.Empty;
+                if (loggingFileType)
+                {
+                    fileName = channel.Name + ".log";
+                }
+                else
+                {
+                    fileName = channel.Id + ".log";
+                }
                 logFile = new LogFile
                 {
                     Channel = channel,
                     Guild = guild,
-                    FileName = channel.Name + ".log",
+                    FileName = fileName,
                     Folder = "\\" + guild.Id + "\\"
                 };
                 logFiles.Add(logFile);

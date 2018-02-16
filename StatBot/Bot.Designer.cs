@@ -85,5 +85,14 @@ namespace StatBot {
                 return ((string)(this["NickSection"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("channelid")]
+        public string LoggingFileName {
+            get {
+                return ((string)(this["LoggingFileName"]));
+            }
+        }
     }
 }

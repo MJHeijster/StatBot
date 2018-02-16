@@ -29,16 +29,17 @@ namespace StatBot
         /// <returns>The task.</returns>
         public async Task MainAsync()
         {
+            Console.WriteLine("Starting...");
             _client = new DiscordSocketClient();
 
             _client.MessageReceived += MessageReceived;
-
-            string token = Bot.Default.Token;
-
-            await _client.LoginAsync(TokenType.Bot, token);
+            _client.Disconnected += _client_Disconnected;
+            
+            await _client.LoginAsync(TokenType.Bot, Bot.Default.Token);
             await _client.StartAsync();
 
             messageHandler = new MessageHandler(_client);
+            Console.WriteLine("Ready to log.");
 
             // Block this task until the program is closed.
             await Task.Delay(-1);
@@ -46,10 +47,24 @@ namespace StatBot
         }
 
         /// <summary>
+        /// Handles the event when the client disconnects. This is untested, since it's hard to fake an outage.
+        /// </summary>
+        private async Task _client_Disconnected(Exception arg)
+        {
+            Console.WriteLine($"The connection to the server has been lost at {DateTime.Now}.");
+            while(_client.ConnectionState == ConnectionState.Disconnected)
+            {
+                await _client.LoginAsync(TokenType.Bot, Bot.Default.Token);
+                await _client.StartAsync();
+                System.Threading.Thread.Sleep(50000);
+            }
+        }
+
+        /// <summary>
         /// Handles the received message
         /// </summary>
         /// <param name="message">The message.</param>
-        private async Task MessageReceived(SocketMessage message)
+        private Task MessageReceived(SocketMessage message)
         {
             var file = FileHelper.CheckAndGetFilePath(message);
             if (!message.Author.IsBot)
@@ -91,6 +106,7 @@ namespace StatBot
                     Console.WriteLine($"#{message.Channel} - {textMessage}");
                 }
             }
+            return null;
         }
     }
 }
