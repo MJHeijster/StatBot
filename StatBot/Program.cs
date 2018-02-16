@@ -132,6 +132,7 @@ namespace StatBot
                         catch
                         {
                             Console.WriteLine("It looks like the DebugChannelId is invalid.");
+                            logToDebugChannel = false;
                         }
                         break;
                     }
