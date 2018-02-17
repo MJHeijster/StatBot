@@ -112,6 +112,10 @@ namespace StatBot
             return null;
         }
 
+        /// <summary>
+        /// Logs the message to both the server and the console.
+        /// </summary>
+        /// <param name="message">The message.</param>
         private void LogMessage(string message)
         {
             Console.WriteLine(message);

@@ -20,11 +20,21 @@ namespace StatBot
         private readonly VerbalExpressions commandExpression = new VerbalExpressions().StartOfLine().Then(commandPrefix).Anything();
         internal DiscordSocketClient _client;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessageHandler"/> class.
+        /// </summary>
+        /// <param name="client">The Discord client.</param>
         public MessageHandler(DiscordSocketClient client)
         {
             _client = client;
         }
 
+        /// <summary>
+        /// Handles the incoming message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="userName">Name of the user.</param>
+        /// <returns>System.String.</returns>
         public string HandleMessage(string message, string userName)
         {
             message = Regex.Replace(message, @"\r\n?|\n", " ");
@@ -70,6 +80,11 @@ namespace StatBot
             return returnMessage.Length > 0 ? returnMessage.ToString() : message;
         }
 
+        /// <summary>
+        /// Resolves the user mention.
+        /// </summary>
+        /// <param name="messagePart">The part of the message that needs to be resolved.</param>
+        /// <returns>A StringBuilder with the resolved username.</returns>
         private StringBuilder ResolveUserMention(string messagePart)
         {
             StringBuilder returnMessage = new StringBuilder();
@@ -111,6 +126,11 @@ namespace StatBot
             return returnMessage;
         }
 
+        /// <summary>
+        /// Resolves the name of the channel.
+        /// </summary>
+        /// <param name="messagePart">The part of the message that needs to be resolved.</param>
+        /// <returns>A StringBuilder with the resolved channel name.</returns>
         private StringBuilder ResolveChannelName(string messagePart)
         {
             StringBuilder returnMessage = new StringBuilder();
@@ -151,6 +171,11 @@ namespace StatBot
             return returnMessage;
         }
 
+        /// <summary>
+        /// Resolves the user.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>The user that's been resolved.</returns>
         private SocketUser ResolveUser(ulong userId)
         {
             var user = _client.GetUser(userId);

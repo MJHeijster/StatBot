@@ -14,6 +14,12 @@ namespace StatBot
         private static readonly string commandPrefix = Bot.Default.CommandPrefix;
         private static readonly string nickFile = $"{Bot.Default.MircStatsPath}\\{Bot.Default.MircStatsNicksFile}";
         private static readonly string nickSection = Bot.Default.NickSection;
+
+        /// <summary>
+        /// Handles the commands that are available.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <param name="user">The user who initiated the command.</param>
         public static void HandleCommand(string command, string user)
         {
             string excludeString = $"{user}; MODE=ISEXCLUDED";
