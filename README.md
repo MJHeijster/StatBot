@@ -1,5 +1,7 @@
 # StatBot [<img src="https://moonraven.visualstudio.com/_apis/public/build/definitions/5557531f-8a79-4c7b-bde1-75757f001741/4/badge"/>]
-A Discord Bot which logs in the HydraIRC complient log format so that mIRCStats will work. Slightly modified parser can be found in the mIRCStats parser folder. Download: [Releases](https://github.com/MJHeijster/StatBot/releases)
+A Discord Bot which logs in the HydraIRC complient log format so that mIRCStats will work. Slightly modified parser can be found in the mIRCStats parser folder. 
+
+Download: [Releases](https://github.com/MJHeijster/StatBot/releases)
 
 # Setup
 Compile (or download) and place in a location you want the software in. Configure the application through the StatBot.exe.config file. More information can be found here about the token: https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token
@@ -22,6 +24,6 @@ Example batch script for combining multiple logs:
 
 
 # Notes
-Want to help? Contact me on Discord MoonRaven#0001 or create a pull request.
+Want to help or need help? Join the discord server https://discord.gg/SFYVQNE or create a pull request.
 
 Font used for the icon: Archicoco
