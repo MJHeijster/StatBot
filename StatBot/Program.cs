@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Discord;
 using System.IO;
 using Discord.WebSocket;
+using PushoverClient;
 
 namespace StatBot
 {
@@ -18,6 +19,8 @@ namespace StatBot
         MessageHandler messageHandler;
         private static bool logToDebugChannel = !string.IsNullOrEmpty(Bot.Default.DebugChannelId);
         private static ulong channelId = 0;
+        private static bool usePushover = !(string.IsNullOrEmpty(Bot.Default.PushoverApi) || string.IsNullOrEmpty(Bot.Default.PushoverUserKey));
+        private static Pushover pclient = new Pushover(Bot.Default.PushoverApi);
 
         /// <summary>
         /// Defines the entry point of the application.
@@ -41,7 +44,7 @@ namespace StatBot
             await _client.StartAsync();
 
             messageHandler = new MessageHandler(_client);
-            LogMessage("Ready to log.");
+            LogMessage($"Connected to the server at {DateTime.Now}.");
 
             // Block this task until the program is closed.
             await Task.Delay(-1);
@@ -53,14 +56,13 @@ namespace StatBot
         /// </summary>
         private async Task _client_Disconnected(Exception arg)
         {
-            Console.WriteLine($"The connection to the server has been lost at {DateTime.Now}.");
+            LogMessage($"The connection to the server has been lost at {DateTime.Now}.");
             while(_client.ConnectionState == ConnectionState.Disconnected)
             {
-                await _client.LoginAsync(TokenType.Bot, Bot.Default.Token);
                 await _client.StartAsync();
                 System.Threading.Thread.Sleep(50000);
             }
-            LogMessage("Reconnected.");
+            LogMessage($"Reconnected with the server at {DateTime.Now}.");
         }
 
         /// <summary>
@@ -119,7 +121,7 @@ namespace StatBot
         private void LogMessage(string message)
         {
             Console.WriteLine(message);
-            if (logToDebugChannel)
+            if (logToDebugChannel && _client.ConnectionState == ConnectionState.Connected)
             {
                 if (channelId == 0)
                 {
@@ -142,6 +144,14 @@ namespace StatBot
                     }
                     System.Threading.Thread.Sleep(5000);
                 }
+            }
+            if (usePushover)
+            {
+                PushResponse response = pclient.Push(
+              "Statbot",
+              message,
+              Bot.Default.PushoverUserKey
+          );
             }
         }
     }
