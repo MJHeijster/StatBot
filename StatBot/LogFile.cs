@@ -1,4 +1,16 @@
-﻿using Discord;
+﻿// ***********************************************************************
+// Assembly         : StatBot
+// Author           : Jeroen Heijster
+// Created          : 12-11-2017
+//
+// Last Modified By : Jeroen Heijster
+// Last Modified On : 11-12-2017
+// ***********************************************************************
+// <copyright file="LogFile.cs" company="Jeroen Heijster">
+//     Copyright ©  2017
+// </copyright>
+// ***********************************************************************
+using Discord;
 
 namespace StatBot
 {

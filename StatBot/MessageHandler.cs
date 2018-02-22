@@ -1,4 +1,16 @@
-﻿using CSharpVerbalExpressions;
+﻿// ***********************************************************************
+// Assembly         : StatBot
+// Author           : Jeroen Heijster
+// Created          : 12-12-2017
+//
+// Last Modified By : Jeroen Heijster
+// Last Modified On : 22-02-2018
+// ***********************************************************************
+// <copyright file="MessageHandler.cs" company="Jeroen Heijster">
+//     Copyright ©  2017
+// </copyright>
+// ***********************************************************************
+using CSharpVerbalExpressions;
 using Discord.WebSocket;
 using System.Collections.Generic;
 using System.Linq;

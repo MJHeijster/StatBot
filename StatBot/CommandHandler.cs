@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : StatBot
+// Author           : Jeroen Heijster
+// Created          : 01-13-2018
+//
+// Last Modified By : Jeroen Heijster
+// Last Modified On : 17-02-2018
+// ***********************************************************************
+// <copyright file="CommandHandler.cs" company="Jeroen Heijster">
+//     Copyright ©  2017
+// </copyright>
+// ***********************************************************************
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
