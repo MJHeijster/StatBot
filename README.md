@@ -24,6 +24,6 @@ Example batch script for combining multiple logs:
 
 
 # Notes
-Want to help or need help? Join the discord server https://discord.gg/SFYVQNE or create a pull request.
+Want to help or need help? Join the discord server https://discord.gg/SFYVQNE , create an issue or create a pull request.
 
 Font used for the icon: Archicoco
