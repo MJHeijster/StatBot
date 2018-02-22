@@ -88,9 +88,10 @@ namespace StatBot
         private StringBuilder ResolveUserMention(string messagePart)
         {
             StringBuilder returnMessage = new StringBuilder();
+            int leadingCharacters = messagePart.TakeWhile(c => c == '<').Count();
             string[] messagePartPart = messagePart.Split('>');
             ulong userId = 0;
-            int minusLength = 3;
+            int minusLength = 2;
             string substr = string.Empty;
             if (messagePartPart.Length >= 2 &&
                 !string.IsNullOrEmpty(messagePartPart[1]))
@@ -99,14 +100,14 @@ namespace StatBot
             }
             else
             {
-                substr = messagePartPart[0].Substring(2, messagePart.Length - minusLength);
+                substr = messagePartPart[0].Substring(1 + leadingCharacters, messagePart.Length - minusLength - leadingCharacters);
                 ulong.TryParse(substr, out userId);
             }
 
             if (userId == 0)
             {
                 minusLength++;
-                substr = messagePartPart[0].Substring(3, messagePart.Length - minusLength);
+                substr = messagePartPart[0].Substring(2 + leadingCharacters, messagePart.Length - minusLength - leadingCharacters);
                 ulong.TryParse(substr, out userId);
             }
             if (userId > 0)
@@ -134,9 +135,10 @@ namespace StatBot
         private StringBuilder ResolveChannelName(string messagePart)
         {
             StringBuilder returnMessage = new StringBuilder();
+            int leadingCharacters = messagePart.TakeWhile(c => c == '<').Count();
             string[] channelPartPart = messagePart.Split('>');
             ulong channelId = 0;
-            int minusLength = 3;
+            int minusLength = 2;
             string substr = string.Empty;
             if (channelPartPart.Length >= 2 &&
                 !string.IsNullOrEmpty(channelPartPart[1]))
@@ -145,13 +147,13 @@ namespace StatBot
             }
             else
             {
-                substr = channelPartPart[0].Substring(2, messagePart.Length - minusLength);
+                substr = channelPartPart[0].Substring(1 + leadingCharacters, messagePart.Length - minusLength - leadingCharacters);
                 ulong.TryParse(substr, out channelId);
             }
 
             if (channelId == 0)
             {
-                substr = channelPartPart[0].Substring(2, messagePart.Length - minusLength);
+                substr = channelPartPart[0].Substring(1 + leadingCharacters, messagePart.Length - minusLength - leadingCharacters);
                 ulong.TryParse(substr, out channelId);
             }
             if (channelId > 0)
