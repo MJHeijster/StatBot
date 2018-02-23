@@ -1,0 +1,6 @@
+language: csharp
+solution: StatBot.sln
+install:
+  - sudo apt-get install -y gtk-sharp2
+  - nuget restore StatBot.sln
+  - xbuild /p:Configuration=Release StatBot.sln
