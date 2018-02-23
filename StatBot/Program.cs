@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : StatBot
+// Author           : Jeroen Heijster
+// Created          : 12-11-2017
+//
+// Last Modified By : Jeroen Heijster
+// Last Modified On : 22-02-2018
+// ***********************************************************************
+// <copyright file="Program.cs" company="Jeroen Heijster">
+//     Copyright ©  2017
+// </copyright>
+// ***********************************************************************
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,16 +22,39 @@ using PushoverClient;
 
 namespace StatBot
 {
+    /// <summary>
+    /// Class Program.
+    /// </summary>
     class Program
     {
         /// <summary>
         /// The Discord client
         /// </summary>
         DiscordSocketClient _client;
+        
+        /// <summary>
+        /// The message handler
+        /// </summary>
         MessageHandler messageHandler;
+        
+        /// <summary>
+        /// Should the bot log to the debug channel or not?
+        /// </summary>
         private static bool logToDebugChannel = !string.IsNullOrEmpty(Bot.Default.DebugChannelId);
+        
+        /// <summary>
+        /// The channel identifier
+        /// </summary>
         private static ulong channelId = 0;
+        
+        /// <summary>
+        /// The use pushover or not
+        /// </summary>
         private static bool usePushover = !(string.IsNullOrEmpty(Bot.Default.PushoverApi) || string.IsNullOrEmpty(Bot.Default.PushoverUserKey));
+        
+        /// <summary>
+        /// The pushover client
+        /// </summary>
         private static Pushover pclient = new Pushover(Bot.Default.PushoverApi);
 
         /// <summary>
@@ -35,11 +70,12 @@ namespace StatBot
         public async Task MainAsync()
         {
             Console.WriteLine("Starting...");
+
             _client = new DiscordSocketClient();
 
             _client.MessageReceived += MessageReceived;
             _client.Disconnected += _client_Disconnected;
-            
+
             await _client.LoginAsync(TokenType.Bot, Bot.Default.Token);
             await _client.StartAsync();
 
@@ -52,17 +88,41 @@ namespace StatBot
         }
 
         /// <summary>
-        /// Handles the event when the client disconnects. This is untested, since it's hard to fake an outage.
+        /// Handles the event when the client disconnects.
         /// </summary>
+        /// <param name="arg">The argument.</param>
         private async Task _client_Disconnected(Exception arg)
         {
             LogMessage($"The connection to the server has been lost at {DateTime.Now}.");
-            while(_client.ConnectionState == ConnectionState.Disconnected)
+            while (_client.ConnectionState == ConnectionState.Disconnected)
             {
-                await _client.StartAsync();
-                System.Threading.Thread.Sleep(50000);
+                var task = ReConnect();
+                if (await Task.WhenAny(task, Task.Delay(50000)) == task)
+                {
+                    if ((_client.ConnectionState == ConnectionState.Connecting))
+                    {
+                        System.Threading.Thread.Sleep(10000);
+                    }
+                    if ((_client.ConnectionState == ConnectionState.Connected))
+                    {
+                        LogMessage($"Reconnected with the server at {DateTime.Now}.");
+                        break;
+                    }
+                }
+                System.Threading.Thread.Sleep(5000);
             }
-            LogMessage($"Reconnected with the server at {DateTime.Now}.");
+        }
+
+        /// <summary>
+        /// Attempts to reconnect to the server.
+        /// </summary>
+        private async Task ReConnect()
+        {
+            _client = new DiscordSocketClient();
+
+            await _client.LoginAsync(TokenType.Bot, Bot.Default.Token);
+            await _client.StartAsync();
+            System.Threading.Thread.Sleep(10000);
         }
 
         /// <summary>
@@ -128,11 +188,12 @@ namespace StatBot
                     ulong.TryParse(Bot.Default.DebugChannelId, out channelId);
                 }
                 //Make sure the client is connected before trying to send the message.
-                 for(int i = 0; i < 25; i++)
+                for (int i = 0; i < 25; i++)
                 {
                     if (_client.ConnectionState == ConnectionState.Connected)
                     {
-                        try { 
+                        try
+                        {
                             ((ISocketMessageChannel)_client.GetChannel(channelId)).SendMessageAsync(message);
                         }
                         catch

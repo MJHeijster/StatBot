@@ -1,4 +1,16 @@
-﻿using Discord.WebSocket;
+﻿// ***********************************************************************
+// Assembly         : StatBot
+// Author           : Jeroen Heijster
+// Created          : 12-11-2017
+//
+// Last Modified By : Jeroen Heijster
+// Last Modified On : 17-02-2018
+// ***********************************************************************
+// <copyright file="FileHelper.cs" company="Jeroen Heijster">
+//     Copyright ©  2017
+// </copyright>
+// ***********************************************************************
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.IO;
