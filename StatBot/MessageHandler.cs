@@ -24,6 +24,8 @@ namespace StatBot
         private static readonly string commandPrefix = Bot.Default.CommandPrefix;
         //example: <:phew:19095755581184>
         private readonly VerbalExpressions emojiExpression = new VerbalExpressions().StartOfLine().Anything().Then("<:").Anything().Then(":").Anything();
+        //example: <a:phew:19095755581184>
+        private readonly VerbalExpressions animatedEmojiExpression = new VerbalExpressions().StartOfLine().Anything().Then("<a:").Anything().Then(":").Anything();
         //example: <@19095755581184>
         private readonly VerbalExpressions userMentionExpression = new VerbalExpressions().StartOfLine().Anything().Then("<@").Anything().Then(">").Anything();
         //example: <#19095755581184>
@@ -52,6 +54,7 @@ namespace StatBot
             message = Regex.Replace(message, @"\r\n?|\n", " ");
             StringBuilder returnMessage = new StringBuilder();
             if (emojiExpression.IsMatch(message) ||
+                animatedEmojiExpression.IsMatch(message) ||
                 userMentionExpression.IsMatch(message) ||
                 channelExpression.IsMatch(message) ||
                 commandExpression.IsMatch(message))
@@ -65,14 +68,15 @@ namespace StatBot
                     {
                         CommandHandler.HandleCommand(messagePart, userName);
                     }
-                    if (emojiExpression.IsMatch(messagePart))
+                    if (emojiExpression.IsMatch(messagePart) ||
+                        animatedEmojiExpression.IsMatch(messagePart))
                     {
                         string[] splitString = messagePart.Split('>');
                         returnMessage.Append($":{splitString[0].Split(':')[1]}: ");
                         if (splitString.Length > 1)
                         {
                             returnMessage.Append(splitString[1]);
-                        }                        
+                        }
                     }
                     else if (userMentionExpression.IsMatch(messagePart))
                     {
