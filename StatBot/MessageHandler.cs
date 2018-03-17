@@ -80,7 +80,7 @@ namespace StatBot
                     }
                     else if (userMentionExpression.IsMatch(messagePart))
                     {
-                        returnMessage.Append(ResolveUserMention(messagePart));
+                        returnMessage.Append($"{ResolveUserMention(messagePart).Replace(' ', '_')} ");
                     }
                     else if (channelExpression.IsMatch(messagePart))
                     {
@@ -129,7 +129,7 @@ namespace StatBot
             if (userId > 0)
             {
                 SocketUser user = ResolveUser(userId);
-                returnMessage.Append($"@{user.Username}#{user.Discriminator} ");
+                returnMessage.Append($"@{user.Username}#{user.Discriminator}");
                 if (messagePartPart.Length >= 2 &&
                 !string.IsNullOrEmpty(messagePartPart[1]))
                 {

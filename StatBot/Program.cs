@@ -143,11 +143,11 @@ namespace StatBot
                         if (string.IsNullOrEmpty(message.Content) ||
                             message.Content == message.Embeds.FirstOrDefault().Url)
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
                         }
                         else
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {message.Content} - {message.Embeds.FirstOrDefault().Url}";
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Content} - {message.Embeds.FirstOrDefault().Url}";
                         }
                     }
                     else if (message.Attachments != null &&
@@ -156,16 +156,16 @@ namespace StatBot
                         if (string.IsNullOrEmpty(message.Content) ||
                             message.Content == message.Attachments.FirstOrDefault().Url)
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
                         }
                         else
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {message.Content} - {message.Attachments.FirstOrDefault().Url}";
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Content} - {message.Attachments.FirstOrDefault().Url}";
                         }
                     }
                     else
                     {
-                        textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username}#{message.Author.Discriminator}> {messageHandler.HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}")}";
+                        textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {messageHandler.HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}")}";
                     }
                     text.WriteLine(textMessage);
                     Console.WriteLine($"#{message.Channel} - {textMessage}");

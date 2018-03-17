@@ -24,6 +24,7 @@ namespace StatBot
         /// </summary>
         static List<LogFile> logFiles = new List<LogFile>();
         static bool loggingFileType = Bot.Default.LoggingFileName == "channelname";
+        static bool singleLogFile = Bot.Default.LoggingFileName == "single";
 
         /// <summary>
         /// Checks and gets file path.
@@ -48,19 +49,27 @@ namespace StatBot
         /// <returns>The log file settings.</returns>
         internal static LogFile GetLogFile(SocketMessage message)
         {
+
             var channel = message.Channel;
             var guild = (channel as SocketGuildChannel)?.Guild;
             LogFile logFile = logFiles.Find(x => x.Channel == channel && x.Guild == guild);
             if (logFile == null)
             {
                 string fileName = string.Empty;
-                if (loggingFileType)
+                if (singleLogFile)
                 {
-                    fileName = channel.Name + ".log";
+                    fileName = "server.log";
                 }
                 else
                 {
-                    fileName = channel.Id + ".log";
+                    if (loggingFileType)
+                    {
+                        fileName = channel.Name + ".log";
+                    }
+                    else
+                    {
+                        fileName = channel.Id + ".log";
+                    }
                 }
                 logFile = new LogFile
                 {
@@ -71,6 +80,10 @@ namespace StatBot
                 };
                 logFiles.Add(logFile);
                 string file = Directory.GetCurrentDirectory() + logFile.Folder + logFile.FileName;
+                if (!Directory.Exists(Directory.GetCurrentDirectory() + logFile.Folder))
+                {
+                    Directory.CreateDirectory(Directory.GetCurrentDirectory() + logFile.Folder);
+                }
                 using (StreamWriter text = File.AppendText(file))
                 {
                     text.WriteLine("");
