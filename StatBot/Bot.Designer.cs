@@ -121,5 +121,23 @@ namespace StatBot {
                 return ((string)(this["PushoverUserKey"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("stats")]
+        public string StatsCommand {
+            get {
+                return ((string)(this["StatsCommand"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string StatsUrl {
+            get {
+                return ((string)(this["StatsUrl"]));
+            }
+        }
     }
 }

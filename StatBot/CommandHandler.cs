@@ -10,6 +10,7 @@
 //     Copyright ©  2017
 // </copyright>
 // ***********************************************************************
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,8 @@ namespace StatBot
     {
         private static readonly string commandExclude = Bot.Default.CommandExclude;
         private static readonly string commandInclude = Bot.Default.CommandInclude;
+        private static readonly string statsCommand = Bot.Default.StatsCommand;
+        private static readonly string statsUrl = Bot.Default.StatsUrl;
         private static readonly string commandPrefix = Bot.Default.CommandPrefix;
         private static readonly string nickFile = $"{Bot.Default.MircStatsPath}\\{Bot.Default.MircStatsNicksFile}";
         private static readonly string nickSection = Bot.Default.NickSection;
@@ -32,30 +35,38 @@ namespace StatBot
         /// </summary>
         /// <param name="command">The command.</param>
         /// <param name="user">The user who initiated the command.</param>
-        public static void HandleCommand(string command, string user)
+        /// <param name="channel">The channel.</param>
+        public static void HandleCommand(string command, string user, ISocketMessageChannel channel)
         {
             string excludeString = $"{user}; MODE=ISEXCLUDED";
             string includeString = $"{user};";
-            if (command == $"{commandPrefix}{commandExclude}")
+            if (!string.IsNullOrEmpty(commandPrefix))
             {
-                if (!File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
+                if (!string.IsNullOrEmpty(commandExclude) && command == $"{commandPrefix}{commandExclude}")
                 {
-                    File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{excludeString}"));
+                    if (!File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
+                    {
+                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{excludeString}"));
+                    }
+                    if (!File.ReadLines(nickFile).Any(line => line.Contains(includeString)))
+                    {
+                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(includeString, string.Empty));
+                    }
                 }
-                if (!File.ReadLines(nickFile).Any(line => line.Contains(includeString)))
+                if (!string.IsNullOrEmpty(commandInclude) && command == $"{commandPrefix}{commandInclude}")
                 {
-                    File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(includeString, string.Empty));
+                    if (!File.ReadLines(nickFile).Any(line => line.Contains(includeString)))
+                    {
+                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{includeString}"));
+                    }
+                    if (!File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
+                    {
+                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(excludeString, string.Empty));
+                    }
                 }
-            }
-            if (command == $"{commandPrefix}{commandInclude}")
-            {
-                if (!File.ReadLines(nickFile).Any(line => line.Contains(includeString)))
+                if (!string.IsNullOrEmpty(statsCommand) && !string.IsNullOrEmpty(statsUrl) && command == $"{commandPrefix}{statsCommand}")
                 {
-                    File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{includeString}"));
-                }
-                if (!File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
-                {
-                    File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(excludeString, string.Empty));
+                    channel.SendMessageAsync(statsUrl);
                 }
             }
         }

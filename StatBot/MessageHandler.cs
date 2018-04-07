@@ -12,6 +12,7 @@
 // ***********************************************************************
 using CSharpVerbalExpressions;
 using Discord.WebSocket;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,8 +49,9 @@ namespace StatBot
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="userName">Name of the user.</param>
-        /// <returns>System.String.</returns>
-        public string HandleMessage(string message, string userName)
+        /// <param name="channel">The channel.</param>
+        /// <returns>The parsed message.</returns>
+        public string HandleMessage(string message, string userName, ISocketMessageChannel channel)
         {
             message = Regex.Replace(message, @"\r\n?|\n", " ");
             StringBuilder returnMessage = new StringBuilder();
@@ -66,7 +68,7 @@ namespace StatBot
                     if (firstPart &&
                         commandExpression.IsMatch(messagePart))
                     {
-                        CommandHandler.HandleCommand(messagePart, userName);
+                        CommandHandler.HandleCommand(messagePart, userName, channel);
                     }
                     if (emojiExpression.IsMatch(messagePart) ||
                         animatedEmojiExpression.IsMatch(messagePart))

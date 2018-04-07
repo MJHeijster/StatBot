@@ -35,5 +35,11 @@
     <Setting Name="PushoverUserKey" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="StatsCommand" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">stats</Value>
+    </Setting>
+    <Setting Name="StatsUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
