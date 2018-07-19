@@ -19,6 +19,7 @@ using Discord;
 using System.IO;
 using Discord.WebSocket;
 using PushoverClient;
+using StatBot.Logging;
 
 namespace StatBot
 {
@@ -98,6 +99,7 @@ namespace StatBot
                 var task = ReConnect();
                 if (await Task.WhenAny(task, Task.Delay(50000)) == task)
                 {
+                    Logger.LogMessage(_client.ConnectionState.ToString());
                     if ((_client.ConnectionState == ConnectionState.Connecting))
                     {
                         System.Threading.Thread.Sleep(10000);
