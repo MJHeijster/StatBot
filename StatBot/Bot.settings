@@ -41,5 +41,23 @@
     <Setting Name="StatsUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="SnapCommand" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">snapme</Value>
+    </Setting>
+    <Setting Name="UnsnapCommand" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">unsnapme</Value>
+    </Setting>
+    <Setting Name="ThanosEventRole" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ThanosEventRole</Value>
+    </Setting>
+    <Setting Name="SecretSnapCommand" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">TimeToSnap</Value>
+    </Setting>
+    <Setting Name="OddSnapRole" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">OddSnap</Value>
+    </Setting>
+    <Setting Name="EvenSnapRole" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">EvenSnap</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

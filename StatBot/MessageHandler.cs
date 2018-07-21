@@ -51,15 +51,11 @@ namespace StatBot
         /// <param name="userName">Name of the user.</param>
         /// <param name="channel">The channel.</param>
         /// <returns>The parsed message.</returns>
-        public string HandleMessage(string message, string userName, ISocketMessageChannel channel)
+        public string HandleMessage(string message, SocketUser userName, ISocketMessageChannel channel)
         {
             message = Regex.Replace(message, @"\r\n?|\n", " ");
             StringBuilder returnMessage = new StringBuilder();
-            if (emojiExpression.IsMatch(message) ||
-                animatedEmojiExpression.IsMatch(message) ||
-                userMentionExpression.IsMatch(message) ||
-                channelExpression.IsMatch(message) ||
-                commandExpression.IsMatch(message))
+            if (commandExpression.IsMatch(message))
             {
                 string[] messageParts = message.Split(' ');
                 bool firstPart = true;
@@ -69,28 +65,6 @@ namespace StatBot
                         commandExpression.IsMatch(messagePart))
                     {
                         CommandHandler.HandleCommand(messagePart, userName, channel);
-                    }
-                    if (emojiExpression.IsMatch(messagePart) ||
-                        animatedEmojiExpression.IsMatch(messagePart))
-                    {
-                        string[] splitString = messagePart.Split('>');
-                        returnMessage.Append($":{splitString[0].Split(':')[1]}: ");
-                        if (splitString.Length > 1)
-                        {
-                            returnMessage.Append(splitString[1]);
-                        }
-                    }
-                    else if (userMentionExpression.IsMatch(messagePart))
-                    {
-                        returnMessage.Append($"{ResolveUserMention(messagePart).Replace(' ', '_')} ");
-                    }
-                    else if (channelExpression.IsMatch(messagePart))
-                    {
-                        returnMessage.Append(ResolveChannelName(messagePart));
-                    }
-                    else
-                    {
-                        returnMessage.Append($"{messagePart} ");
                     }
                     firstPart = false;
                 }

@@ -78,6 +78,7 @@ namespace StatBot
 
             await _client.LoginAsync(TokenType.Bot, Bot.Default.Token);
             await _client.StartAsync();
+            await _client.SetGameAsync("with the gemstones");
 
             messageHandler = new MessageHandler(_client);
             LogMessage($"Connected to the server at {DateTime.Now}.");
@@ -135,42 +136,7 @@ namespace StatBot
             var file = FileHelper.CheckAndGetFilePath(message);
             if (!message.Author.IsBot)
             {
-                using (StreamWriter text = File.AppendText(file))
-                {
-                    string textMessage = string.Empty;
-                    if (message.Embeds != null &&
-                        message.Embeds.Count != 0)
-                    {
-                        if (string.IsNullOrEmpty(message.Content) ||
-                            message.Content == message.Embeds.FirstOrDefault().Url)
-                        {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
-                        }
-                        else
-                        {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {messageHandler.HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)} - {message.Embeds.FirstOrDefault().Url}";
-                        }
-                    }
-                    else if (message.Attachments != null &&
-                        message.Attachments.Count != 0)
-                    {
-                        if (string.IsNullOrEmpty(message.Content) ||
-                            message.Content == message.Attachments.FirstOrDefault().Url)
-                        {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
-                        }
-                        else
-                        {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {messageHandler.HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)} - {message.Attachments.FirstOrDefault().Url}";
-                        }
-                    }
-                    else
-                    {
-                        textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {messageHandler.HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)}";
-                    }
-                    text.WriteLine(textMessage);
-                    Console.WriteLine($"#{message.Channel} - {textMessage}");
-                }
+                messageHandler.HandleMessage(message.Content, message.Author, message.Channel);
             }
             return null;
         }

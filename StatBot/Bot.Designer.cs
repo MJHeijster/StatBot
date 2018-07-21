@@ -139,5 +139,59 @@ namespace StatBot {
                 return ((string)(this["StatsUrl"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("snapme")]
+        public string SnapCommand {
+            get {
+                return ((string)(this["SnapCommand"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("unsnapme")]
+        public string UnsnapCommand {
+            get {
+                return ((string)(this["UnsnapCommand"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ThanosEventRole")]
+        public string ThanosEventRole {
+            get {
+                return ((string)(this["ThanosEventRole"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("TimeToSnap")]
+        public string SecretSnapCommand {
+            get {
+                return ((string)(this["SecretSnapCommand"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("OddSnap")]
+        public string OddSnapRole {
+            get {
+                return ((string)(this["OddSnapRole"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("EvenSnap")]
+        public string EvenSnapRole {
+            get {
+                return ((string)(this["EvenSnapRole"]));
+            }
+        }
     }
 }

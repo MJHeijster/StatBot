@@ -10,6 +10,7 @@
 //     Copyright ©  2017
 // </copyright>
 // ***********************************************************************
+using Discord;
 using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,19 @@ namespace StatBot
 {
     public static class CommandHandler
     {
-        private static readonly string commandExclude = Bot.Default.CommandExclude;
-        private static readonly string commandInclude = Bot.Default.CommandInclude;
-        private static readonly string statsCommand = Bot.Default.StatsCommand;
-        private static readonly string statsUrl = Bot.Default.StatsUrl;
         private static readonly string commandPrefix = Bot.Default.CommandPrefix;
-        private static readonly string nickFile = $"{Bot.Default.MircStatsPath}\\{Bot.Default.MircStatsNicksFile}";
-        private static readonly string nickSection = Bot.Default.NickSection;
+        private static readonly string oddSnapRoleString = Bot.Default.OddSnapRole;
+        private static readonly string evenSnapRoleString = Bot.Default.EvenSnapRole;
+        private static bool evenRole = true;
+        private static readonly string snapCommand = Bot.Default.SnapCommand;
+        private static readonly string unsnapCommand = Bot.Default.UnsnapCommand;
+        private static readonly string secretSnapCommand = Bot.Default.SecretSnapCommand;
+        private static readonly string thanosEventRoleString = Bot.Default.ThanosEventRole;
+        private static SocketRole oddSnapRole;
+        private static SocketRole evenSnapRole;
+        private static SocketRole thanosEventRole;
+
+
 
         /// <summary>
         /// Handles the commands that are available.
@@ -36,39 +43,57 @@ namespace StatBot
         /// <param name="command">The command.</param>
         /// <param name="user">The user who initiated the command.</param>
         /// <param name="channel">The channel.</param>
-        public static void HandleCommand(string command, string user, ISocketMessageChannel channel)
+        public static async void HandleCommand(string command, SocketUser user, ISocketMessageChannel channel)
         {
-            string excludeString = $"{user}; MODE=ISEXCLUDED";
-            string includeString = $"{user};";
+            var guild = (channel as SocketGuildChannel)?.Guild;
+            if (oddSnapRole == null ||
+                evenSnapRole == null)
+            {
+                oddSnapRole = guild.Roles.FirstOrDefault(x => x.Name == oddSnapRoleString);
+                evenSnapRole = guild.Roles.FirstOrDefault(x => x.Name == evenSnapRoleString);
+                thanosEventRole = guild.Roles.FirstOrDefault(x => x.Name == thanosEventRoleString);
+            }
             if (!string.IsNullOrEmpty(commandPrefix))
             {
-                if (!string.IsNullOrEmpty(commandExclude) && command == $"{commandPrefix}{commandExclude}")
+                if (!string.IsNullOrEmpty(unsnapCommand) && command == $"{commandPrefix}{unsnapCommand}")
                 {
-                    if (!File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
-                    {
-                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{excludeString}"));
-                    }
-                    if (!File.ReadLines(nickFile).Any(line => line.Contains(includeString)))
-                    {
-                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(includeString, string.Empty));
-                    }
+                    await (user as IGuildUser).RemoveRoleAsync(oddSnapRole);
+                    await (user as IGuildUser).RemoveRoleAsync(evenSnapRole);
+                    await (user as IGuildUser).RemoveRoleAsync(thanosEventRole);
+
                 }
-                if (!string.IsNullOrEmpty(commandInclude) && command == $"{commandPrefix}{commandInclude}")
+                if (!string.IsNullOrEmpty(snapCommand) && command == $"{commandPrefix}{snapCommand}")
                 {
-                    if (!File.ReadLines(nickFile).Any(line => line.Contains(includeString)))
+                    if (thanosEventRole != null)
+                    await (user as IGuildUser).AddRoleAsync(thanosEventRole);
+                    if (evenRole)
                     {
-                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{includeString}"));
+                        await (user as IGuildUser).AddRoleAsync(evenSnapRole);
+                        await (user as IGuildUser).RemoveRoleAsync(oddSnapRole);
+                        await channel.SendMessageAsync("You have been judged with a role.");
                     }
-                    if (!File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
+                    else
                     {
-                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(excludeString, string.Empty));
+                        await (user as IGuildUser).AddRoleAsync(oddSnapRole);
+                        await (user as IGuildUser).RemoveRoleAsync(evenSnapRole);
+                        await channel.SendMessageAsync("You have been judged with a role.");
                     }
+                    evenRole = !evenRole;
                 }
-                if (!string.IsNullOrEmpty(statsCommand) && !string.IsNullOrEmpty(statsUrl) && command == $"{commandPrefix}{statsCommand}")
+                if (!string.IsNullOrEmpty(secretSnapCommand) && command == $"{commandPrefix}{secretSnapCommand}")
                 {
-                    channel.SendMessageAsync(statsUrl);
+                    await channel.SendMessageAsync("Time to bring balance...");
+                    System.Threading.Thread.Sleep(5000);
+                    await channel.SendMessageAsync("The following role is snapped out of existence and you won't feel so good....");
+                    Random rand = new Random();
+                    if (rand.Next(0, 2) == 0)
+                        await channel.SendMessageAsync(MentionUtils.MentionRole(oddSnapRole.Id));
+                    else
+                        await channel.SendMessageAsync(MentionUtils.MentionRole(evenSnapRole.Id));
+                    throw new Exception("My work is done.");
                 }
             }
+
         }
     }
 }
