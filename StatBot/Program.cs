@@ -4,7 +4,7 @@
 // Created          : 12-11-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 22-02-2018
+// Last Modified On : 11-05-2022
 // ***********************************************************************
 // <copyright file="Program.cs" company="Jeroen Heijster">
 //     Copyright ©  2017
@@ -58,6 +58,16 @@ namespace StatBot
         private static Pushover pclient = new Pushover(Bot.Default.PushoverApi);
 
         /// <summary>
+        /// The delay before sending a disconnect/reconnect notification
+        /// </summary>
+        private static int notificationDelay = Bot.Default.NotificationDelay;
+
+        /// <summary>
+        /// A status on if discord is reconnecting
+        /// </summary>
+        private bool isReconnecting = false;
+
+        /// <summary>
         /// Defines the entry point of the application.
         /// </summary>
         static void Main() => new Program().MainAsync().GetAwaiter().GetResult();
@@ -92,23 +102,47 @@ namespace StatBot
         /// <param name="arg">The argument.</param>
         private async Task _client_Disconnected(Exception arg)
         {
-            LogMessage($"The connection to the server has been lost at {DateTime.Now}.");
-            while (_client.ConnectionState == ConnectionState.Disconnected)
+            if (!isReconnecting)
             {
-                var task = ReConnect();
-                if (await Task.WhenAny(task, Task.Delay(50000)) == task)
+                isReconnecting = true;
+                var disconnectTime = DateTime.Now;
+                _ = Task.Run(() => LogDisconnect(disconnectTime)).ConfigureAwait(false);
+                while (_client.ConnectionState == ConnectionState.Disconnected ||
+                    _client.ConnectionState == ConnectionState.Disconnecting)
                 {
-                    if ((_client.ConnectionState == ConnectionState.Connecting))
+                    var task = ReConnect();
+                    if (await Task.WhenAny(task, Task.Delay(50000)) == task)
                     {
-                        System.Threading.Thread.Sleep(10000);
+                        if ((_client.ConnectionState == ConnectionState.Connecting))
+                        {
+                            System.Threading.Thread.Sleep(10000);
+                        }
+                        if ((_client.ConnectionState == ConnectionState.Connected))
+                        {
+                            isReconnecting = false;
+                            if (DateTime.Now >= disconnectTime.AddMilliseconds(notificationDelay))
+                                LogMessage($"Reconnected with the server at {DateTime.Now}.");
+                            break;
+                        }
                     }
-                    if ((_client.ConnectionState == ConnectionState.Connected))
-                    {
-                        LogMessage($"Reconnected with the server at {DateTime.Now}.");
-                        break;
-                    }
+                    System.Threading.Thread.Sleep(5000);
                 }
-                System.Threading.Thread.Sleep(5000);
+            }
+        }
+
+        /// <summary>
+        /// Logs the disconnect.
+        /// </summary>
+        /// <param name="disconnectTime">The disconnect time.</param>
+        private void LogDisconnect(DateTime disconnectTime) {
+            if (notificationDelay <= 0) {
+                LogMessage($"The connection to the server has been lost at {disconnectTime}.");
+            }
+            else {
+                System.Threading.Thread.Sleep(notificationDelay);
+                if ((_client.ConnectionState != ConnectionState.Connected)) {
+                    LogMessage($"The connection to the server has been lost at {disconnectTime}.");
+                }
             }
         }
 
