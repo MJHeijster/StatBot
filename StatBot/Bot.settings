@@ -41,8 +41,8 @@
     <Setting Name="StatsUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="NotificationDelay" Type="System.Integer" Scope="Application">
-      <Value Profile="(Default)" />
+    <Setting Name="NotificationDelay" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">300000</Value>
     </Setting>
   </Settings>
 </SettingsFile>

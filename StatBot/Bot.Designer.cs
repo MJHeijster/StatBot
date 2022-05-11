@@ -142,9 +142,10 @@ namespace StatBot {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Int32 NotificationDelay {
+        [global::System.Configuration.DefaultSettingValueAttribute("300000")]
+        public int NotificationDelay {
             get {
-                return ((global::System.Int32)(this["NotificationDelay"]));
+                return ((int)(this["NotificationDelay"]));
             }
         }
     }
