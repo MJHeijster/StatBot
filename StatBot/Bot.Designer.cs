@@ -12,7 +12,7 @@ namespace StatBot {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
     public sealed partial class Bot : global::System.Configuration.ApplicationSettingsBase {
         
         private static Bot defaultInstance = ((Bot)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Bot())));
@@ -137,6 +137,14 @@ namespace StatBot {
         public string StatsUrl {
             get {
                 return ((string)(this["StatsUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Int32 NotificationDelay {
+            get {
+                return ((global::System.Int32)(this["NotificationDelay"]));
             }
         }
     }
