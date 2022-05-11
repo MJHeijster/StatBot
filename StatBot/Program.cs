@@ -130,6 +130,10 @@ namespace StatBot
             }
         }
 
+        /// <summary>
+        /// Logs the disconnect.
+        /// </summary>
+        /// <param name="disconnectTime">The disconnect time.</param>
         private void LogDisconnect(DateTime disconnectTime) {
             if (notificationDelay <= 0) {
                 LogMessage($"The connection to the server has been lost at {disconnectTime}.");
