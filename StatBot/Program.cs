@@ -63,6 +63,11 @@ namespace StatBot
         private static int notificationDelay = Bot.Default.NotificationDelay;
 
         /// <summary>
+        /// A status on if discord is reconnecting
+        /// </summary>
+        private bool isReconnecting = false;
+
+        /// <summary>
         /// Defines the entry point of the application.
         /// </summary>
         static void Main() => new Program().MainAsync().GetAwaiter().GetResult();
@@ -97,25 +102,31 @@ namespace StatBot
         /// <param name="arg">The argument.</param>
         private async Task _client_Disconnected(Exception arg)
         {
-            var disconnectTime = DateTime.Now;
-            _ = Task.Run(() => LogDisconnect(disconnectTime)).ConfigureAwait(false);
-            while (_client.ConnectionState == ConnectionState.Disconnected)
+            if (!isReconnecting)
             {
-                var task = ReConnect();
-                if (await Task.WhenAny(task, Task.Delay(50000)) == task)
+                isReconnecting = true;
+                var disconnectTime = DateTime.Now;
+                _ = Task.Run(() => LogDisconnect(disconnectTime)).ConfigureAwait(false);
+                while (_client.ConnectionState == ConnectionState.Disconnected ||
+                    _client.ConnectionState == ConnectionState.Disconnecting)
                 {
-                    if ((_client.ConnectionState == ConnectionState.Connecting))
+                    var task = ReConnect();
+                    if (await Task.WhenAny(task, Task.Delay(50000)) == task)
                     {
-                        System.Threading.Thread.Sleep(10000);
+                        if ((_client.ConnectionState == ConnectionState.Connecting))
+                        {
+                            System.Threading.Thread.Sleep(10000);
+                        }
+                        if ((_client.ConnectionState == ConnectionState.Connected))
+                        {
+                            isReconnecting = false;
+                            if (DateTime.Now >= disconnectTime.AddMilliseconds(notificationDelay))
+                                LogMessage($"Reconnected with the server at {DateTime.Now}.");
+                            break;
+                        }
                     }
-                    if ((_client.ConnectionState == ConnectionState.Connected))
-                    {
-                        if (DateTime.Now >= disconnectTime.AddMilliseconds(notificationDelay))
-                            LogMessage($"Reconnected with the server at {DateTime.Now}.");
-                        break;
-                    }
+                    System.Threading.Thread.Sleep(5000);
                 }
-                System.Threading.Thread.Sleep(5000);
             }
         }
 
