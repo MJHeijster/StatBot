@@ -196,6 +196,19 @@ namespace StatBot
                             textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {messageHandler.HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)} - {message.Attachments.FirstOrDefault().Url}";
                         }
                     }
+                    else if (message.Stickers != null &&
+                        message.Stickers.Count != 0)
+                    {
+                        if (string.IsNullOrEmpty(message.Content) ||
+                            message.Content == message.Stickers.FirstOrDefault().GetStickerUrl())
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Stickers.FirstOrDefault().GetStickerUrl()}";
+                        }
+                        else
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {messageHandler.HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)} - {message.Stickers.FirstOrDefault().GetStickerUrl()}";
+                        }
+                    }
                     else
                     {
                         textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {messageHandler.HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)}";
