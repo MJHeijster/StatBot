@@ -18,7 +18,9 @@ using System.Threading.Tasks;
 using Discord;
 using System.IO;
 using Discord.WebSocket;
-using PushoverClient;
+using NPushover;
+using NPushover.RequestObjects;
+using StatBot.Pushover;
 
 namespace StatBot
 {
@@ -51,11 +53,11 @@ namespace StatBot
         /// The use pushover or not
         /// </summary>
         private static bool usePushover = !(string.IsNullOrEmpty(Bot.Default.PushoverApi) || string.IsNullOrEmpty(Bot.Default.PushoverUserKey));
-        
+
         /// <summary>
-        /// The pushover client
+        /// The pushover user key
         /// </summary>
-        private static Pushover pclient = new Pushover(Bot.Default.PushoverApi);
+        private static string pushoverUserKey = Bot.Default.PushoverUserKey;
 
         /// <summary>
         /// The delay before sending a disconnect/reconnect notification
@@ -66,6 +68,8 @@ namespace StatBot
         /// A status on if discord is reconnecting
         /// </summary>
         private bool isReconnecting = false;
+
+        private PushoverMessageHandler pushoverMessageHandler;
 
         /// <summary>
         /// Defines the entry point of the application.
@@ -84,8 +88,12 @@ namespace StatBot
 
             _client.MessageReceived += MessageReceived;
             _client.Disconnected += _client_Disconnected;
+            if (usePushover)
+            {
+                pushoverMessageHandler = new PushoverMessageHandler(Bot.Default.PushoverApi, pushoverUserKey);
 
-            await _client.LoginAsync(TokenType.Bot, Bot.Default.Token);
+            }
+                await _client.LoginAsync(TokenType.Bot, Bot.Default.Token);
             await _client.StartAsync();
 
             messageHandler = new MessageHandler(_client);
@@ -254,11 +262,7 @@ namespace StatBot
             }
             if (usePushover)
             {
-                PushResponse response = pclient.Push(
-              "Statbot",
-              message,
-              Bot.Default.PushoverUserKey
-          );
+                pushoverMessageHandler.PushMessage(message);
             }
         }
     }
