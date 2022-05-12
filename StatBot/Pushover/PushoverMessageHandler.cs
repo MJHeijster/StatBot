@@ -1,4 +1,16 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : StatBot
+// Author           : Jeroen Heijster
+// Created          : 12-05-2022
+//
+// Last Modified By : Jeroen Heijster
+// Last Modified On : 13-05-2022
+// ***********************************************************************
+// <copyright file="Program.cs" company="Jeroen Heijster">
+//     Copyright ©  2017
+// </copyright>
+// ***********************************************************************
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;

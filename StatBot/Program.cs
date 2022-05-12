@@ -4,7 +4,7 @@
 // Created          : 12-11-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 11-05-2022
+// Last Modified On : 13-05-2022
 // ***********************************************************************
 // <copyright file="Program.cs" company="Jeroen Heijster">
 //     Copyright ©  2017
@@ -18,8 +18,6 @@ using System.Threading.Tasks;
 using Discord;
 using System.IO;
 using Discord.WebSocket;
-using NPushover;
-using NPushover.RequestObjects;
 using StatBot.Pushover;
 
 namespace StatBot
