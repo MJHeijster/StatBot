@@ -14,10 +14,13 @@
 using CSharpVerbalExpressions;
 using Discord.WebSocket;
 using StatBot.Settings;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace StatBot
 {
@@ -30,43 +33,53 @@ namespace StatBot
         /// The bot settings
         /// </summary>
         private static BotSettings _botSettings;
+
         /// <summary>
         /// The command prefix
         /// </summary>
         private readonly string commandPrefix;
+
         //example: <:phew:19095755581184>
         /// <summary>
         /// The emoji expression
         /// </summary>
-        private readonly VerbalExpressions emojiExpression = new VerbalExpressions().StartOfLine().Anything().Then("<:").Anything().Then(":").Anything();
+        private readonly VerbalExpressions emojiExpression = new VerbalExpressions().StartOfLine().Anything().Then("<:").Anything().Then(":").Anything().Then(">").Anything();
+
         //example: <a:phew:19095755581184>
         /// <summary>
         /// The animated emoji expression
         /// </summary>
-        private readonly VerbalExpressions animatedEmojiExpression = new VerbalExpressions().StartOfLine().Anything().Then("<a:").Anything().Then(":").Anything();
+        private readonly VerbalExpressions animatedEmojiExpression = new VerbalExpressions().StartOfLine().Anything().Then("<a:").Anything().Then(":").Anything().Then(">").Anything();
+
         //example: <@19095755581184>
         /// <summary>
         /// The user mention expression
         /// </summary>
         private readonly VerbalExpressions userMentionExpression = new VerbalExpressions().StartOfLine().Anything().Then("<@").Anything().Then(">").Anything();
+
         //example: <#19095755581184>
         /// <summary>
         /// The channel expression
         /// </summary>
         private readonly VerbalExpressions channelExpression = new VerbalExpressions().StartOfLine().Anything().Then("<#").Anything().Then(">").Anything();
+
         //example: !command
         /// <summary>
         /// The command expression
         /// </summary>
         private readonly VerbalExpressions commandExpression;
+
         /// <summary>
         /// The client
         /// </summary>
         internal DiscordSocketClient _client;
+
         /// <summary>
         /// The command handler
         /// </summary>
         private CommandHandler _commandHandler;
+
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageHandler" /> class.
@@ -80,6 +93,69 @@ namespace StatBot
             _commandHandler = new CommandHandler(botSettings);
             commandPrefix = _botSettings.Discord.Commands.Prefix;
             commandExpression = new VerbalExpressions().StartOfLine().Then(commandPrefix).Anything();
+        }
+
+        /// <summary>
+        /// Handles the received message
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>Task.</returns>
+        public Task MessageReceived(SocketMessage message)
+        {
+            var file = FileHelper.CheckAndGetFilePath(message);
+            if (!message.Author.IsBot)
+            {
+                using (StreamWriter text = File.AppendText(file))
+                {
+                    string textMessage = string.Empty;
+                    if (message.Embeds != null &&
+                        message.Embeds.Count != 0)
+                    {
+                        if (string.IsNullOrEmpty(message.Content) ||
+                            message.Content == message.Embeds.FirstOrDefault().Url)
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
+                        }
+                        else
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)} - {message.Embeds.FirstOrDefault().Url}";
+                        }
+                    }
+                    else if (message.Attachments != null &&
+                        message.Attachments.Count != 0)
+                    {
+                        if ((string.IsNullOrEmpty(message.Content) ||
+                            message.Content == message.Attachments.FirstOrDefault().Url) && message.Embeds.Any())
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
+                        }
+                        else
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)} - {message.Attachments.FirstOrDefault().Url}";
+                        }
+                    }
+                    else if (message.Stickers != null &&
+                        message.Stickers.Count != 0)
+                    {
+                        if (string.IsNullOrEmpty(message.Content) ||
+                            message.Content == message.Stickers.FirstOrDefault().GetStickerUrl())
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Stickers.FirstOrDefault().GetStickerUrl()}";
+                        }
+                        else
+                        {
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)} - {message.Stickers.FirstOrDefault().GetStickerUrl()}";
+                        }
+                    }
+                    else
+                    {
+                        textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)}";
+                    }
+                    text.WriteLine(textMessage);
+                    Console.WriteLine($"#{message.Channel} - {textMessage}");
+                }
+            }
+            return null;
         }
 
         /// <summary>
