@@ -6,21 +6,19 @@
 // Last Modified By : Jeroen Heijster
 // Last Modified On : 13-05-2022
 // ***********************************************************************
-// <copyright file="Program.cs" company="Jeroen Heijster">
+// <copyright file="PushoverMessageHandler.cs">
 //     Copyright ©  2017
 // </copyright>
+// <summary></summary>
 // ***********************************************************************
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StatBot.PushoverMessaging
 {
+    /// <summary>
+    /// Class PushoverMessageHandler.
+    /// </summary>
     internal class PushoverMessageHandler
     {
         /// <summary>
@@ -32,7 +30,7 @@ namespace StatBot.PushoverMessaging
         /// </summary>
         private string PushoverUserKey;
         /// <summary>
-        /// Initializes a new instance of the <see cref="PushoverMessageHandler"/> class.
+        /// Initializes a new instance of the <see cref="PushoverMessageHandler" /> class.
         /// </summary>
         /// <param name="pushoverApi">The pushover API.</param>
         /// <param name="pushoverUserKey">The pushover user key.</param>

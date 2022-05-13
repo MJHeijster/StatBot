@@ -6,22 +6,16 @@
 // Last Modified By : Jeroen Heijster
 // Last Modified On : 13-05-2022
 // ***********************************************************************
-// <copyright file="Program.cs" company="Jeroen Heijster">
+// <copyright file="Program.cs">
 //     Copyright ©  2017
 // </copyright>
+// <summary></summary>
 // ***********************************************************************
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Discord;
-using System.IO;
-using Discord.WebSocket;
-using StatBot.PushoverMessaging;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Threading.Tasks;
 
 namespace StatBot
 {
@@ -39,7 +33,7 @@ namespace StatBot
         /// Starts the application
         /// </summary>
         /// <returns>The task.</returns>
-        public async Task MainAsync()
+        public Task MainAsync()
         {
             Console.WriteLine("Starting...");
             var host = CreateDefaultBuilder().Build();
@@ -48,10 +42,13 @@ namespace StatBot
             var workerInstance = provider.GetRequiredService<Worker>();
             workerInstance.DoWork();
             host.Run();
-            
-
+            return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// Creates the default builder.
+        /// </summary>
+        /// <returns>IHostBuilder.</returns>
         static IHostBuilder CreateDefaultBuilder()
         {
             return Host.CreateDefaultBuilder()

@@ -4,16 +4,16 @@
 // Created          : 12-12-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 22-02-2018
+// Last Modified On : 13-05-2022
 // ***********************************************************************
-// <copyright file="MessageHandler.cs" company="Jeroen Heijster">
+// <copyright file="MessageHandler.cs">
 //     Copyright ©  2017
 // </copyright>
+// <summary></summary>
 // ***********************************************************************
 using CSharpVerbalExpressions;
 using Discord.WebSocket;
 using StatBot.Settings;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,27 +21,58 @@ using System.Text.RegularExpressions;
 
 namespace StatBot
 {
+    /// <summary>
+    /// Class MessageHandler.
+    /// </summary>
     public class MessageHandler
     {
+        /// <summary>
+        /// The bot settings
+        /// </summary>
         private static BotSettings _botSettings;
+        /// <summary>
+        /// The command prefix
+        /// </summary>
         private readonly string commandPrefix;
         //example: <:phew:19095755581184>
+        /// <summary>
+        /// The emoji expression
+        /// </summary>
         private readonly VerbalExpressions emojiExpression = new VerbalExpressions().StartOfLine().Anything().Then("<:").Anything().Then(":").Anything();
         //example: <a:phew:19095755581184>
+        /// <summary>
+        /// The animated emoji expression
+        /// </summary>
         private readonly VerbalExpressions animatedEmojiExpression = new VerbalExpressions().StartOfLine().Anything().Then("<a:").Anything().Then(":").Anything();
         //example: <@19095755581184>
+        /// <summary>
+        /// The user mention expression
+        /// </summary>
         private readonly VerbalExpressions userMentionExpression = new VerbalExpressions().StartOfLine().Anything().Then("<@").Anything().Then(">").Anything();
         //example: <#19095755581184>
+        /// <summary>
+        /// The channel expression
+        /// </summary>
         private readonly VerbalExpressions channelExpression = new VerbalExpressions().StartOfLine().Anything().Then("<#").Anything().Then(">").Anything();
         //example: !command
+        /// <summary>
+        /// The command expression
+        /// </summary>
         private readonly VerbalExpressions commandExpression;
+        /// <summary>
+        /// The client
+        /// </summary>
         internal DiscordSocketClient _client;
+        /// <summary>
+        /// The command handler
+        /// </summary>
         private CommandHandler _commandHandler;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageHandler"/> class.
+        /// Initializes a new instance of the <see cref="MessageHandler" /> class.
         /// </summary>
         /// <param name="client">The Discord client.</param>
+        /// <param name="botSettings">The bot settings.</param>
         public MessageHandler(DiscordSocketClient client, BotSettings botSettings)
         {
             _client = client;

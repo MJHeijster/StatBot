@@ -4,11 +4,12 @@
 // Created          : 12-11-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 17-02-2018
+// Last Modified On : 13-05-2022
 // ***********************************************************************
-// <copyright file="FileHelper.cs" company="Jeroen Heijster">
+// <copyright file="FileHelper.cs">
 //     Copyright ©  2017
 // </copyright>
+// <summary></summary>
 // ***********************************************************************
 using Discord.WebSocket;
 using StatBot.Settings;
@@ -18,16 +19,32 @@ using System.IO;
 
 namespace StatBot
 {
+    /// <summary>
+    /// Class FileHelper.
+    /// </summary>
     public class FileHelper
     {
+        /// <summary>
+        /// The bot settings
+        /// </summary>
         private static BotSettings _botSettings;
         /// <summary>
         /// The log files
         /// </summary>
         static List<LogFile> logFiles = new List<LogFile>();
+        /// <summary>
+        /// The logging file type
+        /// </summary>
         static bool loggingFileType;
+        /// <summary>
+        /// The single log file
+        /// </summary>
         static bool singleLogFile;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileHelper" /> class.
+        /// </summary>
+        /// <param name="botSettings">The bot settings.</param>
         public FileHelper(BotSettings botSettings)
         {
             _botSettings = botSettings;

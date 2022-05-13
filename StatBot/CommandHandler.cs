@@ -4,11 +4,12 @@
 // Created          : 01-13-2018
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 17-02-2018
+// Last Modified On : 13-05-2022
 // ***********************************************************************
-// <copyright file="CommandHandler.cs" company="Jeroen Heijster">
+// <copyright file="CommandHandler.cs">
 //     Copyright ©  2017
 // </copyright>
+// <summary></summary>
 // ***********************************************************************
 using Discord.WebSocket;
 using StatBot.Settings;
@@ -21,16 +22,47 @@ using System.Threading.Tasks;
 
 namespace StatBot
 {
+    /// <summary>
+    /// Class CommandHandler.
+    /// </summary>
     public class CommandHandler
     {
+        /// <summary>
+        /// The bot settings
+        /// </summary>
         private static BotSettings _botSettings;
+        /// <summary>
+        /// The command exclude
+        /// </summary>
         private readonly string commandExclude;
+        /// <summary>
+        /// The command include
+        /// </summary>
         private readonly string commandInclude;
+        /// <summary>
+        /// The stats command
+        /// </summary>
         private readonly string statsCommand;
+        /// <summary>
+        /// The stats URL
+        /// </summary>
         private readonly string statsUrl;
+        /// <summary>
+        /// The command prefix
+        /// </summary>
         private readonly string commandPrefix;
+        /// <summary>
+        /// The nick file
+        /// </summary>
         private readonly string nickFile;
+        /// <summary>
+        /// The nick section
+        /// </summary>
         private readonly string nickSection;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandHandler" /> class.
+        /// </summary>
+        /// <param name="botSettings">The bot settings.</param>
         public CommandHandler(BotSettings botSettings)
         {
             _botSettings = botSettings;

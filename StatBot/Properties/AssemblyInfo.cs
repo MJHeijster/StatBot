@@ -1,4 +1,17 @@
-﻿using System.Reflection;
+﻿// ***********************************************************************
+// Assembly         : StatBot
+// Author           : Jeroen Heijster
+// Created          : 05-11-2022
+//
+// Last Modified By : Jeroen Heijster
+// Last Modified On : 13-05-2022
+// ***********************************************************************
+// <copyright file="AssemblyInfo.cs">
+//     Copyright ©  2022
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 

@@ -1,20 +1,40 @@
-﻿using Discord;
+﻿// ***********************************************************************
+// Assembly         : StatBot
+// Author           : Jeroen Heijster
+// Created          : 05-13-2022
+//
+// Last Modified By : Jeroen Heijster
+// Last Modified On : 13-05-2022
+// ***********************************************************************
+// <copyright file="Worker.cs">
+//     Copyright ©  2022
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using StatBot.PushoverMessaging;
 using StatBot.Settings;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StatBot
 {
+    /// <summary>
+    /// Class Worker.
+    /// </summary>
     internal class Worker
     {
+        /// <summary>
+        /// The bot settings
+        /// </summary>
         private BotSettings botSettings;
+        /// <summary>
+        /// The configuration
+        /// </summary>
         private readonly IConfiguration configuration;
         /// <summary>
         /// The Discord client
@@ -29,17 +49,27 @@ namespace StatBot
         /// A status on if discord is reconnecting
         /// </summary>
         private bool isReconnecting = false;
+        /// <summary>
+        /// The pushover message handler
+        /// </summary>
         private PushoverMessageHandler pushoverMessageHandler;
         /// <summary>
         /// The channel identifier
         /// </summary>
         private static ulong channelId = 0;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Worker" /> class.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
         public Worker(IConfiguration configuration)
         {
             this.configuration = configuration;
 
         }
+        /// <summary>
+        /// Does the work.
+        /// </summary>
         public void DoWork()
         {
             botSettings = new BotSettings(configuration);
@@ -131,6 +161,7 @@ namespace StatBot
         /// Handles the received message
         /// </summary>
         /// <param name="message">The message.</param>
+        /// <returns>Task.</returns>
         private Task MessageReceived(SocketMessage message)
         {
             var file = FileHelper.CheckAndGetFilePath(message);
