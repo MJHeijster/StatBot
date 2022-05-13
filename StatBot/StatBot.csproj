@@ -26,7 +26,23 @@
     <SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
     <StartupObject>StatBot.Program</StartupObject>
   </PropertyGroup>
-  <ItemGroup>
+	<PropertyGroup>
+		<!-- beauty into sub-directory, default is libs, quote with "" if contains space  -->
+		<BeautyLibsDir>libraries</BeautyLibsDir>
+		<!-- dlls that you don't want to be moved or can not be moved -->
+		<!-- <BeautyExcludes>dll1.dll;lib*;...</BeautyExcludes> -->
+		<!-- dlls that end users never needed, so hide them -->
+		<!-- <BeautyHiddens>hostfxr;hostpolicy;*.deps.json;*.runtimeconfig*.json</BeautyHiddens> -->
+		<!-- set to True if you want to disable -->
+		<DisableBeauty>False</DisableBeauty>
+		<!-- set to True if you want to allow 3rd debuggers(like dnSpy) debugs the app -->
+		<BeautyEnableDebugging>False</BeautyEnableDebugging>
+		<!-- <BeautyAfterTasks></BeautyAfterTasks> -->
+		<!-- valid values: Error|Detail|Info -->
+		<BeautyLogLevel>Info</BeautyLogLevel>
+	</PropertyGroup>
+
+	<ItemGroup>
     <Reference Include="System.configuration" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Windows" />
@@ -132,6 +148,7 @@
     <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
     <PackageReference Include="VerbalExpressions-official" Version="0.1.0" />
     <PackageReference Include="WebSocket4Net" Version="0.15.2" />
+	  <PackageReference Include="nulastudio.NetCoreBeauty" Version="1.2.9.3" />
   </ItemGroup>
   <Target Name="AfterBuild">
     <ItemGroup>
