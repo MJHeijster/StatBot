@@ -15,10 +15,11 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StatBot.Pushover
+namespace StatBot.PushoverMessaging
 {
     internal class PushoverMessageHandler
     {
@@ -44,17 +45,23 @@ namespace StatBot.Pushover
         /// Pushes the message.
         /// </summary>
         /// <param name="message">The message.</param>
-        public void PushMessage(string message)
+        public async void PushMessage(string message)
         {
-            var parameters = new NameValueCollection {
-            { "token", PushoverApi },
-            { "user", PushoverUserKey },
-            { "message", message }
-};
-
-            using (var client = new WebClient())
+            using (HttpClient httpClient = new HttpClient())
             {
-                client.UploadValues("https://api.pushover.net/1/messages.json", parameters);
+                //specify to use TLS 1.2 as default connection
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+                MultipartFormDataContent form = new MultipartFormDataContent();
+                form.Add(new StringContent(PushoverApi), "\"token\"");
+                form.Add(new StringContent(PushoverUserKey), "\"user\"");
+                form.Add(new StringContent(message), "\"message\"");
+                // Remove content type that is not in the docs
+                foreach (var param in form)
+                    param.Headers.ContentType = null;
+
+                await httpClient.PostAsync("https://api.pushover.net/1/messages.json", form);
+                
             }
         }
         

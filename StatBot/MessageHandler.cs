@@ -12,6 +12,7 @@
 // ***********************************************************************
 using CSharpVerbalExpressions;
 using Discord.WebSocket;
+using StatBot.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,8 @@ namespace StatBot
 {
     public class MessageHandler
     {
-        private static readonly string commandPrefix = Bot.Default.CommandPrefix;
+        private static BotSettings _botSettings;
+        private readonly string commandPrefix;
         //example: <:phew:19095755581184>
         private readonly VerbalExpressions emojiExpression = new VerbalExpressions().StartOfLine().Anything().Then("<:").Anything().Then(":").Anything();
         //example: <a:phew:19095755581184>
@@ -32,16 +34,21 @@ namespace StatBot
         //example: <#19095755581184>
         private readonly VerbalExpressions channelExpression = new VerbalExpressions().StartOfLine().Anything().Then("<#").Anything().Then(">").Anything();
         //example: !command
-        private readonly VerbalExpressions commandExpression = new VerbalExpressions().StartOfLine().Then(commandPrefix).Anything();
+        private readonly VerbalExpressions commandExpression;
         internal DiscordSocketClient _client;
+        private CommandHandler _commandHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageHandler"/> class.
         /// </summary>
         /// <param name="client">The Discord client.</param>
-        public MessageHandler(DiscordSocketClient client)
+        public MessageHandler(DiscordSocketClient client, BotSettings botSettings)
         {
             _client = client;
+            _botSettings = botSettings;
+            _commandHandler = new CommandHandler(botSettings);
+            commandPrefix = _botSettings.Discord.Commands.Prefix;
+            commandExpression = new VerbalExpressions().StartOfLine().Then(commandPrefix).Anything();
         }
 
         /// <summary>
@@ -68,7 +75,7 @@ namespace StatBot
                     if (firstPart &&
                         commandExpression.IsMatch(messagePart))
                     {
-                        CommandHandler.HandleCommand(messagePart, userName, channel);
+                        _commandHandler.HandleCommand(messagePart, userName, channel);
                     }
                     if (emojiExpression.IsMatch(messagePart) ||
                         animatedEmojiExpression.IsMatch(messagePart))

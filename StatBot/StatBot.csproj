@@ -25,24 +25,10 @@
     <ApplicationIcon>statbot.ico</ApplicationIcon>
     <SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
     <StartupObject>StatBot.Program</StartupObject>
+    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
-	<PropertyGroup>
-		<!-- beauty into sub-directory, default is libs, quote with "" if contains space  -->
-		<BeautyLibsDir>libraries</BeautyLibsDir>
-		<!-- dlls that you don't want to be moved or can not be moved -->
-		<!-- <BeautyExcludes>dll1.dll;lib*;...</BeautyExcludes> -->
-		<!-- dlls that end users never needed, so hide them -->
-		<!-- <BeautyHiddens>hostfxr;hostpolicy;*.deps.json;*.runtimeconfig*.json</BeautyHiddens> -->
-		<!-- set to True if you want to disable -->
-		<DisableBeauty>False</DisableBeauty>
-		<!-- set to True if you want to allow 3rd debuggers(like dnSpy) debugs the app -->
-		<BeautyEnableDebugging>False</BeautyEnableDebugging>
-		<!-- <BeautyAfterTasks></BeautyAfterTasks> -->
-		<!-- valid values: Error|Detail|Info -->
-		<BeautyLogLevel>Info</BeautyLogLevel>
-	</PropertyGroup>
-
-	<ItemGroup>
+	
+    <ItemGroup>
     <Reference Include="System.configuration" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Windows" />
@@ -75,8 +61,11 @@
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="6.0.3" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -148,15 +137,16 @@
     <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
     <PackageReference Include="VerbalExpressions-official" Version="0.1.0" />
     <PackageReference Include="WebSocket4Net" Version="0.15.2" />
-	  <PackageReference Include="nulastudio.NetCoreBeauty" Version="1.2.9.3" />
   </ItemGroup>
-  <Target Name="AfterBuild">
-    <ItemGroup>
-      <MoveToLibFolder Include="$(OutputPath)*.dll ; $(OutputPath)*.pdb ; $(OutputPath)*.xml" />
-    </ItemGroup>
-    <Copy SourceFiles="@(MoveToLibFolder)" DestinationFolder="$(OutputPath)lib" OverwriteReadOnlyFiles="true" />
-    <Delete Files="@(MoveToLibFolder)" />
-  </Target>
+  <ItemGroup>
+    <None Update="appsettings.dev.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <Import Project="..\packages\System.Text.Json.6.0.4\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.4\build\System.Text.Json.targets')" />
+
 </Project>

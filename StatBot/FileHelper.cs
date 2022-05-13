@@ -11,20 +11,29 @@
 // </copyright>
 // ***********************************************************************
 using Discord.WebSocket;
+using StatBot.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace StatBot
 {
-    public static class FileHelper
+    public class FileHelper
     {
+        private static BotSettings _botSettings;
         /// <summary>
         /// The log files
         /// </summary>
         static List<LogFile> logFiles = new List<LogFile>();
-        static bool loggingFileType = Bot.Default.LoggingFileName == "channelname";
-        static bool singleLogFile = Bot.Default.LoggingFileName == "single";
+        static bool loggingFileType;
+        static bool singleLogFile;
+
+        public FileHelper(BotSettings botSettings)
+        {
+            _botSettings = botSettings;
+            loggingFileType = _botSettings.Application.LoggingFileName == "channelname";
+            singleLogFile = _botSettings.Application.LoggingFileName == "single";
+        }
 
         /// <summary>
         /// Checks and gets file path.

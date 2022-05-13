@@ -11,6 +11,7 @@
 // </copyright>
 // ***********************************************************************
 using Discord.WebSocket;
+using StatBot.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,23 +21,34 @@ using System.Threading.Tasks;
 
 namespace StatBot
 {
-    public static class CommandHandler
+    public class CommandHandler
     {
-        private static readonly string commandExclude = Bot.Default.CommandExclude;
-        private static readonly string commandInclude = Bot.Default.CommandInclude;
-        private static readonly string statsCommand = Bot.Default.StatsCommand;
-        private static readonly string statsUrl = Bot.Default.StatsUrl;
-        private static readonly string commandPrefix = Bot.Default.CommandPrefix;
-        private static readonly string nickFile = $"{Bot.Default.MircStatsPath}\\{Bot.Default.MircStatsNicksFile}";
-        private static readonly string nickSection = Bot.Default.NickSection;
-
+        private static BotSettings _botSettings;
+        private readonly string commandExclude;
+        private readonly string commandInclude;
+        private readonly string statsCommand;
+        private readonly string statsUrl;
+        private readonly string commandPrefix;
+        private readonly string nickFile;
+        private readonly string nickSection;
+        public CommandHandler(BotSettings botSettings)
+        {
+            _botSettings = botSettings;
+            commandExclude = _botSettings.Discord.Commands.Exclude;
+            commandInclude = _botSettings.Discord.Commands.Include;
+            statsCommand = _botSettings.Discord.Commands.Stats.Command;
+            statsUrl = _botSettings.Discord.Commands.Stats.Url;
+            commandPrefix = _botSettings.Discord.Commands.Prefix;
+            nickFile = $"{_botSettings.mIRCStats.Path}\\{_botSettings.mIRCStats.NicksFile}";
+            nickSection = _botSettings.mIRCStats.NickSection;
+        }
         /// <summary>
         /// Handles the commands that are available.
         /// </summary>
         /// <param name="command">The command.</param>
         /// <param name="user">The user who initiated the command.</param>
         /// <param name="channel">The channel.</param>
-        public static void HandleCommand(string command, string user, ISocketMessageChannel channel)
+        public void HandleCommand(string command, string user, ISocketMessageChannel channel)
         {
             string excludeString = $"{user}; MODE=ISEXCLUDED";
             string includeString = $"{user};";
