@@ -7,7 +7,7 @@
 // Last Modified On : 13-05-2022
 // ***********************************************************************
 // <copyright file="PushoverMessageHandler.cs">
-//     Copyright ©  2017
+//     Copyright ©  2022
 // </copyright>
 // <summary></summary>
 // ***********************************************************************

@@ -4,10 +4,10 @@
 // Created          : 01-13-2018
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 13-05-2022
+// Last Modified On : 14-05-2022
 // ***********************************************************************
 // <copyright file="CommandHandler.cs">
-//     Copyright ©  2017
+//     Copyright ©  2022
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
@@ -20,17 +20,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StatBot
+namespace StatBot.Handlers
 {
     /// <summary>
     /// Class CommandHandler.
     /// </summary>
     public class CommandHandler
     {
-        /// <summary>
-        /// The bot settings
-        /// </summary>
-        private static BotSettings _botSettings;
         /// <summary>
         /// The command exclude
         /// </summary>
@@ -65,14 +61,13 @@ namespace StatBot
         /// <param name="botSettings">The bot settings.</param>
         public CommandHandler(BotSettings botSettings)
         {
-            _botSettings = botSettings;
-            commandExclude = _botSettings.Discord.Commands.Exclude;
-            commandInclude = _botSettings.Discord.Commands.Include;
-            statsCommand = _botSettings.Discord.Commands.Stats.Command;
-            statsUrl = _botSettings.Discord.Commands.Stats.Url;
-            commandPrefix = _botSettings.Discord.Commands.Prefix;
-            nickFile = $"{_botSettings.mIRCStats.Path}\\{_botSettings.mIRCStats.NicksFile}";
-            nickSection = _botSettings.mIRCStats.NickSection;
+            commandExclude = botSettings.Discord.Commands.Exclude;
+            commandInclude = botSettings.Discord.Commands.Include;
+            statsCommand = botSettings.Discord.Commands.Stats.Command;
+            statsUrl = botSettings.Discord.Commands.Stats.Url;
+            commandPrefix = botSettings.Discord.Commands.Prefix;
+            nickFile = $"{botSettings.mIRCStats.Path}\\{botSettings.mIRCStats.NicksFile}";
+            nickSection = botSettings.mIRCStats.NickSection;
         }
         /// <summary>
         /// Handles the commands that are available.
