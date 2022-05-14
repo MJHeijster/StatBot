@@ -4,16 +4,20 @@
 // Created          : 12-11-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 11-12-2017
+// Last Modified On : 13-05-2022
 // ***********************************************************************
-// <copyright file="LogFile.cs" company="Jeroen Heijster">
-//     Copyright ©  2017
+// <copyright file="LogFile.cs">
+//     Copyright ©  2022
 // </copyright>
+// <summary></summary>
 // ***********************************************************************
 using Discord;
 
-namespace StatBot
+namespace StatBot.Classes
 {
+    /// <summary>
+    /// Class LogFile.
+    /// </summary>
     public class LogFile
     {
         /// <summary>
@@ -29,9 +33,9 @@ namespace StatBot
         public IChannel Channel { get; set; }
 
         /// <summary>
-        /// Gets or sets the folder structure.
+        /// Gets or sets the folder.
         /// </summary>
-        /// <value>The folder structure.</value>
+        /// <value>The folder.</value>
         public string Folder { get; set; }
 
         /// <summary>

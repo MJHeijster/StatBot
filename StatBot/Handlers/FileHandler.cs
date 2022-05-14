@@ -4,27 +4,54 @@
 // Created          : 12-11-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 17-02-2018
+// Last Modified On : 13-05-2022
 // ***********************************************************************
-// <copyright file="FileHelper.cs" company="Jeroen Heijster">
+// <copyright file="FileHelper.cs">
 //     Copyright ©  2017
 // </copyright>
+// <summary></summary>
 // ***********************************************************************
 using Discord.WebSocket;
+using StatBot.Classes;
+using StatBot.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace StatBot
+namespace StatBot.Handlers
 {
-    public static class FileHelper
+    /// <summary>
+    /// Class FileHelper.
+    /// </summary>
+    public class FileHandler
     {
+        /// <summary>
+        /// The bot settings
+        /// </summary>
+        private static BotSettings _botSettings;
         /// <summary>
         /// The log files
         /// </summary>
         static List<LogFile> logFiles = new List<LogFile>();
-        static bool loggingFileType = Bot.Default.LoggingFileName == "channelname";
-        static bool singleLogFile = Bot.Default.LoggingFileName == "single";
+        /// <summary>
+        /// The logging file type
+        /// </summary>
+        static bool loggingFileType;
+        /// <summary>
+        /// The single log file
+        /// </summary>
+        static bool singleLogFile;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileHandler" /> class.
+        /// </summary>
+        /// <param name="botSettings">The bot settings.</param>
+        public FileHandler(BotSettings botSettings)
+        {
+            _botSettings = botSettings;
+            loggingFileType = _botSettings.Application.LoggingFileName == "channelname";
+            singleLogFile = _botSettings.Application.LoggingFileName == "single";
+        }
 
         /// <summary>
         /// Checks and gets file path.

@@ -4,13 +4,15 @@
 // Created          : 01-13-2018
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 17-02-2018
+// Last Modified On : 14-05-2022
 // ***********************************************************************
-// <copyright file="CommandHandler.cs" company="Jeroen Heijster">
-//     Copyright ©  2017
+// <copyright file="CommandHandler.cs">
+//     Copyright ©  2022
 // </copyright>
+// <summary></summary>
 // ***********************************************************************
 using Discord.WebSocket;
+using StatBot.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,25 +20,62 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StatBot
+namespace StatBot.Handlers
 {
-    public static class CommandHandler
+    /// <summary>
+    /// Class CommandHandler.
+    /// </summary>
+    public class CommandHandler
     {
-        private static readonly string commandExclude = Bot.Default.CommandExclude;
-        private static readonly string commandInclude = Bot.Default.CommandInclude;
-        private static readonly string statsCommand = Bot.Default.StatsCommand;
-        private static readonly string statsUrl = Bot.Default.StatsUrl;
-        private static readonly string commandPrefix = Bot.Default.CommandPrefix;
-        private static readonly string nickFile = $"{Bot.Default.MircStatsPath}\\{Bot.Default.MircStatsNicksFile}";
-        private static readonly string nickSection = Bot.Default.NickSection;
-
+        /// <summary>
+        /// The command exclude
+        /// </summary>
+        private readonly string commandExclude;
+        /// <summary>
+        /// The command include
+        /// </summary>
+        private readonly string commandInclude;
+        /// <summary>
+        /// The stats command
+        /// </summary>
+        private readonly string statsCommand;
+        /// <summary>
+        /// The stats URL
+        /// </summary>
+        private readonly string statsUrl;
+        /// <summary>
+        /// The command prefix
+        /// </summary>
+        private readonly string commandPrefix;
+        /// <summary>
+        /// The nick file
+        /// </summary>
+        private readonly string nickFile;
+        /// <summary>
+        /// The nick section
+        /// </summary>
+        private readonly string nickSection;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandHandler" /> class.
+        /// </summary>
+        /// <param name="botSettings">The bot settings.</param>
+        public CommandHandler(BotSettings botSettings)
+        {
+            commandExclude = botSettings.Discord.Commands.Exclude;
+            commandInclude = botSettings.Discord.Commands.Include;
+            statsCommand = botSettings.Discord.Commands.Stats.Command;
+            statsUrl = botSettings.Discord.Commands.Stats.Url;
+            commandPrefix = botSettings.Discord.Commands.Prefix;
+            nickFile = $"{botSettings.mIRCStats.Path}\\{botSettings.mIRCStats.NicksFile}";
+            nickSection = botSettings.mIRCStats.NickSection;
+        }
         /// <summary>
         /// Handles the commands that are available.
         /// </summary>
         /// <param name="command">The command.</param>
         /// <param name="user">The user who initiated the command.</param>
         /// <param name="channel">The channel.</param>
-        public static void HandleCommand(string command, string user, ISocketMessageChannel channel)
+        public void HandleCommand(string command, string user, ISocketMessageChannel channel)
         {
             string excludeString = $"{user}; MODE=ISEXCLUDED";
             string includeString = $"{user};";
