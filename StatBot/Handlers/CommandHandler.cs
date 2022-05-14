@@ -98,7 +98,7 @@ namespace StatBot.Handlers
                     {
                         File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{includeString}"));
                     }
-                    if (!File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
+                    if (File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
                     {
                         File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(excludeString, string.Empty));
                     }
