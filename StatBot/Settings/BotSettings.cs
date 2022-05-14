@@ -35,6 +35,15 @@ namespace StatBot.Settings
             Application = new Application(configuration);
             mIRCStats = new MIRCStats(configuration);
             Discord = new Discord(configuration);
+            VerifySettings();
+        }
+
+        private void VerifySettings()
+        {
+            if (String.IsNullOrEmpty(Discord.Token))
+                throw new Exception("Discord bot token missing.");
+            if (String.IsNullOrEmpty(Application.LoggingFileName))
+                throw new Exception("Logging file name missing.");
         }
 
         /// <summary>
@@ -66,7 +75,7 @@ namespace StatBot.Settings
         public Application(IConfiguration configuration)
         {
             LoggingFileName = configuration.GetValue<string>("Application:LoggingFileName");
-            NotificationDelay = configuration.GetValue<int>("Application:NotificationDelay");
+            NotificationDelay = configuration.GetValue<int?>("Application:NotificationDelay") ?? 30000;
             PushOver = new PushOver(configuration);
         }
 
