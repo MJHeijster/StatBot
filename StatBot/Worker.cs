@@ -4,7 +4,7 @@
 // Created          : 05-13-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 13-05-2022
+// Last Modified On : 14-05-2022
 // ***********************************************************************
 // <copyright file="Worker.cs">
 //     Copyright ©  2022
@@ -78,7 +78,7 @@ namespace StatBot
             _logHandler = new LogHandler(_botSettings);
             _connectionHandler = new ConnectionHandler(_client, _logHandler, _botSettings);
             _client.MessageReceived += _messageHandler.MessageReceived;
-            _client.Disconnected += _connectionHandler._client_Disconnected;
+            _client.Disconnected += _connectionHandler.Client_Disconnected;
             _client.LoginAsync(TokenType.Bot, _botSettings.Discord.Token);
             _client.StartAsync();
             

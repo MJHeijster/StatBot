@@ -1,4 +1,17 @@
-﻿using Discord;
+﻿// ***********************************************************************
+// Assembly         : StatBot
+// Author           : Jeroen Heijster
+// Created          : 13-05-2022
+//
+// Last Modified By : Jeroen Heijster
+// Last Modified On : 13-05-2022
+// ***********************************************************************
+// <copyright file="LogHandler.cs">
+//     Copyright ©  2022
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using Discord;
 using Discord.WebSocket;
 using StatBot.PushoverMessaging;
 using StatBot.Settings;
@@ -10,6 +23,9 @@ using System.Threading.Tasks;
 
 namespace StatBot.Handlers
 {
+    /// <summary>
+    /// Class LogHandler.
+    /// </summary>
     internal class LogHandler
     {
         /// <summary>
@@ -24,6 +40,10 @@ namespace StatBot.Handlers
         /// The pushover message handler
         /// </summary>
         private PushoverMessageHandler _pushoverMessageHandler;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogHandler"/> class.
+        /// </summary>
+        /// <param name="botSettings">The bot settings.</param>
         public LogHandler(BotSettings botSettings)
         {
             _botSettings = botSettings;
@@ -38,6 +58,8 @@ namespace StatBot.Handlers
         /// Logs the message to both the server and the console.
         /// </summary>
         /// <param name="message">The message.</param>
+        /// <param name="client">The client.</param>
+        /// <param name="delayedMessage">if set to <c>true</c> [delayed message].</param>
         public void LogMessage(string message, DiscordSocketClient client, bool delayedMessage = false)
         {
             Console.WriteLine(message);

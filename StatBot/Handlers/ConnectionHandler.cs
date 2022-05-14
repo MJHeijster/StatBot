@@ -1,23 +1,54 @@
-﻿using Discord;
+﻿// ***********************************************************************
+// Assembly         : StatBot
+// Author           : Jeroen Heijster
+// Created          : 13-05-2022
+//
+// Last Modified By : Jeroen Heijster
+// Last Modified On : 14-05-2022
+// ***********************************************************************
+// <copyright file="ConnectionHandler.cs">
+//     Copyright ©  2022
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using Discord;
 using Discord.WebSocket;
 using StatBot.Settings;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace StatBot.Handlers
 {
+    /// <summary>
+    /// Class ConnectionHandler.
+    /// </summary>
     internal class ConnectionHandler
     {
+        /// <summary>
+        /// The client
+        /// </summary>
         DiscordSocketClient _client;
+
+        /// <summary>
+        /// The is reconnecting
+        /// </summary>
         bool isReconnecting = false;
+
         /// <summary>
         /// The log handler
         /// </summary>
         private LogHandler _logHandler;
+
+        /// <summary>
+        /// The bot settings
+        /// </summary>
         BotSettings _botSettings;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectionHandler"/> class.
+        /// </summary>
+        /// <param name="client">The client.</param>
+        /// <param name="logHandler">The log handler.</param>
+        /// <param name="botSettings">The bot settings.</param>
         public ConnectionHandler(DiscordSocketClient client, LogHandler logHandler, BotSettings botSettings)
         {
             _client = client;
@@ -29,7 +60,7 @@ namespace StatBot.Handlers
         /// Handles the event when the client disconnects.
         /// </summary>
         /// <param name="arg">The argument.</param>
-        public async Task _client_Disconnected(Exception arg)
+        public async Task Client_Disconnected(Exception arg)
         {
             if (!isReconnecting)
             {

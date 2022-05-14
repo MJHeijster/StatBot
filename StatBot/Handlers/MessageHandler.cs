@@ -4,10 +4,10 @@
 // Created          : 12-12-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 13-05-2022
+// Last Modified On : 14-05-2022
 // ***********************************************************************
 // <copyright file="MessageHandler.cs">
-//     Copyright ©  2017
+//     Copyright ©  2022
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
@@ -22,7 +22,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace StatBot
+namespace StatBot.Handlers
 {
     /// <summary>
     /// Class MessageHandler.
@@ -102,7 +102,7 @@ namespace StatBot
         /// <returns>Task.</returns>
         public Task MessageReceived(SocketMessage message)
         {
-            var file = FileHelper.CheckAndGetFilePath(message);
+            var file = FileHandler.CheckAndGetFilePath(message);
             if (!message.Author.IsBot)
             {
                 using (StreamWriter text = File.AppendText(file))

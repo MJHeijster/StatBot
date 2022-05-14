@@ -12,17 +12,18 @@
 // <summary></summary>
 // ***********************************************************************
 using Discord.WebSocket;
+using StatBot.Classes;
 using StatBot.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace StatBot
+namespace StatBot.Handlers
 {
     /// <summary>
     /// Class FileHelper.
     /// </summary>
-    public class FileHelper
+    public class FileHandler
     {
         /// <summary>
         /// The bot settings
@@ -42,10 +43,10 @@ namespace StatBot
         static bool singleLogFile;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileHelper" /> class.
+        /// Initializes a new instance of the <see cref="FileHandler" /> class.
         /// </summary>
         /// <param name="botSettings">The bot settings.</param>
-        public FileHelper(BotSettings botSettings)
+        public FileHandler(BotSettings botSettings)
         {
             _botSettings = botSettings;
             loggingFileType = _botSettings.Application.LoggingFileName == "channelname";
