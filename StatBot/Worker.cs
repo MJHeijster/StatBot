@@ -77,12 +77,12 @@ namespace StatBot
             _client = new DiscordSocketClient();
             _logHandler = new LogHandler(_botSettings);
             _connectionHandler = new ConnectionHandler(_client, _logHandler, _botSettings);
+            _messageHandler = new MessageHandler(_client, _botSettings);
             _client.MessageReceived += _messageHandler.MessageReceived;
             _client.Disconnected += _connectionHandler.Client_Disconnected;
             _client.LoginAsync(TokenType.Bot, _botSettings.Discord.Token);
             _client.StartAsync();
             
-            _messageHandler = new MessageHandler(_client, _botSettings);
             _logHandler.LogMessage($"Connected to the server at {DateTime.Now}.", _client);
 
         }
