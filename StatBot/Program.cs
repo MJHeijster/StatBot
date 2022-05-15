@@ -4,7 +4,7 @@
 // Created          : 12-11-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 13-05-2022
+// Last Modified On : 15-05-2022
 // ***********************************************************************
 // <copyright file="Program.cs">
 //     Copyright ©  2022
@@ -41,6 +41,8 @@ namespace StatBot
             IServiceProvider provider = serviceScope.ServiceProvider;
             var workerInstance = provider.GetRequiredService<Worker>();
             workerInstance.DoWork();
+            var mircStatsGeneratorInstance = provider.GetRequiredService<mIRCStatsGenerator>();
+            mircStatsGeneratorInstance.DoWork();
             host.Run();
             return Task.CompletedTask;
         }
@@ -63,6 +65,7 @@ namespace StatBot
                 })
                 .ConfigureServices(services =>
                 {
+                    services.AddSingleton<mIRCStatsGenerator>();
                     services.AddSingleton<Worker>();
                 });
         }

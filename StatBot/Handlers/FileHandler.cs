@@ -4,10 +4,10 @@
 // Created          : 12-11-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 13-05-2022
+// Last Modified On : 14-05-2022
 // ***********************************************************************
-// <copyright file="FileHelper.cs">
-//     Copyright ©  2017
+// <copyright file="FileHandler.cs">
+//     Copyright ©  2022
 // </copyright>
 // <summary></summary>
 // ***********************************************************************

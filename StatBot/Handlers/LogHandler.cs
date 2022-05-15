@@ -4,7 +4,7 @@
 // Created          : 13-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 13-05-2022
+// Last Modified On : 14-05-2022
 // ***********************************************************************
 // <copyright file="LogHandler.cs">
 //     Copyright ©  2022
@@ -41,7 +41,7 @@ namespace StatBot.Handlers
         /// </summary>
         private PushoverMessageHandler _pushoverMessageHandler;
         /// <summary>
-        /// Initializes a new instance of the <see cref="LogHandler"/> class.
+        /// Initializes a new instance of the <see cref="LogHandler" /> class.
         /// </summary>
         /// <param name="botSettings">The bot settings.</param>
         public LogHandler(BotSettings botSettings)
