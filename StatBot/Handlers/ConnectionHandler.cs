@@ -44,7 +44,7 @@ namespace StatBot.Handlers
         /// </summary>
         BotSettings _botSettings;
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConnectionHandler"/> class.
+        /// Initializes a new instance of the <see cref="ConnectionHandler" /> class.
         /// </summary>
         /// <param name="client">The client.</param>
         /// <param name="logHandler">The log handler.</param>
