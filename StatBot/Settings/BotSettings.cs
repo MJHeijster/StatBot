@@ -196,6 +196,7 @@ namespace StatBot.Settings
             LaunchEveryMinutes = configuration.GetValue<int>("MIRCStats:LaunchEveryMinutes");
             GeneratorFile = configuration.GetValue<string>("MIRCStats:GeneratorFile");
             WaitUntilCompleted = configuration.GetValue<bool>("MIRCStats:WaitUntilCompleted");
+            UseInternalTimer = !String.IsNullOrEmpty(GeneratorFile);
         }
 
         /// <summary>
@@ -228,6 +229,11 @@ namespace StatBot.Settings
         /// </summary>
         /// <value><c>true</c> if [wait until completed]; otherwise, <c>false</c>.</value>
         public bool WaitUntilCompleted { get; }
+        /// <summary>
+        /// Gets a value indicating whether to [use the internal timer].
+        /// </summary>
+        /// <value><c>true</c> if [use the internal timer]; otherwise, <c>false</c>.</value>
+        public bool UseInternalTimer { get; }
     }
 
     /// <summary>

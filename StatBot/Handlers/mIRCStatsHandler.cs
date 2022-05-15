@@ -53,7 +53,7 @@ namespace StatBot.Handlers
         /// <returns>A Task representing the asynchronous operation.</returns>
         public async Task GenerateStatsAsync()
         {
-            if (!string.IsNullOrEmpty(_botSettings.mIRCStats.GeneratorFile))
+            if (_botSettings.mIRCStats.UseInternalTimer)
             {
                 System.IO.FileInfo fileinfo = new System.IO.FileInfo(_botSettings.mIRCStats.GeneratorFile);
                 folder = fileinfo.Directory.FullName;
