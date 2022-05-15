@@ -57,7 +57,7 @@ namespace StatBot
                 .ConfigureAppConfiguration(app =>
                 {
 #if DEBUG
-				app.AddJsonFile("appsettings.dev.json");
+                    app.AddJsonFile("appsettings.dev.json");
 #else
                     app.AddJsonFile("appsettings.json");
 #endif
