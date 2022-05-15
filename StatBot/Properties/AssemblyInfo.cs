@@ -4,7 +4,7 @@
 // Created          : 05-11-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 13-05-2022
+// Last Modified On : 14-05-2022
 // ***********************************************************************
 // <copyright file="AssemblyInfo.cs">
 //     Copyright ©  2022
@@ -45,5 +45,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.0")]
-[assembly: AssemblyFileVersion("1.2.0")]
+[assembly: AssemblyVersion("1.2.1")]
+[assembly: AssemblyFileVersion("1.2.1")]

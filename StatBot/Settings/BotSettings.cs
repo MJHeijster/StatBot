@@ -4,7 +4,7 @@
 // Created          : 13-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 13-05-2022
+// Last Modified On : 15-05-2022
 // ***********************************************************************
 // <copyright file="BotSettings.cs">
 //     Copyright ©  2022
@@ -38,6 +38,11 @@ namespace StatBot.Settings
             VerifySettings();
         }
 
+        /// <summary>
+        /// Verifies the settings.
+        /// </summary>
+        /// <exception cref="System.Exception">Discord bot token missing.</exception>
+        /// <exception cref="System.Exception">Logging file name missing.</exception>
         private void VerifySettings()
         {
             if (String.IsNullOrEmpty(Discord.Token))
@@ -188,6 +193,9 @@ namespace StatBot.Settings
             Path = configuration.GetValue<string>("MIRCStats:Path");
             NicksFile = configuration.GetValue<string>("MIRCStats:NicksFile");
             NickSection = configuration.GetValue<string>("MIRCStats:NickSection");
+            LaunchEveryMinutes = configuration.GetValue<int>("MIRCStats:LaunchEveryMinutes");
+            GeneratorFile = configuration.GetValue<string>("MIRCStats:GeneratorFile");
+            WaitUntilCompleted = configuration.GetValue<bool>("MIRCStats:WaitUntilCompleted");
         }
 
         /// <summary>
@@ -205,6 +213,21 @@ namespace StatBot.Settings
         /// </summary>
         /// <value>The nick section.</value>
         public string NickSection { get; }
+        /// <summary>
+        /// Gets how often it should launch mIRCStats in minutes.
+        /// </summary>
+        /// <value>The value of how often it should launch mIRCStats in minutes.</value>
+        public int LaunchEveryMinutes { get; }
+        /// <summary>
+        /// Gets the generator file.
+        /// </summary>
+        /// <value>The generator file.</value>
+        public string GeneratorFile { get; }
+        /// <summary>
+        /// Gets a value indicating whether [wait until completed].
+        /// </summary>
+        /// <value><c>true</c> if [wait until completed]; otherwise, <c>false</c>.</value>
+        public bool WaitUntilCompleted { get; }
     }
 
     /// <summary>
