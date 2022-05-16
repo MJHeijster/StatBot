@@ -15,7 +15,6 @@ using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using StatBot.Handlers;
-using StatBot.PushoverMessaging;
 using StatBot.Settings;
 using System;
 using System.IO;

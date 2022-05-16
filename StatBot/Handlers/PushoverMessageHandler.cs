@@ -14,7 +14,7 @@
 using System.Net;
 using System.Net.Http;
 
-namespace StatBot.PushoverMessaging
+namespace StatBot.Handlers
 {
     /// <summary>
     /// Class PushoverMessageHandler.
@@ -59,9 +59,9 @@ namespace StatBot.PushoverMessaging
                     param.Headers.ContentType = null;
 
                 await httpClient.PostAsync("https://api.pushover.net/1/messages.json", form);
-                
+
             }
         }
-        
+
     }
 }
