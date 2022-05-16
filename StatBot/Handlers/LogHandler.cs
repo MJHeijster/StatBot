@@ -13,7 +13,6 @@
 // ***********************************************************************
 using Discord;
 using Discord.WebSocket;
-using StatBot.PushoverMessaging;
 using StatBot.Settings;
 using System;
 using System.Collections.Generic;
