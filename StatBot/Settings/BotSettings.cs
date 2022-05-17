@@ -4,7 +4,7 @@
 // Created          : 13-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 15-05-2022
+// Last Modified On : 17-05-2022
 // ***********************************************************************
 // <copyright file="BotSettings.cs">
 //     Copyright ©  2022
@@ -82,6 +82,10 @@ namespace StatBot.Settings
             LoggingFileName = configuration.GetValue<string>("Application:LoggingFileName");
             NotificationDelay = configuration.GetValue<int?>("Application:NotificationDelay") ?? 30000;
             PushOver = new PushOver(configuration);
+            CreateNicksFileAutomatically = configuration.GetValue<bool>("Application:CreateNicksFileAutomatically");
+            ShowDiscrim = configuration.GetValue<bool>("Application:ShowDiscrim");
+            ShowAvatar = configuration.GetValue<bool>("Application:ShowAvatar");
+            NicksFileManual = configuration.GetValue<string>("Application:NicksFileManual");
         }
 
         /// <summary>
@@ -99,6 +103,26 @@ namespace StatBot.Settings
         /// </summary>
         /// <value>The push over.</value>
         public PushOver PushOver { get; }
+        /// <summary>
+        /// Gets a value indicating whether [create nicks file automatically].
+        /// </summary>
+        /// <value><c>true</c> if [create nicks file automatically]; otherwise, <c>false</c>.</value>
+        public bool CreateNicksFileAutomatically { get; }
+        /// <summary>
+        /// Gets a value indicating whether [show discrim].
+        /// </summary>
+        /// <value><c>true</c> if [show discrim]; otherwise, <c>false</c>.</value>
+        public bool ShowDiscrim { get; }
+        /// <summary>
+        /// Gets a value indicating whether [show avatar].
+        /// </summary>
+        /// <value><c>true</c> if [show avatar]; otherwise, <c>false</c>.</value>
+        public bool ShowAvatar { get; }
+        /// <summary>
+        /// Gets the nicks file manual.
+        /// </summary>
+        /// <value>The nicks file manual.</value>
+        public string NicksFileManual { get; }
     }
 
     /// <summary>
