@@ -4,7 +4,7 @@
 // Created          : 05-13-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 15-05-2022
+// Last Modified On : 17-05-2022
 // ***********************************************************************
 // <copyright file="Worker.cs">
 //     Copyright ©  2022
@@ -14,6 +14,7 @@
 using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
+using StatBot.Database.DatabaseHandlers;
 using StatBot.Handlers;
 using StatBot.Settings;
 using System;
@@ -72,6 +73,7 @@ namespace StatBot
         /// </summary>
         public void DoWork()
         {
+            DatabaseHandler.CreateDatabase();
             _botSettings = new BotSettings(_configuration);
             _client = new DiscordSocketClient();
             _logHandler = new LogHandler(_botSettings);

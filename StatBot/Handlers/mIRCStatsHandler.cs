@@ -4,7 +4,7 @@
 // Created          : 15-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 15-05-2022
+// Last Modified On : 17-05-2022
 // ***********************************************************************
 // <copyright file="mIRCStatsHandler.cs">
 //     Copyright ©  2022
@@ -15,6 +15,7 @@ using StatBot.Settings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace StatBot.Handlers
         private static int sleepingTime;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="mIRCStatsHandler"/> class.
+        /// Initializes a new instance of the <see cref="mIRCStatsHandler" /> class.
         /// </summary>
         /// <param name="botSettings">The bot settings.</param>
         public mIRCStatsHandler(BotSettings botSettings)
@@ -62,6 +63,66 @@ namespace StatBot.Handlers
                     if (StatsGenerator().IsFaulted)
                         System.Threading.Thread.Sleep(1800000); // Sleep for half an hour if the process couldn't be started.
             }
+            else if (_botSettings.Application.CreateNicksFileAutomatically)
+            {
+                while (true)
+                {
+                    GenerateNicksFile();
+                    System.Threading.Thread.Sleep(1800000);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generates the nicks file.
+        /// </summary>
+        private void GenerateNicksFile()
+        {
+            if (!string.IsNullOrEmpty(_botSettings.mIRCStats.NicksFile) && !Directory.Exists($"{_botSettings.mIRCStats.Path}"))
+            {
+                Directory.CreateDirectory($"{_botSettings.mIRCStats.Path}");
+            }
+            var users = Database.DatabaseHandlers.UserHandler.GetUsers(true);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("[common]");
+            foreach (var user in users)
+            {
+                if (!_botSettings.Application.ShowDiscrim || user.IsBot || user.IsExcludedFromStats || user.OldUsers.Any())
+                {
+                    sb.Append($"{user.Username.Replace(' ', '_')}#{user.Discrim}");
+                    foreach (var olduser in user.OldUsers.Where(c => !string.IsNullOrEmpty(c.UserName) && !string.IsNullOrEmpty(c.Discrim) && !(c.UserName == user.Username && c.Discrim == user.Discrim)))
+                    {
+                        sb.Append("; ");
+                        sb.Append($"{olduser.UserName.Replace(' ', '_')}#{olduser.Discrim}");
+                    }
+                    if (_botSettings.Application.ShowAvatar)
+                    {
+                        sb.Append("; ");
+                        sb.Append($"IMAGE={user.AvatarUri.Replace("?size=128", "")}");
+                    }
+                    if (!_botSettings.Application.ShowDiscrim)
+                    {
+                        sb.Append("; ");
+                        sb.Append($"NAME={user.Username.Replace(' ', '_')}");
+                    }
+                    if (user.IsExcludedFromStats)
+                    {
+                        sb.Append("; ");
+                        sb.Append($"MODE=ISEXCLUDED");
+                }
+                    sb.AppendLine("");
+                }
+            }
+
+            using (StreamWriter text = File.CreateText($"{_botSettings.mIRCStats.Path}\\{_botSettings.mIRCStats.NicksFile}"))
+            {
+                text.WriteLine(sb);
+                if (File.Exists($"{_botSettings.mIRCStats.Path}\\{_botSettings.Application.NicksFileManual}"))
+                {
+                    text.WriteLine(File.ReadAllText($"{_botSettings.mIRCStats.Path}\\{_botSettings.Application.NicksFileManual}"));
+                }
+            }
+
         }
 
         /// <summary>
@@ -73,6 +134,10 @@ namespace StatBot.Handlers
             System.Threading.Thread.Sleep(sleepingTime);
             try
             {
+                if (_botSettings.Application.CreateNicksFileAutomatically)
+                {
+                    GenerateNicksFile();
+                }
                 ProcessStartInfo pInfo = new ProcessStartInfo();
                 pInfo.FileName = _botSettings.mIRCStats.GeneratorFile;
                 pInfo.WorkingDirectory = folder;
