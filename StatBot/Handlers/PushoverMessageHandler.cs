@@ -4,7 +4,7 @@
 // Created          : 12-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 14-05-2022
+// Last Modified On : 16-05-2022
 // ***********************************************************************
 // <copyright file="PushoverMessageHandler.cs">
 //     Copyright ©  2022
@@ -14,7 +14,7 @@
 using System.Net;
 using System.Net.Http;
 
-namespace StatBot.PushoverMessaging
+namespace StatBot.Handlers
 {
     /// <summary>
     /// Class PushoverMessageHandler.
@@ -59,9 +59,9 @@ namespace StatBot.PushoverMessaging
                     param.Headers.ContentType = null;
 
                 await httpClient.PostAsync("https://api.pushover.net/1/messages.json", form);
-                
+
             }
         }
-        
+
     }
 }

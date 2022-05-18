@@ -4,7 +4,7 @@
 // Created          : 01-13-2018
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 14-05-2022
+// Last Modified On : 17-05-2022
 // ***********************************************************************
 // <copyright file="CommandHandler.cs">
 //     Copyright ©  2022
@@ -56,11 +56,16 @@ namespace StatBot.Handlers
         /// </summary>
         private readonly string nickSection;
         /// <summary>
+        /// The bot settings
+        /// </summary>
+        private readonly BotSettings _botSettings;
+        /// <summary>
         /// Initializes a new instance of the <see cref="CommandHandler" /> class.
         /// </summary>
         /// <param name="botSettings">The bot settings.</param>
         public CommandHandler(BotSettings botSettings)
         {
+            _botSettings = botSettings;
             commandExclude = botSettings.Discord.Commands.Exclude;
             commandInclude = botSettings.Discord.Commands.Include;
             statsCommand = botSettings.Discord.Commands.Stats.Command;
@@ -75,7 +80,8 @@ namespace StatBot.Handlers
         /// <param name="command">The command.</param>
         /// <param name="user">The user who initiated the command.</param>
         /// <param name="channel">The channel.</param>
-        public void HandleCommand(string command, string user, ISocketMessageChannel channel)
+        /// <param name="userid">The userid.</param>
+        public void HandleCommand(string command, string user, ISocketMessageChannel channel, ulong userid)
         {
             string excludeString = $"{user}; MODE=ISEXCLUDED";
             string includeString = $"{user};";
@@ -83,24 +89,38 @@ namespace StatBot.Handlers
             {
                 if (!string.IsNullOrEmpty(commandExclude) && command == $"{commandPrefix}{commandExclude}")
                 {
-                    if (!File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
+                    if (_botSettings.Application.CreateNicksFileAutomatically)
                     {
-                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{excludeString}"));
+                        Database.DatabaseHandlers.UserHandler.ExcludeFromStats(userid, true);
                     }
-                    if (!File.ReadLines(nickFile).Any(line => line.Contains(includeString)))
+                    else
                     {
-                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(includeString, string.Empty));
+                        if (!File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
+                        {
+                            File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{excludeString}"));
+                        }
+                        if (!File.ReadLines(nickFile).Any(line => line.Contains(includeString)))
+                        {
+                            File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(includeString, string.Empty));
+                        }
                     }
                 }
                 if (!string.IsNullOrEmpty(commandInclude) && command == $"{commandPrefix}{commandInclude}")
                 {
-                    if (!File.ReadLines(nickFile).Any(line => line.Contains(includeString)))
+                    if (_botSettings.Application.CreateNicksFileAutomatically)
                     {
-                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{includeString}"));
+                        Database.DatabaseHandlers.UserHandler.ExcludeFromStats(userid, false);
                     }
-                    if (File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
+                    else
                     {
-                        File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(excludeString, string.Empty));
+                        if (!File.ReadLines(nickFile).Any(line => line.Contains(includeString)))
+                        {
+                            File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(nickSection, $"{nickSection}{Environment.NewLine}{includeString}"));
+                        }
+                        if (File.ReadLines(nickFile).Any(line => line.Contains(excludeString)))
+                        {
+                            File.WriteAllText(nickFile, File.ReadAllText(nickFile).Replace(excludeString, string.Empty));
+                        }
                     }
                 }
                 if (!string.IsNullOrEmpty(statsCommand) && !string.IsNullOrEmpty(statsUrl) && command == $"{commandPrefix}{statsCommand}")

@@ -4,7 +4,7 @@
 // Created          : 12-12-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 14-05-2022
+// Last Modified On : 17-05-2022
 // ***********************************************************************
 // <copyright file="MessageHandler.cs">
 //     Copyright ©  2022
@@ -13,6 +13,8 @@
 // ***********************************************************************
 using CSharpVerbalExpressions;
 using Discord.WebSocket;
+using StatBot.Database.DatabaseHandlers;
+using StatBot.Database.Entities;
 using StatBot.Settings;
 using System;
 using System.Collections.Generic;
@@ -80,7 +82,6 @@ namespace StatBot.Handlers
         private CommandHandler _commandHandler;
 
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageHandler" /> class.
         /// </summary>
@@ -105,6 +106,8 @@ namespace StatBot.Handlers
             var file = FileHandler.CheckAndGetFilePath(message);
             if (!message.Author.IsBot)
             {
+                var user = new User(message.Author);
+                UserHandler.InsertOrUpdateUser(user);
                 using (StreamWriter text = File.AppendText(file))
                 {
                     string textMessage = string.Empty;
@@ -118,7 +121,7 @@ namespace StatBot.Handlers
                         }
                         else
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)} - {message.Embeds.FirstOrDefault().Url}";
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author.Id)} - {message.Embeds.FirstOrDefault().Url}";
                         }
                     }
                     else if (message.Attachments != null &&
@@ -131,7 +134,7 @@ namespace StatBot.Handlers
                         }
                         else
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)} - {message.Attachments.FirstOrDefault().Url}";
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author.Id)} - {message.Attachments.FirstOrDefault().Url}";
                         }
                     }
                     else if (message.Stickers != null &&
@@ -144,12 +147,12 @@ namespace StatBot.Handlers
                         }
                         else
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)} - {message.Stickers.FirstOrDefault().GetStickerUrl()}";
+                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author.Id)} - {message.Stickers.FirstOrDefault().GetStickerUrl()}";
                         }
                     }
                     else
                     {
-                        textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel)}";
+                        textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author.Id)}";
                     }
                     text.WriteLine(textMessage);
                     Console.WriteLine($"#{message.Channel} - {textMessage}");
@@ -164,8 +167,9 @@ namespace StatBot.Handlers
         /// <param name="message">The message.</param>
         /// <param name="userName">Name of the user.</param>
         /// <param name="channel">The channel.</param>
+        /// <param name="userid">The userid.</param>
         /// <returns>The parsed message.</returns>
-        public string HandleMessage(string message, string userName, ISocketMessageChannel channel)
+        public string HandleMessage(string message, string userName, ISocketMessageChannel channel, ulong userid)
         {
             message = Regex.Replace(message, @"\r\n?|\n", " ");
             StringBuilder returnMessage = new StringBuilder();
@@ -182,7 +186,7 @@ namespace StatBot.Handlers
                     if (firstPart &&
                         commandExpression.IsMatch(messagePart))
                     {
-                        _commandHandler.HandleCommand(messagePart, userName, channel);
+                        _commandHandler.HandleCommand(messagePart, userName.Replace(' ', '_'), channel, userid);
                     }
                     if (emojiExpression.IsMatch(messagePart) ||
                         animatedEmojiExpression.IsMatch(messagePart))
