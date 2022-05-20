@@ -58,7 +58,7 @@ namespace StatBot.Handlers
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns>The complete file path including the file.</returns>
-        internal static string CheckAndGetFilePath(SocketMessage message)
+        internal string CheckAndGetFilePath(SocketMessage message)
         {
             LogFile logFile = GetLogFile(message);
             string target = Directory.GetCurrentDirectory() + logFile.Folder;
@@ -74,7 +74,7 @@ namespace StatBot.Handlers
         /// </summary>
         /// <param name="message">The message.</param>
         /// <returns>The log file settings.</returns>
-        internal static LogFile GetLogFile(SocketMessage message)
+        internal LogFile GetLogFile(SocketMessage message)
         {
 
             var channel = message.Channel;

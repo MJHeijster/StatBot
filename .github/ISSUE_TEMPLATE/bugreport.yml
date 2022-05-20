@@ -1,0 +1,42 @@
+name: 🐞 Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for taking your time to report this.
+  - type: textarea
+    id: description
+    attributes: 
+      label: Description
+      description: A brief explanation of the bug.
+      placeholder: When I start the application, it crashes.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of StatBot are you using?
+      placeholder: E.g. 1.3.0
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes: 
+      label: Logs
+      description: Add applicable errors/logging here
+    validations:
+      required: false
+  - type: textarea
+    id: sample
+    attributes:
+      label: Reproduction
+      description: How is it reproduced?
+      placeholder: |
+        - Step 1: Do x
+        - Step 2: Do y
+        - Step 3: Broken
+    validations:
+      required: false
