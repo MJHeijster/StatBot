@@ -81,6 +81,11 @@ namespace StatBot.Handlers
         /// </summary>
         private CommandHandler _commandHandler;
 
+        /// <summary>
+        /// The file handler
+        /// </summary>
+        private FileHandler _fileHandler;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageHandler" /> class.
@@ -92,6 +97,7 @@ namespace StatBot.Handlers
             _client = client;
             _botSettings = botSettings;
             _commandHandler = new CommandHandler(botSettings);
+            _fileHandler = new FileHandler(botSettings);
             commandPrefix = _botSettings.Discord.Commands.Prefix;
             commandExpression = new VerbalExpressions().StartOfLine().Then(commandPrefix).Anything();
         }
@@ -103,7 +109,7 @@ namespace StatBot.Handlers
         /// <returns>Task.</returns>
         public Task MessageReceived(SocketMessage message)
         {
-            var file = FileHandler.CheckAndGetFilePath(message);
+            var file = _fileHandler.CheckAndGetFilePath(message);
             if (!message.Author.IsBot)
             {
                 var user = new User(message.Author);
