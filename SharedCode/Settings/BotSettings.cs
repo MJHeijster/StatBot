@@ -55,17 +55,17 @@ namespace StatBot.Settings
         /// Gets the discord.
         /// </summary>
         /// <value>The discord.</value>
-        public Discord Discord { get; }
+        public Discord Discord { get; set; }
         /// <summary>
         /// Gets the m irc stats.
         /// </summary>
         /// <value>The m irc stats.</value>
-        public MIRCStats mIRCStats { get; }
+        public MIRCStats mIRCStats { get; set; }
         /// <summary>
         /// Gets the application.
         /// </summary>
         /// <value>The application.</value>
-        public Application Application { get; }
+        public Application Application { get; set; }
     }
 
     /// <summary>
@@ -92,37 +92,37 @@ namespace StatBot.Settings
         /// Gets the name of the logging file.
         /// </summary>
         /// <value>The name of the logging file.</value>
-        public string LoggingFileName { get; }
+        public string LoggingFileName { get; set; }
         /// <summary>
         /// Gets the notification delay.
         /// </summary>
         /// <value>The notification delay.</value>
-        public int NotificationDelay { get; }
+        public int NotificationDelay { get; set; }
         /// <summary>
         /// Gets the push over.
         /// </summary>
         /// <value>The push over.</value>
-        public PushOver PushOver { get; }
+        public PushOver PushOver { get; set; }
         /// <summary>
         /// Gets a value indicating whether [create nicks file automatically].
         /// </summary>
         /// <value><c>true</c> if [create nicks file automatically]; otherwise, <c>false</c>.</value>
-        public bool CreateNicksFileAutomatically { get; }
+        public bool CreateNicksFileAutomatically { get; set; }
         /// <summary>
         /// Gets a value indicating whether [show discrim].
         /// </summary>
         /// <value><c>true</c> if [show discrim]; otherwise, <c>false</c>.</value>
-        public bool ShowDiscrim { get; }
+        public bool ShowDiscrim { get; set; }
         /// <summary>
         /// Gets a value indicating whether [show avatar].
         /// </summary>
         /// <value><c>true</c> if [show avatar]; otherwise, <c>false</c>.</value>
-        public bool ShowAvatar { get; }
+        public bool ShowAvatar { get; set; }
         /// <summary>
         /// Gets the nicks file manual.
         /// </summary>
         /// <value>The nicks file manual.</value>
-        public string NicksFileManual { get; }
+        public string NicksFileManual { get; set; }
     }
 
     /// <summary>
@@ -146,22 +146,22 @@ namespace StatBot.Settings
         /// Gets the prefix.
         /// </summary>
         /// <value>The prefix.</value>
-        public string Prefix { get; }
+        public string Prefix { get; set; }
         /// <summary>
         /// Gets the exclude.
         /// </summary>
         /// <value>The exclude.</value>
-        public string Exclude { get; }
+        public string Exclude { get; set; }
         /// <summary>
         /// Gets the include.
         /// </summary>
         /// <value>The include.</value>
-        public string Include { get; }
+        public string Include { get; set; }
         /// <summary>
         /// Gets the stats.
         /// </summary>
         /// <value>The stats.</value>
-        public Stats Stats { get; }
+        public Stats Stats { get; set; }
     }
 
     /// <summary>
@@ -185,12 +185,12 @@ namespace StatBot.Settings
         /// Gets the token.
         /// </summary>
         /// <value>The token.</value>
-        public string Token { get; }
+        public string Token { get; set; }
         /// <summary>
         /// Gets the debug channel identifier.
         /// </summary>
         /// <value>The debug channel identifier.</value>
-        public string DebugChannelId { get; }
+        public string DebugChannelId { get; set; }
         /// <summary>
         /// Gets or sets a value indicating whether [log to debug channel].
         /// </summary>
@@ -200,7 +200,7 @@ namespace StatBot.Settings
         /// Gets the commands.
         /// </summary>
         /// <value>The commands.</value>
-        public Commands Commands { get; }
+        public Commands Commands { get; set; }
     }
 
     /// <summary>
@@ -227,37 +227,37 @@ namespace StatBot.Settings
         /// Gets the path.
         /// </summary>
         /// <value>The path.</value>
-        public string Path { get; }
+        public string Path { get; set; }
         /// <summary>
         /// Gets the nicks file.
         /// </summary>
         /// <value>The nicks file.</value>
-        public string NicksFile { get; }
+        public string NicksFile { get; set; }
         /// <summary>
         /// Gets the nick section.
         /// </summary>
         /// <value>The nick section.</value>
-        public string NickSection { get; }
+        public string NickSection { get; set; }
         /// <summary>
         /// Gets how often it should launch mIRCStats in minutes.
         /// </summary>
         /// <value>The value of how often it should launch mIRCStats in minutes.</value>
-        public int LaunchEveryMinutes { get; }
+        public int LaunchEveryMinutes { get; set; }
         /// <summary>
         /// Gets the generator file.
         /// </summary>
         /// <value>The generator file.</value>
-        public string GeneratorFile { get; }
+        public string GeneratorFile { get; set; }
         /// <summary>
         /// Gets a value indicating whether [wait until completed].
         /// </summary>
         /// <value><c>true</c> if [wait until completed]; otherwise, <c>false</c>.</value>
-        public bool WaitUntilCompleted { get; }
+        public bool WaitUntilCompleted { get; set; }
         /// <summary>
         /// Gets a value indicating whether to [use the internal timer].
         /// </summary>
         /// <value><c>true</c> if [use the internal timer]; otherwise, <c>false</c>.</value>
-        public bool UseInternalTimer { get; }
+        public bool UseInternalTimer { get; set; }
     }
 
     /// <summary>
@@ -281,17 +281,17 @@ namespace StatBot.Settings
         /// Gets the API key.
         /// </summary>
         /// <value>The API key.</value>
-        public string ApiKey { get; }
+        public string ApiKey { get; set; }
         /// <summary>
         /// Gets the user key.
         /// </summary>
         /// <value>The user key.</value>
-        public string UserKey { get; }
+        public string UserKey { get; set; }
         /// <summary>
         /// Gets a value indicating whether [use pushover].
         /// </summary>
         /// <value><c>true</c> if [use pushover]; otherwise, <c>false</c>.</value>
-        public bool UsePushover { get; }
+        public bool UsePushover { get; set; }
     }
 
 
@@ -315,11 +315,11 @@ namespace StatBot.Settings
         /// Gets the command.
         /// </summary>
         /// <value>The command.</value>
-        public string Command { get; }
+        public string Command { get; set; }
         /// <summary>
         /// Gets the URL.
         /// </summary>
         /// <value>The URL.</value>
-        public string Url { get; }
+        public string Url { get; set; }
     }
 }
