@@ -12,7 +12,11 @@
 // <summary></summary>
 // ***********************************************************************
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace StatBot.Settings
 {
@@ -31,6 +35,7 @@ namespace StatBot.Settings
             Application = new Application(configuration);
             mIRCStats = new MIRCStats(configuration);
             Discord = new Discord(configuration);
+            VerifySettings();
         }
 
         /// <summary>
@@ -38,7 +43,7 @@ namespace StatBot.Settings
         /// </summary>
         /// <exception cref="System.Exception">Discord bot token missing.</exception>
         /// <exception cref="System.Exception">Logging file name missing.</exception>
-        public void VerifySettings()
+        private void VerifySettings()
         {
             if (String.IsNullOrEmpty(Discord.Token))
                 throw new Exception("Discord bot token missing.");
@@ -50,17 +55,17 @@ namespace StatBot.Settings
         /// Gets the discord.
         /// </summary>
         /// <value>The discord.</value>
-        public Discord Discord { get; set; }
+        public Discord Discord { get; }
         /// <summary>
         /// Gets the m irc stats.
         /// </summary>
         /// <value>The m irc stats.</value>
-        public MIRCStats mIRCStats { get; set; }
+        public MIRCStats mIRCStats { get; }
         /// <summary>
         /// Gets the application.
         /// </summary>
         /// <value>The application.</value>
-        public Application Application { get; set; }
+        public Application Application { get; }
     }
 
     /// <summary>
@@ -87,37 +92,37 @@ namespace StatBot.Settings
         /// Gets the name of the logging file.
         /// </summary>
         /// <value>The name of the logging file.</value>
-        public string LoggingFileName { get; set; }
+        public string LoggingFileName { get; }
         /// <summary>
         /// Gets the notification delay.
         /// </summary>
         /// <value>The notification delay.</value>
-        public int NotificationDelay { get; set; }
+        public int NotificationDelay { get; }
         /// <summary>
         /// Gets the push over.
         /// </summary>
         /// <value>The push over.</value>
-        public PushOver PushOver { get; set; }
+        public PushOver PushOver { get; }
         /// <summary>
         /// Gets a value indicating whether [create nicks file automatically].
         /// </summary>
         /// <value><c>true</c> if [create nicks file automatically]; otherwise, <c>false</c>.</value>
-        public bool CreateNicksFileAutomatically { get; set; }
+        public bool CreateNicksFileAutomatically { get; }
         /// <summary>
         /// Gets a value indicating whether [show discrim].
         /// </summary>
         /// <value><c>true</c> if [show discrim]; otherwise, <c>false</c>.</value>
-        public bool ShowDiscrim { get; set; }
+        public bool ShowDiscrim { get; }
         /// <summary>
         /// Gets a value indicating whether [show avatar].
         /// </summary>
         /// <value><c>true</c> if [show avatar]; otherwise, <c>false</c>.</value>
-        public bool ShowAvatar { get; set; }
+        public bool ShowAvatar { get; }
         /// <summary>
         /// Gets the nicks file manual.
         /// </summary>
         /// <value>The nicks file manual.</value>
-        public string NicksFileManual { get; set; }
+        public string NicksFileManual { get; }
     }
 
     /// <summary>
@@ -141,22 +146,22 @@ namespace StatBot.Settings
         /// Gets the prefix.
         /// </summary>
         /// <value>The prefix.</value>
-        public string Prefix { get; set; }
+        public string Prefix { get; }
         /// <summary>
         /// Gets the exclude.
         /// </summary>
         /// <value>The exclude.</value>
-        public string Exclude { get; set; }
+        public string Exclude { get; }
         /// <summary>
         /// Gets the include.
         /// </summary>
         /// <value>The include.</value>
-        public string Include { get; set; }
+        public string Include { get; }
         /// <summary>
         /// Gets the stats.
         /// </summary>
         /// <value>The stats.</value>
-        public Stats Stats { get; set; }
+        public Stats Stats { get; }
     }
 
     /// <summary>
@@ -180,23 +185,22 @@ namespace StatBot.Settings
         /// Gets the token.
         /// </summary>
         /// <value>The token.</value>
-        public string Token { get; set; }
+        public string Token { get; }
         /// <summary>
         /// Gets the debug channel identifier.
         /// </summary>
         /// <value>The debug channel identifier.</value>
-        public string DebugChannelId { get; set; }
+        public string DebugChannelId { get; }
         /// <summary>
         /// Gets or sets a value indicating whether [log to debug channel].
         /// </summary>
         /// <value><c>true</c> if [log to debug channel]; otherwise, <c>false</c>.</value>
-        [JsonIgnore]
         public bool LogToDebugChannel { get; set; }
         /// <summary>
         /// Gets the commands.
         /// </summary>
         /// <value>The commands.</value>
-        public Commands Commands { get; set; }
+        public Commands Commands { get; }
     }
 
     /// <summary>
@@ -223,38 +227,37 @@ namespace StatBot.Settings
         /// Gets the path.
         /// </summary>
         /// <value>The path.</value>
-        public string Path { get; set; }
+        public string Path { get; }
         /// <summary>
         /// Gets the nicks file.
         /// </summary>
         /// <value>The nicks file.</value>
-        public string NicksFile { get; set; }
+        public string NicksFile { get; }
         /// <summary>
         /// Gets the nick section.
         /// </summary>
         /// <value>The nick section.</value>
-        public string NickSection { get; set; }
+        public string NickSection { get; }
         /// <summary>
         /// Gets how often it should launch mIRCStats in minutes.
         /// </summary>
         /// <value>The value of how often it should launch mIRCStats in minutes.</value>
-        public int LaunchEveryMinutes { get; set; }
+        public int LaunchEveryMinutes { get; }
         /// <summary>
         /// Gets the generator file.
         /// </summary>
         /// <value>The generator file.</value>
-        public string GeneratorFile { get; set; }
+        public string GeneratorFile { get; }
         /// <summary>
         /// Gets a value indicating whether [wait until completed].
         /// </summary>
         /// <value><c>true</c> if [wait until completed]; otherwise, <c>false</c>.</value>
-        public bool WaitUntilCompleted { get; set; }
+        public bool WaitUntilCompleted { get; }
         /// <summary>
         /// Gets a value indicating whether to [use the internal timer].
         /// </summary>
         /// <value><c>true</c> if [use the internal timer]; otherwise, <c>false</c>.</value>
-        [JsonIgnore]
-        public bool UseInternalTimer { get; set; }
+        public bool UseInternalTimer { get; }
     }
 
     /// <summary>
@@ -278,19 +281,17 @@ namespace StatBot.Settings
         /// Gets the API key.
         /// </summary>
         /// <value>The API key.</value>
-        public string ApiKey { get; set; }
+        public string ApiKey { get; }
         /// <summary>
         /// Gets the user key.
         /// </summary>
         /// <value>The user key.</value>
-        public string UserKey { get; set; }
+        public string UserKey { get; }
         /// <summary>
         /// Gets a value indicating whether [use pushover].
         /// </summary>
         /// <value><c>true</c> if [use pushover]; otherwise, <c>false</c>.</value>
-
-        [JsonIgnore] 
-        public bool UsePushover { get; set; }
+        public bool UsePushover { get; }
     }
 
 
@@ -314,11 +315,11 @@ namespace StatBot.Settings
         /// Gets the command.
         /// </summary>
         /// <value>The command.</value>
-        public string Command { get; set; }
+        public string Command { get; }
         /// <summary>
         /// Gets the URL.
         /// </summary>
         /// <value>The URL.</value>
-        public string Url { get; set; }
+        public string Url { get; }
     }
 }
