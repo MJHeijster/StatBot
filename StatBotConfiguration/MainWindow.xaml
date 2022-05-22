@@ -1,0 +1,173 @@
+﻿<mah:MetroWindow x:Class="StatBotConfiguration.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StatBotConfiguration"
+                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        Title="Configuration" Height="450" Width="800" Icon="/statbot.png">
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <Button Click="LaunchGitHubSite" ToolTip="Go to StatBot GitHub">
+                <Image Source="/GitHub.png" Margin="2" />
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <mah:MetroAnimatedTabControl  Grid.Column="0" Grid.Row="0">
+                <TabItem Header="Discord">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" x:Name="TokenLabel" Content="Token" />
+                        <Label Grid.Column="1" x:Name="TokenDescription" Content="The discord bot token" />
+                        <TextBox Grid.Column="2" x:Name="TokenValue" Height="Auto" VerticalAlignment="Stretch" />
+
+
+                        <Label Grid.Column="0" Grid.Row="1" x:Name="DebugChannelIdLabel" Content="Debug Channel ID" />
+                        <Label Grid.Column="1" Grid.Row="1" x:Name="DebugChannelIdDescription" Content="The channel id it will log debug message in" />
+                        <TextBox Grid.Column="2" Grid.Row="1" x:Name="DebugChannelIdValue" Height="Auto" VerticalAlignment="Stretch" />
+
+
+                        <Label Grid.Column="0" Grid.Row="2" x:Name="CommandPrefixLabel" Content="Command Prefix" />
+                        <Label Grid.Column="1" Grid.Row="2" x:Name="CommandPrefixDescription" Content="The prefix of the command" />
+                        <TextBox Grid.Column="2" Grid.Row="2" x:Name="CommandPrefixValue" Height="Auto" VerticalAlignment="Stretch" />
+
+
+                        <Label Grid.Column="0" Grid.Row="3" x:Name="ExcludeCommandLabel" Content="Exclude command" />
+                        <Label Grid.Column="1" Grid.Row="3" x:Name="ExcludeCommandDescription" Content="The exclude command (e.g. excludefromstats)" />
+                        <TextBox Grid.Column="2" Grid.Row="3" x:Name="ExcludeCommandValue" Height="Auto" VerticalAlignment="Stretch" />
+
+
+                        <Label Grid.Column="0" Grid.Row="4" x:Name="IncludeCommandLabel" Content="Include command" />
+                        <Label Grid.Column="1" Grid.Row="4" x:Name="IncludeCommandDescription" Content="The include command (e.g. includeinstats)" />
+                        <TextBox Grid.Column="2" Grid.Row="4" x:Name="IncludeCommandValue" Height="Auto" VerticalAlignment="Stretch" />
+
+
+                        <Label Grid.Column="0" Grid.Row="5" x:Name="StatsCommandLabel" Content="Stats command" />
+                        <Label Grid.Column="1" Grid.Row="5" x:Name="StatsCommandDescription" Content="The commands to get the stats url. Leave empty if you don't want to use this." />
+                        <TextBox Grid.Column="2" Grid.Row="5" x:Name="StatsCommandValue" Height="Auto" VerticalAlignment="Stretch" />
+
+
+                        <Label Grid.Column="0" Grid.Row="6" x:Name="StatsUrlLabel" Content="Stats URL" />
+                        <Label Grid.Column="1" Grid.Row="6" x:Name="StatsUrlDescription" Content="The URL the bot should post when doing the stats command." />
+                        <TextBox Grid.Column="2" Grid.Row="6" x:Name="StatsUrlValue" Height="Auto" VerticalAlignment="Stretch" />
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="mIRCStats">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" x:Name="PathLabel" Content="Path" />
+                        <Label Grid.Column="1" x:Name="PathDescription" Content="The mIRCStats path" />
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <TextBox Grid.Column="0" x:Name="PathValue" Height="Auto" VerticalAlignment="Stretch" />
+                            <Button x:Name="PathBrowseButton" Grid.Column="1" Content="..." />
+                        </Grid>
+
+
+                        <Label Grid.Column="0" Grid.Row="1" x:Name="NicksFileLabel" Content="Nicks file" />
+                        <Label Grid.Column="1" Grid.Row="1" x:Name="NicksFileDescription" Content="The file the nickname information is stored in" />
+                        <TextBox Grid.Column="2" Grid.Row="1" x:Name="NicksFileValue" Height="Auto" VerticalAlignment="Stretch" />
+
+
+                        <Label Grid.Column="0" Grid.Row="2" x:Name="NicksSectionLabel" Content="Nicks section" />
+                        <Label Grid.Column="1" Grid.Row="2" x:Name="NicksSectionDescription" Content="E.g. [common]" />
+                        <TextBox Grid.Column="2" Grid.Row="2" x:Name="NicksSectionValue" Height="Auto" VerticalAlignment="Stretch" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Application">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" x:Name="FileNameLabel" Content="Logging Filename" />
+                        <Label Grid.Column="1" x:Name="FileNameDescription" Content="Generate the stats split by channelid, channelname or as one server log." />
+                        <ComboBox Grid.Column="2"  x:Name="FileNameValue" ItemsSource="{Binding FileNameValues}" DisplayMemberPath="Name" SelectedValuePath="ID">
+                        </ComboBox>
+
+
+                        <Label Grid.Column="0" Grid.Row="1" x:Name="NotificationDelayLabel" Content="Notification delay" />
+                        <Label Grid.Column="1" Grid.Row="1" x:Name="NotificationDelayDescription" Content="The time in ms until a notification is sent about a disconnect" />
+                        <TextBox Grid.Column="2" Grid.Row="1" x:Name="NotificationDelayValue" ></TextBox>
+
+                        <Label Grid.Column="0" Grid.Row="2" x:Name="PushoverApiKeyLabel" Content="Pushover API Key" />
+                        <Label Grid.Column="1" Grid.Row="2" x:Name="PushoverApiKeyDescription" Content="Leave empty if you don't want to use Pushover for notifications" />
+                        <TextBox Grid.Column="2" Grid.Row="2" x:Name="PushoverApiKeyValue" ></TextBox>
+
+                        <Label Grid.Column="0" Grid.Row="3" x:Name="PushoverUserKeyLabel" Content="Pushover User Key" />
+                        <Label Grid.Column="1" Grid.Row="3" x:Name="PushoverUserKeyDescription" Content="Leave empty if you don't want to use Pushover for notifications" />
+                        <TextBox Grid.Column="2" Grid.Row="3" x:Name="PushoverUserKeyValue" ></TextBox>
+
+                        <Label Grid.Column="0" Grid.Row="4" x:Name="CreateNicksFileAutomaticallyLabel" Content="Create nicks file automatically" />
+                        <Label Grid.Column="1" Grid.Row="4" x:Name="CreateNicksFileAutomaticallyDescription" Content="Wheter or not to generate the nicks file, tracking renames and avatars" />
+                        <CheckBox Grid.Column="2" Grid.Row="4" x:Name="CreateNicksFileAutomaticallyValue"  />
+
+                        <Label Grid.Column="0" Grid.Row="5" x:Name="ShowDiscrimLabel" Content="Show discriminator" />
+                        <Label Grid.Column="1" Grid.Row="5" x:Name="ShowDiscrimDescription" Content="Show the discriminator (#0000) in the statistics if creating nicks file automatically" />
+                        <CheckBox Grid.Column="2" Grid.Row="5" x:Name="ShowDiscrimValue"  />
+
+                        <Label Grid.Column="0" Grid.Row="6" x:Name="ShowAvatarLabel" Content="Show avatar" />
+                        <Label Grid.Column="1" Grid.Row="6" x:Name="ShowAvatarDescription" Content="Show the avatar in the detailed statistics if creating nicks file automatically" />
+                        <CheckBox Grid.Column="2" Grid.Row="6" x:Name="ShowAvatarValue"  />
+
+                        <Label Grid.Column="0" Grid.Row="7" x:Name="NicksFileManualLabel" Content="Manual nicks file" />
+                        <Label Grid.Column="1" Grid.Row="7" x:Name="NicksFileManualDescription" Content="Add the content of this txt file to the bottom of your nicks file, for manual values" />
+                        <TextBox Grid.Column="2" Grid.Row="7" x:Name="NicksFileManualValue" ></TextBox>
+                    </Grid>
+                </TabItem>
+            </mah:MetroAnimatedTabControl>
+            <Button Grid.Row="1" x:Name="SaveConfigButton" AutomationProperties.Name="SaveButton" Content="Save"  Width="250" HorizontalAlignment="Right" Margin="0,0,0,0"/>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>
