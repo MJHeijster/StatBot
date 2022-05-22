@@ -12,11 +12,7 @@
 // <summary></summary>
 // ***********************************************************************
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace StatBot.Settings
 {
@@ -195,6 +191,7 @@ namespace StatBot.Settings
         /// Gets or sets a value indicating whether [log to debug channel].
         /// </summary>
         /// <value><c>true</c> if [log to debug channel]; otherwise, <c>false</c>.</value>
+        [JsonIgnore]
         public bool LogToDebugChannel { get; set; }
         /// <summary>
         /// Gets the commands.
@@ -257,6 +254,7 @@ namespace StatBot.Settings
         /// Gets a value indicating whether to [use the internal timer].
         /// </summary>
         /// <value><c>true</c> if [use the internal timer]; otherwise, <c>false</c>.</value>
+        [JsonIgnore]
         public bool UseInternalTimer { get; set; }
     }
 
@@ -291,6 +289,8 @@ namespace StatBot.Settings
         /// Gets a value indicating whether [use pushover].
         /// </summary>
         /// <value><c>true</c> if [use pushover]; otherwise, <c>false</c>.</value>
+
+        [JsonIgnore] 
         public bool UsePushover { get; set; }
     }
 

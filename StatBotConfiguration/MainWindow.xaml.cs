@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Newtonsoft.Json;
 using StatBot.Settings;
 using StatBotConfiguration.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +32,7 @@ namespace StatBotConfiguration
         public IEnumerable<ComboboxValue> FileNameValues { get; set; }
         public MainWindow()
         {
+            try { 
             var builder = CreateConfigurationBuilder();
             IConfigurationRoot configuration = builder.Build();
             SettingsHandler settingsHandler = new SettingsHandler();
@@ -37,10 +40,16 @@ namespace StatBotConfiguration
             InitializeComponent();
             SetValues(appsettings);
             DataContext = this;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Something went wrong.");
+            }
         }
 
         private void SetValues(BotSettings appsettings)
         {
+            SaveConfigButton.Click += SaveButtonCommand;
             //Discord
             TokenValue.Text = appsettings.Discord.Token;
             DebugChannelIdValue.Text = appsettings.Discord.DebugChannelId;
@@ -70,6 +79,16 @@ namespace StatBotConfiguration
             ShowDiscrimValue.IsChecked = appsettings.Application.ShowDiscrim;
             ShowAvatarValue.IsChecked = appsettings.Application.ShowAvatar;
             NicksFileManualValue.Text = appsettings.Application.NicksFileManual;
+        }
+
+        private void SaveButtonCommand(object sender, RoutedEventArgs e)
+        {
+            string jsonString = JsonConvert.SerializeObject(appsettings, Formatting.Indented);
+#if DEBUG
+            File.WriteAllTextAsync("appsettings.dev.json", jsonString);
+#else
+            File.WriteAllTextAsync("appsettings.json", jsonString);
+#endif
         }
 
         private void PathBrowseButtonCommand(object sender, RoutedEventArgs e)
