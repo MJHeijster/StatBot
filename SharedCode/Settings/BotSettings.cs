@@ -31,7 +31,6 @@ namespace StatBot.Settings
             Application = new Application(configuration);
             mIRCStats = new MIRCStats(configuration);
             Discord = new Discord(configuration);
-            VerifySettings();
         }
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace StatBot.Settings
         /// </summary>
         /// <exception cref="System.Exception">Discord bot token missing.</exception>
         /// <exception cref="System.Exception">Logging file name missing.</exception>
-        private void VerifySettings()
+        public void VerifySettings()
         {
             if (String.IsNullOrEmpty(Discord.Token))
                 throw new Exception("Discord bot token missing.");
