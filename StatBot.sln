@@ -5,10 +5,6 @@ VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatBot", "StatBot\StatBot.csproj", "{C9196A7D-BEB3-478D-A9C1-1AE4983832EC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatBotConfiguration", "StatBotConfiguration\StatBotConfiguration.csproj", "{E83EBF79-C9B8-4F5B-84B8-404DEEF3EE1B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedCode", "SharedCode\SharedCode.csproj", "{111192B7-68D9-4051-8A6F-BDDF40C9686F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{C9196A7D-BEB3-478D-A9C1-1AE4983832EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9196A7D-BEB3-478D-A9C1-1AE4983832EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9196A7D-BEB3-478D-A9C1-1AE4983832EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E83EBF79-C9B8-4F5B-84B8-404DEEF3EE1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E83EBF79-C9B8-4F5B-84B8-404DEEF3EE1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E83EBF79-C9B8-4F5B-84B8-404DEEF3EE1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E83EBF79-C9B8-4F5B-84B8-404DEEF3EE1B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{111192B7-68D9-4051-8A6F-BDDF40C9686F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{111192B7-68D9-4051-8A6F-BDDF40C9686F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{111192B7-68D9-4051-8A6F-BDDF40C9686F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{111192B7-68D9-4051-8A6F-BDDF40C9686F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

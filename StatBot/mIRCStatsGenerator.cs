@@ -52,7 +52,6 @@ namespace StatBot
         public void DoWork()
         {
             _botSettings = new BotSettings(_configuration);
-            _botSettings.VerifySettings();
             mIRCStatsHandler mircStatsHandler = new mIRCStatsHandler(_botSettings);
             _ = mircStatsHandler.GenerateStatsAsync();
         }

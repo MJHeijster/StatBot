@@ -75,7 +75,6 @@ namespace StatBot
         {
             DatabaseHandler.CreateDatabase();
             _botSettings = new BotSettings(_configuration);
-            _botSettings.VerifySettings();
             _client = new DiscordSocketClient();
             _logHandler = new LogHandler(_botSettings);
             _connectionHandler = new ConnectionHandler(_client, _logHandler, _botSettings);
