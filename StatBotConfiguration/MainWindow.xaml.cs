@@ -32,14 +32,15 @@ namespace StatBotConfiguration
         public IEnumerable<ComboboxValue> FileNameValues { get; set; }
         public MainWindow()
         {
-            try { 
-            var builder = CreateConfigurationBuilder();
-            IConfigurationRoot configuration = builder.Build();
-            SettingsHandler settingsHandler = new SettingsHandler();
-            appsettings = settingsHandler.ReadSettings(configuration);
-            InitializeComponent();
-            SetValues(appsettings);
-            DataContext = this;
+            try
+            {
+                var builder = CreateConfigurationBuilder();
+                IConfigurationRoot configuration = builder.Build();
+                SettingsHandler settingsHandler = new SettingsHandler();
+                appsettings = settingsHandler.ReadSettings(configuration);
+                InitializeComponent();
+                SetValues(appsettings);
+                DataContext = this;
             }
             catch (Exception e)
             {
@@ -83,12 +84,43 @@ namespace StatBotConfiguration
 
         private void SaveButtonCommand(object sender, RoutedEventArgs e)
         {
-            string jsonString = JsonConvert.SerializeObject(appsettings, Formatting.Indented);
+            try
+            {
+                //Discord
+                appsettings.Discord.Token = TokenValue.Text;
+                appsettings.Discord.DebugChannelId = DebugChannelIdValue.Text;
+                appsettings.Discord.Commands.Prefix = CommandPrefixValue.Text;
+                appsettings.Discord.Commands.Exclude = ExcludeCommandValue.Text;
+                appsettings.Discord.Commands.Include = IncludeCommandValue.Text;
+                appsettings.Discord.Commands.Stats.Command = StatsCommandValue.Text;
+                appsettings.Discord.Commands.Stats.Url = StatsUrlValue.Text;
+
+                //mIRCStats
+                appsettings.mIRCStats.Path = PathValue.Text;
+                appsettings.mIRCStats.NicksFile = NicksFileValue.Text;
+                appsettings.mIRCStats.NickSection = NicksSectionValue.Text;
+
+                //Application
+                appsettings.Application.LoggingFileName = FileNameValue.SelectedValue.ToString() ?? "channelid";
+                appsettings.Application.NotificationDelay = int.Parse(NotificationDelayValue.Text);
+                appsettings.Application.PushOver.ApiKey = PushoverApiKeyValue.Text;
+                appsettings.Application.PushOver.UserKey = PushoverUserKeyValue.Text;
+                appsettings.Application.CreateNicksFileAutomatically = CreateNicksFileAutomaticallyValue.IsChecked ?? true;
+                appsettings.Application.ShowDiscrim = ShowDiscrimValue.IsChecked ?? false;
+                appsettings.Application.ShowAvatar = ShowAvatarValue.IsChecked ?? true;
+                appsettings.Application.NicksFileManual = NicksFileManualValue.Text;
+                string jsonString = JsonConvert.SerializeObject(appsettings, Formatting.Indented);
 #if DEBUG
             File.WriteAllTextAsync("appsettings.dev.json", jsonString);
 #else
-            File.WriteAllTextAsync("appsettings.json", jsonString);
+                File.WriteAllTextAsync("appsettings.json", jsonString);
 #endif
+                MessageBox.Show("File has been saved.", "Saved");
+            }
+            catch (Exception e2)
+            {
+                MessageBox.Show(e2.Message, "Something went wrong.");
+            }
         }
 
         private void PathBrowseButtonCommand(object sender, RoutedEventArgs e)
