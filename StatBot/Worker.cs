@@ -78,8 +78,8 @@ namespace StatBot
             _botSettings.VerifySettings();
             _client = new DiscordSocketClient();
             _logHandler = new LogHandler(_botSettings);
-            _connectionHandler = new ConnectionHandler(_client, _logHandler, _botSettings);
             _messageHandler = new MessageHandler(_client, _botSettings);
+            _connectionHandler = new ConnectionHandler(_client, _logHandler, _botSettings, _messageHandler);
             _client.MessageReceived += _messageHandler.MessageReceived;
             _client.Disconnected += _connectionHandler.Client_Disconnected;
             _client.LoginAsync(TokenType.Bot, _botSettings.Discord.Token);

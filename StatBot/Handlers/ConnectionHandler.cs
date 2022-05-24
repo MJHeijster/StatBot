@@ -15,6 +15,7 @@ using Discord;
 using Discord.WebSocket;
 using StatBot.Settings;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace StatBot.Handlers
@@ -44,16 +45,25 @@ namespace StatBot.Handlers
         /// </summary>
         BotSettings _botSettings;
         /// <summary>
+        /// The message handler
+        /// </summary>
+        MessageHandler _messageHandler;
+        /// <summary>
+        /// The disconnect date time
+        /// </summary>
+        DateTime _disconnectDateTime;
+        /// <summary>
         /// Initializes a new instance of the <see cref="ConnectionHandler" /> class.
         /// </summary>
         /// <param name="client">The client.</param>
         /// <param name="logHandler">The log handler.</param>
         /// <param name="botSettings">The bot settings.</param>
-        public ConnectionHandler(DiscordSocketClient client, LogHandler logHandler, BotSettings botSettings)
+        public ConnectionHandler(DiscordSocketClient client, LogHandler logHandler, BotSettings botSettings, MessageHandler messageHandler)
         {
             _client = client;
             _logHandler = logHandler;
             _botSettings = botSettings;
+            _messageHandler = messageHandler;
         }
 
         /// <summary>
@@ -66,6 +76,7 @@ namespace StatBot.Handlers
             {
                 isReconnecting = true;
                 var disconnectTime = DateTime.Now;
+                _disconnectDateTime = disconnectTime;
                 _ = Task.Run(() => LogDisconnect(disconnectTime)).ConfigureAwait(false);
                 while (_client.ConnectionState == ConnectionState.Disconnected ||
                     _client.ConnectionState == ConnectionState.Disconnecting)
@@ -87,6 +98,19 @@ namespace StatBot.Handlers
                     }
                     System.Threading.Thread.Sleep(5000);
                 }
+                CheckDeadChat();
+            }
+        }
+
+        /// <summary>
+        /// Checks if the chat has gone dead after a disconnect.
+        /// </summary>
+        public async void CheckDeadChat()
+        {
+            Thread.Sleep(_botSettings.Application.DeadChatAfter);
+            if (_messageHandler.LastMessage < _disconnectDateTime.AddMilliseconds(_botSettings.Application.DeadChatAfter))
+            {
+                _logHandler.LogMessage("Dead chat after disconnect detected.", _client);
             }
         }
 
@@ -102,7 +126,7 @@ namespace StatBot.Handlers
             }
             else
             {
-                System.Threading.Thread.Sleep(_botSettings.Application.NotificationDelay);
+                Thread.Sleep(_botSettings.Application.NotificationDelay);
                 if ((_client.ConnectionState != ConnectionState.Connected))
                 {
                     _logHandler.LogMessage($"The connection to the server has been lost at {disconnectTime}.", _client);
@@ -119,7 +143,7 @@ namespace StatBot.Handlers
 
             await _client.LoginAsync(TokenType.Bot, _botSettings.Discord.Token);
             await _client.StartAsync();
-            System.Threading.Thread.Sleep(10000);
+            Thread.Sleep(10000);
         }
     }
 }

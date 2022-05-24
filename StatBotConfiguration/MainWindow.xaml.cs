@@ -80,6 +80,7 @@ namespace StatBotConfiguration
             ShowDiscrimValue.IsChecked = appsettings.Application.ShowDiscrim;
             ShowAvatarValue.IsChecked = appsettings.Application.ShowAvatar;
             NicksFileManualValue.Text = appsettings.Application.NicksFileManual;
+            DeadChatAfterValue.Text = appsettings.Application.DeadChatAfter.ToString();
         }
 
         private void SaveButtonCommand(object sender, RoutedEventArgs e)
@@ -109,6 +110,7 @@ namespace StatBotConfiguration
                 appsettings.Application.ShowDiscrim = ShowDiscrimValue.IsChecked ?? false;
                 appsettings.Application.ShowAvatar = ShowAvatarValue.IsChecked ?? true;
                 appsettings.Application.NicksFileManual = NicksFileManualValue.Text;
+                appsettings.Application.DeadChatAfter = int.Parse(DeadChatAfterValue.Text);
                 string jsonString = JsonConvert.SerializeObject(appsettings, Formatting.Indented);
 #if DEBUG
             File.WriteAllTextAsync("appsettings.dev.json", jsonString);

@@ -85,6 +85,7 @@ namespace StatBot.Handlers
         /// The file handler
         /// </summary>
         private FileHandler _fileHandler;
+        public DateTime LastMessage;
 
 
         /// <summary>
@@ -110,6 +111,7 @@ namespace StatBot.Handlers
         public Task MessageReceived(SocketMessage message)
         {
             var file = _fileHandler.CheckAndGetFilePath(message);
+            LastMessage = DateTime.Now;
             if (!message.Author.IsBot)
             {
                 var user = new User(message.Author);

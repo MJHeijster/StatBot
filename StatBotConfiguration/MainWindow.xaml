@@ -130,6 +130,7 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Label Grid.Column="0" x:Name="FileNameLabel" Content="Logging Filename" />
                         <Label Grid.Column="1" x:Name="FileNameDescription" Content="Generate the stats split by channelid, channelname or as one server log." />
@@ -164,6 +165,10 @@
                         <Label Grid.Column="0" Grid.Row="7" x:Name="NicksFileManualLabel" Content="Manual nicks file" />
                         <Label Grid.Column="1" Grid.Row="7" x:Name="NicksFileManualDescription" Content="Add the content of this txt file to the bottom of your nicks file, for manual values" />
                         <TextBox Grid.Column="2" Grid.Row="7" x:Name="NicksFileManualValue" ></TextBox>
+
+                        <Label Grid.Column="0" Grid.Row="8" x:Name="DeadChatAfterLabel" Content="Dead chat after" />
+                        <Label Grid.Column="1" Grid.Row="8" x:Name="DeadChatAfterDescription" Content="After a disconnect, send a message if the chat hasn't posted a message after ms." />
+                        <TextBox Grid.Column="2" Grid.Row="8" x:Name="DeadChatAfterValue" ></TextBox>
                     </Grid>
                 </TabItem>
             </mah:MetroAnimatedTabControl>

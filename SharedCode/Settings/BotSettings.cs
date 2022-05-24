@@ -81,6 +81,7 @@ namespace StatBot.Settings
             ShowDiscrim = configuration.GetValue<bool>("Application:ShowDiscrim");
             ShowAvatar = configuration.GetValue<bool>("Application:ShowAvatar");
             NicksFileManual = configuration.GetValue<string>("Application:NicksFileManual");
+            DeadChatAfter = configuration.GetValue<int>("Application.DeadChatAfter");
         }
 
         /// <summary>
@@ -118,6 +119,11 @@ namespace StatBot.Settings
         /// </summary>
         /// <value>The nicks file manual.</value>
         public string NicksFileManual { get; set; }
+        /// <summary>
+        /// Gets or sets the time after which the chat is considered dead.
+        /// </summary>
+        /// <value>The time after which the chat is considered dead.</value>
+        public int DeadChatAfter { get; set; }
     }
 
     /// <summary>
@@ -289,7 +295,7 @@ namespace StatBot.Settings
         /// </summary>
         /// <value><c>true</c> if [use pushover]; otherwise, <c>false</c>.</value>
 
-        [JsonIgnore] 
+        [JsonIgnore]
         public bool UsePushover { get; set; }
     }
 

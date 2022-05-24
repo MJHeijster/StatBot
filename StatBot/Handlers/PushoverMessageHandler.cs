@@ -45,23 +45,31 @@ namespace StatBot.Handlers
         /// <param name="message">The message.</param>
         public async void PushMessage(string message)
         {
-            using (HttpClient httpClient = new HttpClient())
+            try
             {
-                //specify to use TLS 1.2 as default connection
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    //specify to use TLS 1.2 as default connection
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                MultipartFormDataContent form = new MultipartFormDataContent();
-                form.Add(new StringContent(PushoverApi), "\"token\"");
-                form.Add(new StringContent(PushoverUserKey), "\"user\"");
-                form.Add(new StringContent(message), "\"message\"");
-                // Remove content type that is not in the docs
-                foreach (var param in form)
-                    param.Headers.ContentType = null;
+                    MultipartFormDataContent form = new MultipartFormDataContent();
+                    form.Add(new StringContent(PushoverApi), "\"token\"");
+                    form.Add(new StringContent(PushoverUserKey), "\"user\"");
+                    form.Add(new StringContent(message), "\"message\"");
+                    // Remove content type that is not in the docs
+                    foreach (var param in form)
+                        param.Headers.ContentType = null;
 
-                await httpClient.PostAsync("https://api.pushover.net/1/messages.json", form);
+                    await httpClient.PostAsync("https://api.pushover.net/1/messages.json", form);
 
+                }
+            }
+            catch
+            {
+                //Doesn't work? Too bad.
             }
         }
+
 
     }
 }
