@@ -4,7 +4,7 @@
 // Created          : 17-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 17-05-2022
+// Last Modified On : 28-05-2022
 // ***********************************************************************
 // <copyright file="UserHandler.cs">
 //     Copyright ©  2022
@@ -72,6 +72,46 @@ namespace StatBot.Database.DatabaseHandlers
             }
         }
         /// <summary>
+        /// Overrides the username.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="username">The username.</param>
+        public static void OverrideUsername(ulong userId, string username)
+        {
+            string command = $"UPDATE Users SET OverrideName = {username} WHERE Id={userId}";
+            using (var connection = new SqliteConnection("Data Source=Database\\Statbot.db;"))
+            {
+                connection.Open();
+                using (var cmd = new SqliteCommand(command, connection))
+                {
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+        }
+        /// <summary>
+        /// Adds the old username.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="username">The username.</param>
+        public static void AddOldUsername(ulong userId, string username)
+        {
+            var user = username.Split('#');
+            string command = $"INSERT INTO OldUsers Id = {userId}," +
+                $"Username = {user[0]}," +
+                $"Discrim = {user[1]}," +
+                $"DateTime = {DateTime.Now}";
+            using (var connection = new SqliteConnection("Data Source=Database\\Statbot.db;"))
+            {
+                connection.Open();
+                using (var cmd = new SqliteCommand(command, connection))
+                {
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
+        }
+        /// <summary>
         /// Gets the users.
         /// </summary>
         /// <param name="includingOld">if set to <c>true</c> [including old].</param>
@@ -94,7 +134,7 @@ namespace StatBot.Database.DatabaseHandlers
                         {
                             oldUsers = GetOldUsers(id);
                         }
-                        users.Add(new User(id, rdr[1], rdr[2], rdr[3], rdr[4], rdr[5], oldUsers));
+                        users.Add(new User(id, rdr[1], rdr[2], rdr[3], rdr[4], rdr[5], rdr[6], oldUsers));
 
                     }
                 }

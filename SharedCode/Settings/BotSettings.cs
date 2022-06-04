@@ -127,6 +127,50 @@ namespace StatBot.Settings
     }
 
     /// <summary>
+    /// Class AdminCommands.
+    /// </summary>
+    public class AdminCommands
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdminCommands"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        public AdminCommands(IConfiguration configuration)
+        {
+            AdminUserId = configuration.GetValue<ulong>("Discord:Commands:AdminCommands:AdminUserId");
+            AllowServerAdmins = configuration.GetValue<bool>("Discord:Commands:AdminCommands:AllowServerAdmins");
+            LinkUserCommand = configuration.GetValue<string>("Discord:Commands:AdminCommands:LinkUserCommand");
+            OverrideUsernameCommand = configuration.GetValue<string>("Discord:Commands:AdminCommands:OverrideUsernameCommand");
+            RemoveOverrideUsernameCommand = configuration.GetValue<string>("Discord:Commands:AdminCommands:RemoveOverrideUsernameCommand");
+        }
+        /// <summary>
+        /// Gets or sets the admin user identifier.
+        /// </summary>
+        /// <value>The admin user identifier.</value>
+        public ulong AdminUserId { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether [server admins are allowed to use these commands].
+        /// </summary>
+        /// <value><c>true</c> if [server admins are allowed to use these commands]; otherwise, <c>false</c>.</value>
+        public bool AllowServerAdmins { get; set; }
+        /// <summary>
+        /// Gets or sets the link user command.
+        /// </summary>
+        /// <value>The link user command.</value>
+        public string LinkUserCommand { get; set; }
+        /// <summary>
+        /// Gets or sets the override username command.
+        /// </summary>
+        /// <value>The override username command.</value>
+        public string OverrideUsernameCommand { get; set; }
+        /// <summary>
+        /// Gets or sets the remove override username command.
+        /// </summary>
+        /// <value>The remove override username command.</value>
+        public string RemoveOverrideUsernameCommand { get; set; }
+    }
+
+    /// <summary>
     /// Class Commands.
     /// </summary>
     public class Commands
@@ -141,6 +185,7 @@ namespace StatBot.Settings
             Exclude = configuration.GetValue<string>("Discord:Commands:Exclude");
             Include = configuration.GetValue<string>("Discord:Commands:Include");
             Stats = new Stats(configuration);
+            AdminCommands = new AdminCommands(configuration);
         }
 
         /// <summary>
@@ -163,6 +208,11 @@ namespace StatBot.Settings
         /// </summary>
         /// <value>The stats.</value>
         public Stats Stats { get; set; }
+        /// <summary>
+        /// Gets or sets the admin commands.
+        /// </summary>
+        /// <value>The admin commands.</value>
+        public AdminCommands AdminCommands { get; set; }
     }
 
     /// <summary>

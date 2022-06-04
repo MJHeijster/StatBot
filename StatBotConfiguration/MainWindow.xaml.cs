@@ -59,6 +59,12 @@ namespace StatBotConfiguration
             IncludeCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.Include) ? "includeinstats" : appsettings.Discord.Commands.Include;
             StatsCommandValue.Text = appsettings.Discord.Commands.Stats.Command;
             StatsUrlValue.Text = appsettings.Discord.Commands.Stats.Url;
+            AdminUserIdValue.Text = appsettings.Discord.Commands.AdminCommands.AdminUserId == 0 ? "" : appsettings.Discord.Commands.AdminCommands.AdminUserId.ToString();
+            AllowServerAdminsValue.IsChecked = appsettings.Discord.Commands.AdminCommands.AllowServerAdmins ? true : appsettings.Discord.Commands.AdminCommands.AllowServerAdmins;
+            LinkUserCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.LinkUserCommand) ? "linkuser" : appsettings.Discord.Commands.AdminCommands.LinkUserCommand;
+            OverrideUsernameCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.OverrideUsernameCommand) ? "overrideuser" : appsettings.Discord.Commands.AdminCommands.OverrideUsernameCommand;
+            RemoveOverrideUsernameCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.RemoveOverrideUsernameCommand) ? "removeoverride" : appsettings.Discord.Commands.AdminCommands.RemoveOverrideUsernameCommand;
+
 
             //mIRCStats
             PathValue.Text = appsettings.mIRCStats.Path;
@@ -95,6 +101,12 @@ namespace StatBotConfiguration
                 appsettings.Discord.Commands.Include = IncludeCommandValue.Text;
                 appsettings.Discord.Commands.Stats.Command = StatsCommandValue.Text;
                 appsettings.Discord.Commands.Stats.Url = StatsUrlValue.Text;
+                appsettings.Discord.Commands.AdminCommands.AdminUserId = Convert.ToUInt64(AdminUserIdValue.Text);
+                appsettings.Discord.Commands.AdminCommands.AllowServerAdmins = AllowServerAdminsValue.IsChecked ?? true;
+                appsettings.Discord.Commands.AdminCommands.LinkUserCommand = LinkUserCommandValue.Text;
+                appsettings.Discord.Commands.AdminCommands.OverrideUsernameCommand = OverrideUsernameCommandValue.Text;
+                appsettings.Discord.Commands.AdminCommands.RemoveOverrideUsernameCommand = RemoveOverrideUsernameCommandValue.Text;
+
 
                 //mIRCStats
                 appsettings.mIRCStats.Path = PathValue.Text;

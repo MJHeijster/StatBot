@@ -4,7 +4,7 @@
 // Created          : 13-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 15-05-2022
+// Last Modified On : 25-05-2022
 // ***********************************************************************
 // <copyright file="ConnectionHandler.cs">
 //     Copyright ©  2022
@@ -53,11 +53,16 @@ namespace StatBot.Handlers
         /// </summary>
         DateTime _disconnectDateTime;
         /// <summary>
+        /// The dead chat thread
+        /// </summary>
+        Thread deadChatThread;
+        /// <summary>
         /// Initializes a new instance of the <see cref="ConnectionHandler" /> class.
         /// </summary>
         /// <param name="client">The client.</param>
         /// <param name="logHandler">The log handler.</param>
         /// <param name="botSettings">The bot settings.</param>
+        /// <param name="messageHandler">The message handler.</param>
         public ConnectionHandler(DiscordSocketClient client, LogHandler logHandler, BotSettings botSettings, MessageHandler messageHandler)
         {
             _client = client;
@@ -74,6 +79,15 @@ namespace StatBot.Handlers
         {
             if (!isReconnecting)
             {
+                try
+                {
+                    if (deadChatThread != null)
+                    {
+                        deadChatThread.Interrupt();
+                        deadChatThread.Join();
+                    }
+                }
+                catch { }
                 isReconnecting = true;
                 var disconnectTime = DateTime.Now;
                 _disconnectDateTime = disconnectTime;
@@ -98,7 +112,7 @@ namespace StatBot.Handlers
                     }
                     System.Threading.Thread.Sleep(5000);
                 }
-                CheckDeadChat();
+                deadChatThread = new Thread(new ThreadStart(CheckDeadChat));
             }
         }
 
@@ -107,10 +121,17 @@ namespace StatBot.Handlers
         /// </summary>
         public async void CheckDeadChat()
         {
-            Thread.Sleep(_botSettings.Application.DeadChatAfter);
-            if (_messageHandler.LastMessage < _disconnectDateTime.AddMilliseconds(_botSettings.Application.DeadChatAfter))
+
+            try
             {
-                _logHandler.LogMessage("Dead chat after disconnect detected.", _client);
+                Thread.Sleep(_botSettings.Application.DeadChatAfter);
+                if (_messageHandler.LastMessage < _disconnectDateTime.AddMilliseconds(_botSettings.Application.DeadChatAfter))
+                {
+                    _logHandler.LogMessage("Dead chat after disconnect detected.", _client);
+                }
+            }
+            catch (ThreadInterruptedException e)
+            {
             }
         }
 

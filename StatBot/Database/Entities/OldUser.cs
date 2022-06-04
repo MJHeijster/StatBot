@@ -4,7 +4,7 @@
 // Created          : 17-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 17-05-2022
+// Last Modified On : 18-05-2022
 // ***********************************************************************
 // <copyright file="OldUser.cs">
 //     Copyright ©  2022
@@ -38,7 +38,7 @@ namespace StatBot.Database.Entities
         public string Discrim;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OldUser"/> class.
+        /// Initializes a new instance of the <see cref="OldUser" /> class.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="userName">Name of the user.</param>
