@@ -1,4 +1,3 @@
 ﻿ALTER TABLE Users
-Add OverrideName varchar(max)
-UPDATE [Database]
-SET Version = 1;
+Add OverrideName TEXT;
+INSERT INTO [Database] (Version) VALUES (1);

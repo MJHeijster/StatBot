@@ -74,14 +74,15 @@ namespace StatBot.Database.DatabaseHandlers
                 using (var cmd = new SqliteCommand(command, connection))
                 {
                     var reader = cmd.ExecuteReader();
-                    if (reader != null)
+                    if (reader != null &&
+                        reader.HasRows)
                     {
                         reader.Read();
                         version = (long)reader[0];
                     }
                 }
             }
-            for (long i = version; i < databaseVersion; ++i)
+            for (long i = version; i <= databaseVersion; ++i)
                 UpdateVersion(i, logHandler, client);
         }
 
@@ -93,7 +94,7 @@ namespace StatBot.Database.DatabaseHandlers
         /// <param name="client">The client.</param>
         private static void UpdateVersion(long version, LogHandler logHandler, DiscordSocketClient client)
         {
-            using var con = new SqliteConnection($"Data Source=Database\\Statbot.sql");
+            using var con = new SqliteConnection($"Data Source=Database\\Statbot.db");
             try
             {
                 con.Open();
