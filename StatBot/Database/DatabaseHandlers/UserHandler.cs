@@ -38,9 +38,12 @@ namespace StatBot.Database.DatabaseHandlers
         {
             if (userCache == null)
                 userCache = GetUsers();
-            if (!userCache.Contains(user))
+            var userFromCache = userCache.FirstOrDefault(c => c.Id == user.Id) ?? new User();
+            user.OverrideName = userFromCache.OverrideName;
+            if (!userCache.Any(c => c.Id == user.Id && c.Username == user.Username && c.Discrim == user.Discrim && c.AvatarUri == user.AvatarUri && c.IsBot == user.IsBot && c.OverrideName == user.OverrideName))
             {
-                string command = $"REPLACE INTO Users(Id, Username, Discrim, AvatarUri, IsBot) VALUES({user.Id},'{user.Username}','{user.Discrim}','{user.AvatarUri}',{user.IsBot})";
+
+                string command = $"REPLACE INTO Users(Id, Username, Discrim, AvatarUri, IsBot, OverrideName) VALUES({user.Id},'{user.Username}','{user.Discrim}','{user.AvatarUri}',{user.IsBot}, '{user.OverrideName}')";
                 using (var connection = new SqliteConnection("Data Source=Database\\Statbot.db;"))
                 {
                     connection.Open();
@@ -136,6 +139,10 @@ namespace StatBot.Database.DatabaseHandlers
                         if (includingOld)
                         {
                             oldUsers = GetOldUsers(id);
+                        }
+                        if (!oldUsers.Any())
+                        {
+                            oldUsers = null;
                         }
                         users.Add(new User(id, rdr[1], rdr[2], rdr[3], rdr[4], rdr[5], rdr[6], oldUsers));
 
