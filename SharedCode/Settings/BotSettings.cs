@@ -142,6 +142,7 @@ namespace StatBot.Settings
             LinkUserCommand = configuration.GetValue<string>("Discord:Commands:AdminCommands:LinkUserCommand");
             OverrideUsernameCommand = configuration.GetValue<string>("Discord:Commands:AdminCommands:OverrideUsernameCommand");
             RemoveOverrideUsernameCommand = configuration.GetValue<string>("Discord:Commands:AdminCommands:RemoveOverrideUsernameCommand");
+            CreateOldUserCommand = configuration.GetValue<string>("Discord:Commands:AdminCommands:CreateOldUserCommand");
         }
         /// <summary>
         /// Gets or sets the admin user identifier.
@@ -168,6 +169,11 @@ namespace StatBot.Settings
         /// </summary>
         /// <value>The remove override username command.</value>
         public string RemoveOverrideUsernameCommand { get; set; }
+        /// <summary>
+        /// Gets or sets the create old user command.
+        /// </summary>
+        /// <value>The create old user command.</value>
+        public string CreateOldUserCommand { get; set; }
     }
 
     /// <summary>

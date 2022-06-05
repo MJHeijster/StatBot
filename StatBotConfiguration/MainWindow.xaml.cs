@@ -64,8 +64,8 @@ namespace StatBotConfiguration
             LinkUserCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.LinkUserCommand) ? "linkuser" : appsettings.Discord.Commands.AdminCommands.LinkUserCommand;
             OverrideUsernameCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.OverrideUsernameCommand) ? "overrideuser" : appsettings.Discord.Commands.AdminCommands.OverrideUsernameCommand;
             RemoveOverrideUsernameCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.RemoveOverrideUsernameCommand) ? "removeoverride" : appsettings.Discord.Commands.AdminCommands.RemoveOverrideUsernameCommand;
-
-
+            CreateOldUserCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.CreateOldUserCommand) ? "createolduser" : appsettings.Discord.Commands.AdminCommands.CreateOldUserCommand;
+            
             //mIRCStats
             PathValue.Text = appsettings.mIRCStats.Path;
             PathBrowseButton.Click += PathBrowseButtonCommand;
@@ -106,6 +106,7 @@ namespace StatBotConfiguration
                 appsettings.Discord.Commands.AdminCommands.LinkUserCommand = LinkUserCommandValue.Text;
                 appsettings.Discord.Commands.AdminCommands.OverrideUsernameCommand = OverrideUsernameCommandValue.Text;
                 appsettings.Discord.Commands.AdminCommands.RemoveOverrideUsernameCommand = RemoveOverrideUsernameCommandValue.Text;
+                appsettings.Discord.Commands.AdminCommands.CreateOldUserCommand = CreateOldUserCommandValue.Text;                
 
 
                 //mIRCStats

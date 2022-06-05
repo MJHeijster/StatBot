@@ -4,7 +4,7 @@
 // Created          : 13-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 25-05-2022
+// Last Modified On : 05-06-2022
 // ***********************************************************************
 // <copyright file="ConnectionHandler.cs">
 //     Copyright ©  2022
@@ -121,18 +121,17 @@ namespace StatBot.Handlers
         /// </summary>
         public async void CheckDeadChat()
         {
-
             try
             {
+                var deadChatThreadDateTime = DateTime.Now;
                 Thread.Sleep(_botSettings.Application.DeadChatAfter);
-                if (_messageHandler.LastMessage < _disconnectDateTime.AddMilliseconds(_botSettings.Application.DeadChatAfter))
+                if (_disconnectDateTime < deadChatThreadDateTime &&
+                    _messageHandler.LastMessage < _disconnectDateTime.AddMilliseconds(_botSettings.Application.DeadChatAfter))
                 {
                     _logHandler.LogMessage("Dead chat after disconnect detected.", _client);
                 }
             }
-            catch (ThreadInterruptedException e)
-            {
-            }
+            catch { }
         }
 
         /// <summary>

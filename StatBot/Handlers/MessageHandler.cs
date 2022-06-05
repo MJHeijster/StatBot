@@ -4,7 +4,7 @@
 // Created          : 12-12-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 01-06-2022
+// Last Modified On : 05-06-2022
 // ***********************************************************************
 // <copyright file="MessageHandler.cs">
 //     Copyright ©  2022
@@ -89,18 +89,23 @@ namespace StatBot.Handlers
         /// The last message
         /// </summary>
         public DateTime LastMessage;
-
+        /// <summary>
+        /// The log handler
+        /// </summary>
+        private LogHandler _logHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageHandler" /> class.
         /// </summary>
         /// <param name="client">The Discord client.</param>
         /// <param name="botSettings">The bot settings.</param>
-        public MessageHandler(DiscordSocketClient client, BotSettings botSettings)
+        /// <param name="logHandler">The log handler.</param>
+        public MessageHandler(DiscordSocketClient client, BotSettings botSettings, LogHandler logHandler)
         {
             _client = client;
             _botSettings = botSettings;
-            _commandHandler = new CommandHandler(_client, botSettings);
+            _logHandler = logHandler;
+            _commandHandler = new CommandHandler(_client, botSettings, logHandler);
             _fileHandler = new FileHandler(botSettings);
             commandPrefix = _botSettings.Discord.Commands.Prefix;
             commandExpression = new VerbalExpressions().StartOfLine().Then(commandPrefix).Anything();

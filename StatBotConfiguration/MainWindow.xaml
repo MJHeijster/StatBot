@@ -45,6 +45,7 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
                         <Label Grid.Column="0" x:Name="TokenLabel" Content="Token" />
                         <Label Grid.Column="1" x:Name="TokenDescription" Content="The discord bot token" />
@@ -93,13 +94,16 @@
                         <TextBox Grid.Column="2" Grid.Row="9" x:Name="LinkUserCommandValue" Height="Auto" VerticalAlignment="Stretch" />
 
                         <Label Grid.Column="0" Grid.Row="10" Content="Override Username Command" />
-                        <Label Grid.Column="1" Grid.Row="10" Content="The command to override someone's username." />
+                        <Label Grid.Column="1" Grid.Row="10" Content="The command to override someone's username. (&lt;command> userid username#discrim)" />
                         <TextBox Grid.Column="2" Grid.Row="10" x:Name="OverrideUsernameCommandValue" Height="Auto" VerticalAlignment="Stretch" />
 
                         <Label Grid.Column="0" Grid.Row="11" Content="Remove Override Username Command" />
-                        <Label Grid.Column="1" Grid.Row="11" Content="The command to remove the override of someone's username." />
+                        <Label Grid.Column="1" Grid.Row="11" Content="The command to remove the override of someone's username (&lt;command> userid)" />
                         <TextBox Grid.Column="2" Grid.Row="11" x:Name="RemoveOverrideUsernameCommandValue" Height="Auto" VerticalAlignment="Stretch" />
 
+                        <Label Grid.Column="0" Grid.Row="12" Content="Create Old User Command" />
+                        <Label Grid.Column="1" Grid.Row="12" Content="The command to create and link an old user (&lt;command> userid username#discrim)" />
+                        <TextBox Grid.Column="2" Grid.Row="12" x:Name="CreateOldUserCommandValue" Height="Auto" VerticalAlignment="Stretch" />
                     </Grid>
                 </TabItem>
                 <TabItem Header="mIRCStats">

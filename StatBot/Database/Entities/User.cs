@@ -4,7 +4,7 @@
 // Created          : 16-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 25-05-2022
+// Last Modified On : 05-06-2022
 // ***********************************************************************
 // <copyright file="User.cs">
 //     Copyright ©  2022
@@ -69,6 +69,28 @@ namespace StatBot.Database.Entities
 			Discrim = author.Discriminator;
 			AvatarUri = author.GetAvatarUrl();
 		}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="User" /> class.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="username">The username.</param>
+        /// <param name="discrim">The discrim.</param>
+        /// <param name="avatarUri">The avatar URI.</param>
+        /// <param name="isBot">if set to <c>true</c> [is bot].</param>
+        /// <param name="isExcludedFromStats">if set to <c>true</c> [is excluded from stats].</param>
+        /// <param name="overrideName">Name of the override.</param>
+        public User(string id, string username, string discrim, string avatarUri, bool isBot, bool isExcludedFromStats, string overrideName)
+        {
+            Id = Convert.ToUInt64(id);
+            Username = username;
+            Discrim = discrim;
+            AvatarUri = avatarUri;
+            IsBot = isBot;
+            IsExcludedFromStats = isExcludedFromStats;
+            OverrideName = overrideName == null ? OverrideName : null;
+            OldUsers = null;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.

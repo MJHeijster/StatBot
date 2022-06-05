@@ -4,7 +4,7 @@
 // Created          : 13-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 18-05-2022
+// Last Modified On : 05-06-2022
 // ***********************************************************************
 // <copyright file="LogHandler.cs">
 //     Copyright ©  2022
@@ -25,7 +25,7 @@ namespace StatBot.Handlers
     /// <summary>
     /// Class LogHandler.
     /// </summary>
-    internal class LogHandler
+    public class LogHandler
     {
         /// <summary>
         /// The bot settings
