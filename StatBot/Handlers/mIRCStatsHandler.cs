@@ -4,7 +4,7 @@
 // Created          : 15-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 17-05-2022
+// Last Modified On : 25-05-2022
 // ***********************************************************************
 // <copyright file="mIRCStatsHandler.cs">
 //     Copyright ©  2022
@@ -100,7 +100,12 @@ namespace StatBot.Handlers
                         sb.Append("; ");
                         sb.Append($"IMAGE={user.AvatarUri.Replace("?size=128", "")}");
                     }
-                    if (!_botSettings.Application.ShowDiscrim)
+                    if (!string.IsNullOrEmpty(user.OverrideName))
+                    {
+                        sb.Append("; ");
+                        sb.Append($"NAME={user.OverrideName.Replace(' ', '_')}");
+                    }
+                    else if (!_botSettings.Application.ShowDiscrim)
                     {
                         sb.Append("; ");
                         sb.Append($"NAME={user.Username.Replace(' ', '_')}");

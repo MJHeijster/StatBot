@@ -4,7 +4,7 @@
 // Created          : 12-12-2017
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 17-05-2022
+// Last Modified On : 05-06-2022
 // ***********************************************************************
 // <copyright file="MessageHandler.cs">
 //     Copyright ©  2022
@@ -85,18 +85,27 @@ namespace StatBot.Handlers
         /// The file handler
         /// </summary>
         private FileHandler _fileHandler;
-
+        /// <summary>
+        /// The last message
+        /// </summary>
+        public DateTime LastMessage;
+        /// <summary>
+        /// The log handler
+        /// </summary>
+        private LogHandler _logHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageHandler" /> class.
         /// </summary>
         /// <param name="client">The Discord client.</param>
         /// <param name="botSettings">The bot settings.</param>
-        public MessageHandler(DiscordSocketClient client, BotSettings botSettings)
+        /// <param name="logHandler">The log handler.</param>
+        public MessageHandler(DiscordSocketClient client, BotSettings botSettings, LogHandler logHandler)
         {
             _client = client;
             _botSettings = botSettings;
-            _commandHandler = new CommandHandler(botSettings);
+            _logHandler = logHandler;
+            _commandHandler = new CommandHandler(_client, botSettings, logHandler);
             _fileHandler = new FileHandler(botSettings);
             commandPrefix = _botSettings.Discord.Commands.Prefix;
             commandExpression = new VerbalExpressions().StartOfLine().Then(commandPrefix).Anything();
@@ -110,6 +119,7 @@ namespace StatBot.Handlers
         public Task MessageReceived(SocketMessage message)
         {
             var file = _fileHandler.CheckAndGetFilePath(message);
+            LastMessage = DateTime.Now;
             if (!message.Author.IsBot)
             {
                 var user = new User(message.Author);
@@ -123,11 +133,11 @@ namespace StatBot.Handlers
                         if (string.IsNullOrEmpty(message.Content) ||
                             message.Content == message.Embeds.FirstOrDefault().Url)
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
+                            textMessage = $"[{message.Timestamp.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
                         }
                         else
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author.Id)} - {message.Embeds.FirstOrDefault().Url}";
+                            textMessage = $"[{message.Timestamp.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author)} - {message.Embeds.FirstOrDefault().Url}";
                         }
                     }
                     else if (message.Attachments != null &&
@@ -136,11 +146,11 @@ namespace StatBot.Handlers
                         if ((string.IsNullOrEmpty(message.Content) ||
                             message.Content == message.Attachments.FirstOrDefault().Url) && message.Embeds.Any())
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
+                            textMessage = $"[{message.Timestamp.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Embeds.FirstOrDefault().Url}";
                         }
                         else
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author.Id)} - {message.Attachments.FirstOrDefault().Url}";
+                            textMessage = $"[{message.Timestamp.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author)} - {message.Attachments.FirstOrDefault().Url}";
                         }
                     }
                     else if (message.Stickers != null &&
@@ -149,16 +159,16 @@ namespace StatBot.Handlers
                         if (string.IsNullOrEmpty(message.Content) ||
                             message.Content == message.Stickers.FirstOrDefault().GetStickerUrl())
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Stickers.FirstOrDefault().GetStickerUrl()}";
+                            textMessage = $"[{message.Timestamp.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {message.Stickers.FirstOrDefault().GetStickerUrl()}";
                         }
                         else
                         {
-                            textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author.Id)} - {message.Stickers.FirstOrDefault().GetStickerUrl()}";
+                            textMessage = $"[{message.Timestamp.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author)} - {message.Stickers.FirstOrDefault().GetStickerUrl()}";
                         }
                     }
                     else
                     {
-                        textMessage = $"[{DateTime.Now.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author.Id)}";
+                        textMessage = $"[{message.Timestamp.ToString("yyyy-MM-dd HH':'mm':'ss")}] <{message.Author.Username.Replace(' ', '_')}#{message.Author.Discriminator}> {HandleMessage(message.Content, $"{message.Author.Username}#{message.Author.Discriminator}", message.Channel, message.Author)}";
                     }
                     text.WriteLine(textMessage);
                     Console.WriteLine($"#{message.Channel} - {textMessage}");
@@ -173,9 +183,9 @@ namespace StatBot.Handlers
         /// <param name="message">The message.</param>
         /// <param name="userName">Name of the user.</param>
         /// <param name="channel">The channel.</param>
-        /// <param name="userid">The userid.</param>
+        /// <param name="author">The author.</param>
         /// <returns>The parsed message.</returns>
-        public string HandleMessage(string message, string userName, ISocketMessageChannel channel, ulong userid)
+        public string HandleMessage(string message, string userName, ISocketMessageChannel channel, SocketUser author)
         {
             message = Regex.Replace(message, @"\r\n?|\n", " ");
             StringBuilder returnMessage = new StringBuilder();
@@ -192,7 +202,7 @@ namespace StatBot.Handlers
                     if (firstPart &&
                         commandExpression.IsMatch(messagePart))
                     {
-                        _commandHandler.HandleCommand(messagePart, userName.Replace(' ', '_'), channel, userid);
+                        _commandHandler.HandleCommand(messagePart, messageParts, userName.Replace(' ', '_'), channel, author);
                     }
                     if (emojiExpression.IsMatch(messagePart) ||
                         animatedEmojiExpression.IsMatch(messagePart))

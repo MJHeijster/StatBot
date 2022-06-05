@@ -4,7 +4,7 @@
 // Created          : 15-05-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 15-05-2022
+// Last Modified On : 22-05-2022
 // ***********************************************************************
 // <copyright file="mIRCStatsGenerator.cs">
 //     Copyright ©  2022
