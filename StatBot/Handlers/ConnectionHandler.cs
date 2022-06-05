@@ -112,7 +112,8 @@ namespace StatBot.Handlers
                     }
                     System.Threading.Thread.Sleep(5000);
                 }
-                deadChatThread = new Thread(new ThreadStart(CheckDeadChat));
+                if (_botSettings.Application.DeadChatAfter > 0)
+                    deadChatThread = new Thread(new ThreadStart(CheckDeadChat));
             }
         }
 

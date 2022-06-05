@@ -86,7 +86,7 @@ namespace StatBotConfiguration
             ShowDiscrimValue.IsChecked = appsettings.Application.ShowDiscrim;
             ShowAvatarValue.IsChecked = appsettings.Application.ShowAvatar;
             NicksFileManualValue.Text = appsettings.Application.NicksFileManual;
-            DeadChatAfterValue.Text = appsettings.Application.DeadChatAfter.ToString();
+            DeadChatAfterValue.Text = string.IsNullOrEmpty(appsettings.Application.DeadChatAfter.ToString()) ? "43200000" : appsettings.Application.DeadChatAfter.ToString();
         }
 
         private void SaveButtonCommand(object sender, RoutedEventArgs e)
