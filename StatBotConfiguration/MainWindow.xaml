@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StatBotConfiguration"
                  xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Configuration" Height="450" Width="800" Icon="/statbot.png">
+        Title="Configuration" Height="600" Width="1200" Icon="/statbot.png">
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
             <Button Click="LaunchGitHubSite" ToolTip="Go to StatBot GitHub">
@@ -90,7 +90,7 @@
                         <CheckBox Grid.Column="2" Grid.Row="8" x:Name="AllowServerAdminsValue"  />
 
                         <Label Grid.Column="0" Grid.Row="9" Content="Link User Command" />
-                        <Label Grid.Column="1" Grid.Row="9" Content="The command to link users to old names." />
+                        <Label Grid.Column="1" Grid.Row="9" Content="The command to link users to old names to a current user. (&lt;command> userid username#discrim)" />
                         <TextBox Grid.Column="2" Grid.Row="9" x:Name="LinkUserCommandValue" Height="Auto" VerticalAlignment="Stretch" />
 
                         <Label Grid.Column="0" Grid.Row="10" Content="Override Username Command" />
@@ -102,7 +102,7 @@
                         <TextBox Grid.Column="2" Grid.Row="11" x:Name="RemoveOverrideUsernameCommandValue" Height="Auto" VerticalAlignment="Stretch" />
 
                         <Label Grid.Column="0" Grid.Row="12" Content="Create Old User Command" />
-                        <Label Grid.Column="1" Grid.Row="12" Content="The command to create and link an old user (&lt;command> userid username#discrim)" />
+                        <Label Grid.Column="1" Grid.Row="12" Content="The command to create and link a user that left (&lt;command> userid username#discrim)" />
                         <TextBox Grid.Column="2" Grid.Row="12" x:Name="CreateOldUserCommandValue" Height="Auto" VerticalAlignment="Stretch" />
                     </Grid>
                 </TabItem>
