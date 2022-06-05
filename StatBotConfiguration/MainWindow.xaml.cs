@@ -101,7 +101,7 @@ namespace StatBotConfiguration
                 appsettings.Discord.Commands.Include = IncludeCommandValue.Text;
                 appsettings.Discord.Commands.Stats.Command = StatsCommandValue.Text;
                 appsettings.Discord.Commands.Stats.Url = StatsUrlValue.Text;
-                appsettings.Discord.Commands.AdminCommands.AdminUserId = Convert.ToUInt64(AdminUserIdValue.Text);
+                appsettings.Discord.Commands.AdminCommands.AdminUserId = string.IsNullOrEmpty(AdminUserIdValue.Text) ? 0 : Convert.ToUInt64(AdminUserIdValue.Text);
                 appsettings.Discord.Commands.AdminCommands.AllowServerAdmins = AllowServerAdminsValue.IsChecked ?? true;
                 appsettings.Discord.Commands.AdminCommands.LinkUserCommand = LinkUserCommandValue.Text;
                 appsettings.Discord.Commands.AdminCommands.OverrideUsernameCommand = OverrideUsernameCommandValue.Text;
