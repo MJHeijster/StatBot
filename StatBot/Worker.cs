@@ -4,7 +4,7 @@
 // Created          : 05-13-2022
 //
 // Last Modified By : Jeroen Heijster
-// Last Modified On : 17-05-2022
+// Last Modified On : 05-06-2022
 // ***********************************************************************
 // <copyright file="Worker.cs">
 //     Copyright ©  2022
@@ -73,13 +73,14 @@ namespace StatBot
         /// </summary>
         public void DoWork()
         {
-            DatabaseHandler.CreateDatabase();
             _botSettings = new BotSettings(_configuration);
             _botSettings.VerifySettings();
-            _client = new DiscordSocketClient();
             _logHandler = new LogHandler(_botSettings);
-            _connectionHandler = new ConnectionHandler(_client, _logHandler, _botSettings);
-            _messageHandler = new MessageHandler(_client, _botSettings);
+            _client = new DiscordSocketClient();
+            DatabaseHandler.CreateDatabase();
+            DatabaseHandler.UpdateDatabase(_logHandler, _client);
+            _messageHandler = new MessageHandler(_client, _botSettings, _logHandler);
+            _connectionHandler = new ConnectionHandler(_client, _logHandler, _botSettings, _messageHandler);
             _client.MessageReceived += _messageHandler.MessageReceived;
             _client.Disconnected += _connectionHandler.Client_Disconnected;
             _client.LoginAsync(TokenType.Bot, _botSettings.Discord.Token);

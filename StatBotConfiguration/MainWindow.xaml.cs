@@ -59,7 +59,13 @@ namespace StatBotConfiguration
             IncludeCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.Include) ? "includeinstats" : appsettings.Discord.Commands.Include;
             StatsCommandValue.Text = appsettings.Discord.Commands.Stats.Command;
             StatsUrlValue.Text = appsettings.Discord.Commands.Stats.Url;
-
+            AdminUserIdValue.Text = appsettings.Discord.Commands.AdminCommands.AdminUserId == 0 ? "" : appsettings.Discord.Commands.AdminCommands.AdminUserId.ToString();
+            AllowServerAdminsValue.IsChecked = appsettings.Discord.Commands.AdminCommands.AllowServerAdmins ? true : appsettings.Discord.Commands.AdminCommands.AllowServerAdmins;
+            LinkUserCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.LinkUserCommand) ? "linkuser" : appsettings.Discord.Commands.AdminCommands.LinkUserCommand;
+            OverrideUsernameCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.OverrideUsernameCommand) ? "overrideuser" : appsettings.Discord.Commands.AdminCommands.OverrideUsernameCommand;
+            RemoveOverrideUsernameCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.RemoveOverrideUsernameCommand) ? "removeoverride" : appsettings.Discord.Commands.AdminCommands.RemoveOverrideUsernameCommand;
+            CreateOldUserCommandValue.Text = string.IsNullOrEmpty(appsettings.Discord.Commands.AdminCommands.CreateOldUserCommand) ? "createolduser" : appsettings.Discord.Commands.AdminCommands.CreateOldUserCommand;
+            
             //mIRCStats
             PathValue.Text = appsettings.mIRCStats.Path;
             PathBrowseButton.Click += PathBrowseButtonCommand;
@@ -80,6 +86,7 @@ namespace StatBotConfiguration
             ShowDiscrimValue.IsChecked = appsettings.Application.ShowDiscrim;
             ShowAvatarValue.IsChecked = appsettings.Application.ShowAvatar;
             NicksFileManualValue.Text = appsettings.Application.NicksFileManual;
+            DeadChatAfterValue.Text = string.IsNullOrEmpty(appsettings.Application.DeadChatAfter.ToString()) ? "43200000" : appsettings.Application.DeadChatAfter.ToString();
         }
 
         private void SaveButtonCommand(object sender, RoutedEventArgs e)
@@ -94,6 +101,13 @@ namespace StatBotConfiguration
                 appsettings.Discord.Commands.Include = IncludeCommandValue.Text;
                 appsettings.Discord.Commands.Stats.Command = StatsCommandValue.Text;
                 appsettings.Discord.Commands.Stats.Url = StatsUrlValue.Text;
+                appsettings.Discord.Commands.AdminCommands.AdminUserId = string.IsNullOrEmpty(AdminUserIdValue.Text) ? 0 : Convert.ToUInt64(AdminUserIdValue.Text);
+                appsettings.Discord.Commands.AdminCommands.AllowServerAdmins = AllowServerAdminsValue.IsChecked ?? true;
+                appsettings.Discord.Commands.AdminCommands.LinkUserCommand = LinkUserCommandValue.Text;
+                appsettings.Discord.Commands.AdminCommands.OverrideUsernameCommand = OverrideUsernameCommandValue.Text;
+                appsettings.Discord.Commands.AdminCommands.RemoveOverrideUsernameCommand = RemoveOverrideUsernameCommandValue.Text;
+                appsettings.Discord.Commands.AdminCommands.CreateOldUserCommand = CreateOldUserCommandValue.Text;                
+
 
                 //mIRCStats
                 appsettings.mIRCStats.Path = PathValue.Text;
@@ -109,6 +123,7 @@ namespace StatBotConfiguration
                 appsettings.Application.ShowDiscrim = ShowDiscrimValue.IsChecked ?? false;
                 appsettings.Application.ShowAvatar = ShowAvatarValue.IsChecked ?? true;
                 appsettings.Application.NicksFileManual = NicksFileManualValue.Text;
+                appsettings.Application.DeadChatAfter = int.Parse(DeadChatAfterValue.Text);
                 string jsonString = JsonConvert.SerializeObject(appsettings, Formatting.Indented);
 #if DEBUG
             File.WriteAllTextAsync("appsettings.dev.json", jsonString);
