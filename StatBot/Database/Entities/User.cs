@@ -111,7 +111,7 @@ namespace StatBot.Database.Entities
             AvatarUri = (string)avatarUri;
             IsBot = (Int64)isBot == 1;
             IsExcludedFromStats = (Int64)isExcludedFromStats == 1;
-            OverrideName = overrideName == null ? (string)OverrideName : null;
+            OverrideName = overrideName == null ? null : (string)overrideName;
             OldUsers = oldUsers;
         }
     }
