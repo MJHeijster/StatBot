@@ -105,14 +105,25 @@ namespace StatBot.Database.Entities
         /// <param name="oldUsers">The old users.</param>
         public User(object id, object username, object discrim, object avatarUri, object isBot, object isExcludedFromStats, object overrideName, List<OldUser> oldUsers = null)
         {
-            Id = Convert.ToUInt64(id);
-            Username = (string)username;
-            Discrim = (string)discrim;
-            AvatarUri = (string)avatarUri;
+            Id = ConvertFromDBVal<ulong>(id);
+            Username = ConvertFromDBVal<string>(username);
+            Discrim = ConvertFromDBVal<string>(discrim);
+            AvatarUri = ConvertFromDBVal<string>(avatarUri);
             IsBot = (Int64)isBot == 1;
             IsExcludedFromStats = (Int64)isExcludedFromStats == 1;
-            OverrideName = overrideName == null ? null : (string)overrideName;
+            OverrideName = ConvertFromDBVal<string>(overrideName);
             OldUsers = oldUsers;
+        }
+        public static T ConvertFromDBVal<T>(object obj)
+        {
+            if (obj == null || obj == DBNull.Value)
+            {
+                return default(T); // returns the default value for the type
+            }
+            else
+            {
+                return (T)obj;
+            }
         }
     }
 }
