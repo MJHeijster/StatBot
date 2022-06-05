@@ -82,8 +82,8 @@ namespace StatBot.Database.DatabaseHandlers
                     }
                 }
             }
-            for (long i = version; i <= databaseVersion; ++i)
-                UpdateVersion(i, logHandler, client);
+            for (long i = version; i < databaseVersion; i++)
+                UpdateVersion(i+1, logHandler, client);
         }
 
         /// <summary>
