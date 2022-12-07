@@ -24,7 +24,7 @@ Example batch script for combining multiple logs:
 > - mkdir C:\Discord\StatBot\277418737798479872\general
 > - copy "C:\Discord\StatBot\277418737798479872\general.log" "C:\Discord\StatBot\277418737798479872\general\1.log" /Y
 > - copy "C:\Discord\StatBot\277418737798479872\the-toy-factory.log" "C:\Discord\StatBot\277418737798479872\general\2.log" /Y
-> - START /WAIT C:\Discord\StatBot\mircstats\mircstats.exe -cfg general.cfg -log "C:\Discord\StatBot\277418737798479872\general\*.log" -html Html\general.html
+> - START /WAIT C:\Discord\StatBot\mircstats\mircstats.exe -cfg general.cfg -log "C:\Discord\StatBot\277418737798479872\general\\*.log" -html Html\general.html
 
 
 # Notes
